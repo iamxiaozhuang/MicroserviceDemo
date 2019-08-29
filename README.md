@@ -7,6 +7,6 @@ Dot Net Core 微服务例子；采用Ocelot实现服务网关，IdentityServer4�
 
 其他使用的组件包括CSRedis、Swaager、MediatR(中介者模式)、Automapper、Nlog等。
 
-项目参考了EShop； 分为商品浏览服务，订单服务和库存服务三个微服务。
+项目参考了EShop； 分为商品浏览(Product)服务，订单(Ordering)服务和支付(Payment)服务三个微服务。
 
 项目结构如下：
