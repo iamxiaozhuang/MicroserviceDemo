@@ -1,7 +1,7 @@
 # MicroserviceDemo
-Dot Net Core 微服务例子；采用Ocelot实现服务网关，IdentityServer4实现认证，CAP实现分布式最终一致性，实现了Ocelot网关Redis缓存的示例。
+Dot Net Core 微服务例子；采用Ocelot实现服务网关，IdentityServer4实现认证，CAP实现分布式数据最终一致性。
 
-微服务内部采用领域模型驱动设计，实现了接口日志、权限控制、多租户支持、软删除支持、读写分离支持等功能。
+微服务内部采用领域模型驱动设计，实现了接口日志、权限控制、多租户、软删除、读写分离等功能；实现了Ocelot网关Redis缓存的示例。
 
 数据库用Postgresql，缓存用Redis，消息队列用RabbitMQ。
 
