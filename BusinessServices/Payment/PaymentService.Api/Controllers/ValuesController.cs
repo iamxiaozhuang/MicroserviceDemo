@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryService.Api.Controllers
+namespace PaymentService.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

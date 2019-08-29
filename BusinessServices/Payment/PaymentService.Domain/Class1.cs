@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InventoryService.Application
+namespace PaymentService.Domain
 {
     public class Class1
     {
