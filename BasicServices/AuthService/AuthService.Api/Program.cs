@@ -14,7 +14,23 @@ namespace AuthService.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            string envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (String.IsNullOrWhiteSpace(envName))
+                throw new ArgumentNullException("EnvironmentName not found in ASPNETCORE_ENVIRONMENT");
+
+            var appconfig = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(AppContext.BaseDirectory))
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{envName}.json", optional: true)
+                .Build();
+            var host = new WebHostBuilder()
+                .UseEnvironment(envName)
+                .UseConfiguration(appconfig)
+                .UseKestrel()
+                .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
+                .UseStartup<Startup>();
+            host.Build().Run();
+            //CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

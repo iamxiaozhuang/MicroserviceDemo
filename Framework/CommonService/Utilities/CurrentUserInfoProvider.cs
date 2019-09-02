@@ -30,13 +30,8 @@ namespace CommonService.Utilities
                 httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) //external
             {
                 ClaimsPrincipal claimsPrincipal = httpContextAccessor.HttpContext.User;
-                var subject = claimsPrincipal.Claims.FirstOrDefault(w => w.Type == "sub");
+                var subject = claimsPrincipal.Claims.FirstOrDefault(w => w.Type == "CurrentUserInfo");
                 currentUserInfo = GetCurrentUserInfoFromRedis(subject.Value);
-            }
-            else  //internal
-            {
-                currentUserInfo.UserCode = "internal";
-                currentUserInfo.UserName = "internal";
             }
             return currentUserInfo;
         }

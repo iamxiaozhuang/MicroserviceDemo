@@ -5,13 +5,9 @@ using System.Text;
 namespace CommonService.Enities
 {
 
-    public class CurrentTenantInfo
-    {
-        public string TenantCode { get; set; }
-    }
-
     public class CurrentUserInfo
     {
+        public string TenantCode { get; set; }
         public string UserCode { get; set; }
         public string UserName { get; set; }
         public string RoleCode { get; set; }

@@ -24,22 +24,18 @@ namespace CommonService.Utilities
     public class ApiMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ICurrentTenantInfoProvider _currentTenantInfoProvider;
         private readonly ICurrentUserInfoProvider _currentUserInfoProvider;
         private CurrentUserInfo currentUserInfo = null;
         NLog.Logger requestLogger = NLog.LogManager.GetLogger("ApiRequestLogger");
 
-        public ApiMiddleware(RequestDelegate next, ICurrentTenantInfoProvider currentTenantInfoProvider, ICurrentUserInfoProvider currentUserInfoProvider)
+        public ApiMiddleware(RequestDelegate next, ICurrentUserInfoProvider currentUserInfoProvider)
         {
             _next = next;
-            _currentTenantInfoProvider = currentTenantInfoProvider;
             _currentUserInfoProvider = currentUserInfoProvider;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            CurrentTenantInfo currentTenantInfo = _currentTenantInfoProvider.ReadCurrentTenantInfo();
-            context.Items.Add("CurrentTenantInfo", currentTenantInfo);
             currentUserInfo = _currentUserInfoProvider.ReadCurrentUserInfo();
             context.Items.Add("CurrentUserInfo", currentUserInfo);
 
@@ -52,7 +48,7 @@ namespace CommonService.Utilities
             requestLogEvent.Properties["RequestContentType"] = context.Request.ContentType;
             requestLogEvent.Properties["RequestBody"] = await GetRequestBody(context.Request);
             requestLogEvent.Properties["RequestUser"] = currentUserInfo == null ? "" : currentUserInfo.UserCode + " " + currentUserInfo.UserName;
-            requestLogEvent.Properties["RequestTenant"] = currentTenantInfo == null ? "" : currentTenantInfo.TenantCode;
+            requestLogEvent.Properties["RequestTenant"] = currentUserInfo == null ? "" : currentUserInfo.TenantCode;
             requestLogEvent.Properties["HasError"] = false;
             var originalBodyStream = context.Response.Body;
             using (var responseBody = new MemoryStream())

@@ -55,7 +55,7 @@
       "UpstreamPathTemplate": "/OrderingService/{url}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
-    //InventoryService
+    //PaymentService
     {
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
@@ -65,7 +65,7 @@
           "Port": "8860"
         }
       ],
-      "UpstreamPathTemplate": "/InventoryService/{url}",
+      "UpstreamPathTemplate": "/PaymentService/{url}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ]

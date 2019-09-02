@@ -14,7 +14,7 @@ namespace PaymentService.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "value1", "value2","From PaymentService" };
         }
 
         // GET api/values/5
