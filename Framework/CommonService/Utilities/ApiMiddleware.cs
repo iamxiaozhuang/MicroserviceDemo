@@ -25,8 +25,6 @@ namespace CommonService.Utilities
     {
         private readonly RequestDelegate _next;
         private readonly ICurrentUserInfoProvider _currentUserInfoProvider;
-        private CurrentUserInfo currentUserInfo = null;
-        NLog.Logger requestLogger = NLog.LogManager.GetLogger("ApiRequestLogger");
 
         public ApiMiddleware(RequestDelegate next, ICurrentUserInfoProvider currentUserInfoProvider)
         {
@@ -36,69 +34,53 @@ namespace CommonService.Utilities
 
         public async Task Invoke(HttpContext context)
         {
-            currentUserInfo = _currentUserInfoProvider.ReadCurrentUserInfo();
+            CurrentUserInfo currentUserInfo = _currentUserInfoProvider.ReadCurrentUserInfo();
             context.Items.Add("CurrentUserInfo", currentUserInfo);
 
+            Guid logID = Guid.NewGuid();
+            DateTime requestTime = DateTime.UtcNow;
+            string requestBody = await GetRequestBody(context.Request);
+            Exception invokeException = null;
+            DateTime reponseTime = requestTime;
+            string responseBody = "";
 
-            NLog.LogEventInfo requestLogEvent = new NLog.LogEventInfo(NLog.LogLevel.Trace, "ApiRequestLogger", "Invoke");
-            requestLogEvent.Properties["RequestLogID"] = Guid.NewGuid().ToString();
-            requestLogEvent.Properties["RequestTimestamp"] = DateTime.UtcNow;
-            requestLogEvent.Properties["RequestMethod"] = context.Request.Method;
-            requestLogEvent.Properties["RequestUrl"] = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}?{context.Request.QueryString}";//context.Request.GetDisplayUrl()
-            requestLogEvent.Properties["RequestContentType"] = context.Request.ContentType;
-            requestLogEvent.Properties["RequestBody"] = await GetRequestBody(context.Request);
-            requestLogEvent.Properties["RequestUser"] = currentUserInfo == null ? "" : currentUserInfo.UserCode + " " + currentUserInfo.UserName;
-            requestLogEvent.Properties["RequestTenant"] = currentUserInfo == null ? "" : currentUserInfo.TenantCode;
-            requestLogEvent.Properties["HasError"] = false;
             var originalBodyStream = context.Response.Body;
-            using (var responseBody = new MemoryStream())
+            using (var memoryResponseBody = new MemoryStream())
             {
-                context.Response.Body = responseBody;
+                context.Response.Body = memoryResponseBody;
                 try
                 {
                     await _next(context);
                 }
                 catch (Exception ex)
                 {
+                    invokeException = ex;
                     context.Response.ContentType = "application/json";
                     var exceptionResponse = "";
                     FriendlyException friendlyException = ex as FriendlyException;
                     if (friendlyException != null)
                     {
                         context.Response.StatusCode = friendlyException.HttpStatusCode;
-                        requestLogEvent.Properties["HasError"] = true;
-                        requestLogEvent.Properties["ErrorMessage"] = friendlyException.ExceptionMessage;
                         exceptionResponse = JsonConvert.SerializeObject(new { FriendlyExceptionMessage = friendlyException.ExceptionMessage });
                     }
                     else
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        requestLogEvent.Properties["HasError"] = true;
-                        requestLogEvent.Properties["ErrorMessage"] = ex.Message;
-                        requestLogEvent.Properties["ErrorStackTrace"] = ex.StackTrace;
-                        if (ex.InnerException != null)
+                        exceptionResponse = JsonConvert.SerializeObject(new
                         {
-                            requestLogEvent.Properties["ErrorMessage"] = requestLogEvent.Properties["ErrorMessage"] + ";\n InnerExceptionMessage: " + ex.InnerException.Message;
-                            requestLogEvent.Properties["ErrorStackTrace"] = requestLogEvent.Properties["ErrorMessage"] + ";\n InnerExceptionStackTrace: " + ex.InnerException.StackTrace;
-                        }
-
-                        exceptionResponse = JsonConvert.SerializeObject(new {
-                            FriendlyExceptionMessage = $"未知异常,异常ID为{requestLogEvent.Properties["RequestLogID"]},请联系管理员处理。" });
+                            FriendlyExceptionMessage = $"未知异常, 异常ID为{logID},请联系管理员处理。"
+                        });
                     }
                     
                     await context.Response.WriteAsync(exceptionResponse);
                 }
-                requestLogEvent.Properties["ResponseCode"] = context.Response.StatusCode.ToString();
-                requestLogEvent.Properties["ResponseContentType"] = context.Response.ContentType;
-                requestLogEvent.Properties["ResponseBody"] = await GetResponseBody(context.Response);
-                await responseBody.CopyToAsync(originalBodyStream);
+
+                reponseTime = DateTime.UtcNow;
+                responseBody = await GetResponseBody(context.Response);
+                await memoryResponseBody.CopyToAsync(originalBodyStream);
             }
-            requestLogEvent.Properties["ResponseTimestamp"] = DateTime.UtcNow;
-            requestLogEvent.Properties["ExecuteDuration"] = (int)(Convert.ToDateTime(requestLogEvent.Properties["ResponseTimestamp"]) -
-                                                                  Convert.ToDateTime(requestLogEvent.Properties["RequestTimestamp"])).TotalMilliseconds;
-             requestLogger.Log(requestLogEvent);
-            //NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
-            //generalLogger.Info("testlog");
+
+            NlogHelper.LogApiRequestAndResponse(logID, context, currentUserInfo, requestTime, requestBody, invokeException, reponseTime, responseBody);
         }
 
         private async Task<string> GetRequestBody(HttpRequest request)
