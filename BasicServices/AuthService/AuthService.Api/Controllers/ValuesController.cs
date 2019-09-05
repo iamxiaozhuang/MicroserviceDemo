@@ -13,9 +13,9 @@ namespace AuthService.Api.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
-            return new string[] { "value1", "value2","From AuthService" };
+            return new string[] { "value1", "value2", "From AuthService" };
         }
 
         // GET api/values/5

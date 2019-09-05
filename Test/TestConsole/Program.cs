@@ -1,18 +1,26 @@
 ﻿using IdentityModel.Client;
 using Refit;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AuthWeb.Config
+namespace TestConsole
 {
-    public class CallApiUtil
+    class Program
     {
-        public async Task<string> GetAuthServiceApiToken()
+        static async Task Main(string[] args)
+        {
+            var callapi = RestService.For<ICallUserLogin>("http://localhost:8810", new RefitSettings() { AuthorizationHeaderValueGetter = GetAuthServiceApiToken });
+            //var callapi = RestService.For<ICallApi>((new HttpClient(new AuthenticatedHttpClientHandler(GetApiToken)) { BaseAddress = new Uri("http://localhost:5001") }));
+            UserLoginRequest userLoginRequest = new UserLoginRequest() { UserCode = "xiaozhuang", UserPassword = "7777" };
+            UserLoginResponse p = await callapi.UserLogin(userLoginRequest);
+            Console.WriteLine(p);
+            Console.ReadKey();
+        }
+
+        static async Task<string> GetAuthServiceApiToken()
         {
             HttpClient client = new HttpClient();
             var disco = await client.GetDiscoveryDocumentAsync("http://localhost:8700");
@@ -46,6 +54,9 @@ namespace AuthWeb.Config
         [Headers("Authorization: Bearer")]
         Task<UserLoginResponse> UserLogin([Body] UserLoginRequest request);
 
+        [Post("/api/values")]
+        [Headers("Authorization: Bearer")]
+        Task<string> GetValues();
     }
 
     public class UserLoginRequest
@@ -85,6 +96,4 @@ namespace AuthWeb.Config
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
     }
-
-    
 }

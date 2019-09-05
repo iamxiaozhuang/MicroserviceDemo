@@ -11,6 +11,7 @@ namespace AuthService.Api.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        [Route("/api/account/userlogin")]
         [HttpPost]
         public async Task<ActionResult<UserLoginResponse>>  UserLogin([FromBody] UserLoginRequest request)
         {

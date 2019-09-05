@@ -118,9 +118,6 @@ namespace IdentityServer
                 {
                     throw new Exception(disco.Error);
                 }
-
-                string userCode = model.Username;
-
                 // request token
                 var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
                 {
@@ -132,23 +129,9 @@ namespace IdentityServer
                     Scope = "CommonServiceApi"
                 });
 
-                if (tokenResponse.IsError)
+                if (!tokenResponse.IsError)
                 {
-                    throw new Exception(tokenResponse.Error); 
-                }
-                // call api
-                //var apiClient = _httpClientFactory.CreateClient();
-                //apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-                //var response = await apiClient.GetAsync("http://localhost:5001/identity");
-               
-                //if (response.IsSuccessStatusCode)
-                //if(true)
-                //{
-                    //var content = response.Content.ReadAsStringAsync().Result;
-                    //var JArrayContent = JArray.Parse(content);
-                    var userName = "bob";
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(userName, userCode, userName));
+                    await _events.RaiseAsync(new UserLoginSuccessEvent(model.Username, model.Username, model.Username));
 
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
@@ -162,7 +145,7 @@ namespace IdentityServer
                         };
                     };
                     // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(userCode, userCode, props);
+                    await HttpContext.SignInAsync(model.Username, model.Username, props);
 
                     if (context != null)
                     {
@@ -191,9 +174,9 @@ namespace IdentityServer
                         // user might have clicked on a malicious link - should be logged
                         throw new Exception("invalid return URL");
                     }
-                //}
+                }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, tokenResponse.ErrorDescription));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
