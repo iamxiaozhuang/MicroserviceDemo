@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h1 align="center">This is a Microservice Demo.</h1>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h2>Current User Claims:</h2>
+        <dl>
+            @foreach (var claim in User.Claims)
+            {
+                <dt>@claim.Type</dt>
+                <dd>@claim.Value</dd>
+            }
+        </dl>
+        <button asp-area="" asp-controller="Home" asp-action="Logout">Logout</button>
+    }
+
+</body>
+</html>

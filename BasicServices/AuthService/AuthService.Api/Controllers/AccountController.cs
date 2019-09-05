@@ -12,15 +12,15 @@ namespace AuthService.Api.Controllers
     public class AccountController : ControllerBase
     {
         [HttpPost]
-        public UserLoginResponse UserLogin([FromBody] UserLoginRequest request)
+        public async Task<ActionResult<UserLoginResponse>>  UserLogin([FromBody] UserLoginRequest request)
         {
             List<UserModel> testUsers = GetUsers();
             var user = testUsers.FirstOrDefault(p => p.UserCode == request.UserCode && p.UserPassword == request.UserPassword);
             if (user != null)
             {
-                return new UserLoginResponse() { IsSuccess = true };
+                return new UserLoginResponse() { IsSuccess = true,UserCode = user.UserCode,UserName = user.UserName };
             }
-            return new UserLoginResponse() { IsSuccess = false, Message = "用户认证失败" };
+            return new UserLoginResponse() { IsSuccess = false, UserCode = request.UserCode, Message = "用户认证失败" };
         }
 
         [NonAction]
@@ -43,6 +43,8 @@ namespace AuthService.Api.Controllers
     public class UserLoginResponse
     {
         public bool IsSuccess { get; set; }
+        public string UserCode { get; set; }
+        public string UserName { get; set; }
         public string Message { get; set; }
     }
 
