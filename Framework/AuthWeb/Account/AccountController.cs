@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using AuthWeb.Config;
 using IdentityModel;
 using IdentityModel.Client;
 using IdentityServer4.Events;
@@ -36,13 +37,13 @@ namespace IdentityServer
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ICallApiUtil _callApiUtil;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events, IHttpClientFactory httpClientFactory)
+            IEventService events, ICallApiUtil callApiUtil)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
@@ -51,7 +52,7 @@ namespace IdentityServer
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
-            _httpClientFactory = httpClientFactory;
+            _callApiUtil = callApiUtil;
         }
 
         /// <summary>
@@ -111,24 +112,7 @@ namespace IdentityServer
 
             if (ModelState.IsValid)
             {
-                var client = _httpClientFactory.CreateClient();
-
-                var disco = await client.GetDiscoveryDocumentAsync("http://localhost:8700");
-                if (disco.IsError)
-                {
-                    throw new Exception(disco.Error);
-                }
-                // request token
-                var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
-                {
-                    Address = disco.TokenEndpoint,
-                    ClientId = "ApiGateway",
-                    ClientSecret = "P@ssw0rd",
-                    UserName = model.Username,
-                    Password = model.Password,
-                    Scope = "CommonServiceApi"
-                });
-
+                var tokenResponse = await _callApiUtil.GetCommonServiceApiToken(model.Username, model.Password);
                 if (!tokenResponse.IsError)
                 {
                     await _events.RaiseAsync(new UserLoginSuccessEvent(model.Username, model.Username, model.Username));
@@ -176,8 +160,8 @@ namespace IdentityServer
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, tokenResponse.ErrorDescription));
-                ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+                ModelState.AddModelError(string.Empty, tokenResponse.ErrorDescription);
             }
 
             // something went wrong, show form with error

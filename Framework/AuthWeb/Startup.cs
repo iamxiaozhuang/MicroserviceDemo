@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthWeb.Config;
 using IdentityServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,8 @@ namespace AuthWeb
                .AddInMemoryClients(IdentityServer.Config.GetClients())
                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                .AddProfileService<ProfileService>();
+
+            services.AddSingleton<ICallApiUtil,CallApiUtil>();
 
             if (Environment.IsDevelopment())
             {

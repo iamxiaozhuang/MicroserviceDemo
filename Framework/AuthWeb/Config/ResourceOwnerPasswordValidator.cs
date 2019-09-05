@@ -14,18 +14,17 @@ namespace IdentityServer
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public ResourceOwnerPasswordValidator(IHttpClientFactory httpClientFactory)
+        private readonly ICallApiUtil _callApiUtil;
+        public ResourceOwnerPasswordValidator(ICallApiUtil callApiUtil)
         {
-            _httpClientFactory = httpClientFactory;
+            _callApiUtil = callApiUtil;
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             // call api
-            CallApiUtil util = new CallApiUtil();
             UserLoginRequest userLoginRequest = new UserLoginRequest() { UserCode = context.UserName, UserPassword = context.Password };
-            var callUserLogin = RestService.For<ICallUserLogin>("http://localhost:8810", new RefitSettings() { AuthorizationHeaderValueGetter = util.GetAuthServiceApiToken });
+            var callUserLogin = RestService.For<ICallUserLogin>("http://localhost:8810", new RefitSettings() { AuthorizationHeaderValueGetter = _callApiUtil.GetAuthServiceApiToken });
             //var callUserLogin = RestService.For<ICallUserLogin>((new HttpClient(new AuthenticatedHttpClientHandler(util.GetAuthServiceApiToken)) { BaseAddress = new Uri("http://localhost:8810") }));
             UserLoginResponse userLoginResponse = await callUserLogin.UserLogin(userLoginRequest);
 

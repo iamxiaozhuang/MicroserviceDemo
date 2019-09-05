@@ -10,33 +10,62 @@ using System.Threading.Tasks;
 
 namespace AuthWeb.Config
 {
-    public class CallApiUtil
+    public interface ICallApiUtil
     {
-        public async Task<string> GetAuthServiceApiToken()
+        Task<string> GetAuthServiceApiToken();
+        Task<TokenResponse> GetCommonServiceApiToken(string userName, string userPassword);
+    }
+    public class CallApiUtil : ICallApiUtil
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+        public CallApiUtil(IHttpClientFactory httpClientFactory)
         {
-            HttpClient client = new HttpClient();
+            _httpClientFactory = httpClientFactory;
+        }
+        private async Task<string> GetTokenEndpoint()
+        {
+            HttpClient client = _httpClientFactory.CreateClient();
             var disco = await client.GetDiscoveryDocumentAsync("http://localhost:8700");
             if (disco.IsError)
             {
-                Console.WriteLine(disco.Error);
-                return "";
+                throw new Exception(disco.Error);
             }
+            return disco.TokenEndpoint;
+        }
+        public async Task<string> GetAuthServiceApiToken()
+        {
             // request token
+            HttpClient client = _httpClientFactory.CreateClient();
             var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
-                Address = disco.TokenEndpoint,
+                Address = await GetTokenEndpoint(),
                 ClientId = "AuthWeb",
                 ClientSecret = "P@ssw0rd",
                 Scope = "AuthServiceApi"
-            });
+            }); 
 
             if (tokenResponse.IsError)
             {
-                Console.WriteLine(tokenResponse.Error);
-                return "";
+                throw new Exception(tokenResponse.Error+" " + tokenResponse.ErrorDescription);
             }
 
             return tokenResponse.AccessToken;
+        }
+
+        public async Task<TokenResponse> GetCommonServiceApiToken(string userName,string userPassword)
+        {
+            // request token
+            HttpClient client = _httpClientFactory.CreateClient();
+            var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
+            {
+                Address = await GetTokenEndpoint(),
+                ClientId = "ApiGateway",
+                ClientSecret = "P@ssw0rd",
+                UserName = userName,
+                Password = userPassword,
+                Scope = "CommonServiceApi"
+            }); 
+            return tokenResponse;
         }
     }
 
