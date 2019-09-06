@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,8 +28,26 @@ namespace ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             #region IdentityServer
+            Action<IdentityServerAuthenticationOptions> authApiClientOpt = option =>
+            {
+                option.Authority = Configuration["IdentityService:Authority"];
+                option.ApiName = "AuthServiceApi";
+                option.RequireHttpsMetadata = false;
+                option.SupportedTokens = SupportedTokens.Both;
+            };
 
+            Action<IdentityServerAuthenticationOptions> commonApiClientOpt = option =>
+            {
+                option.Authority = Configuration["IdentityService:Authority"];
+                option.ApiName = "CommonServiceApi";
+                option.RequireHttpsMetadata = false;
+                option.SupportedTokens = SupportedTokens.Both;
+            };
             #endregion
+
+            services.AddAuthentication()
+               .AddIdentityServerAuthentication("AuthServiceApiKey", authApiClientOpt)
+                .AddIdentityServerAuthentication("CommonServiceApiKey", commonApiClientOpt);
 
             // Ocelot
             services.AddOcelot(Configuration);

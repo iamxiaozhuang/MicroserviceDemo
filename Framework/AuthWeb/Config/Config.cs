@@ -37,8 +37,8 @@ namespace IdentityServer
             {
                 new Client
                 {
-                    ClientId = "AuthWeb",
-                    ClientName = "AuthWeb Client",
+                    ClientId = "AuthApiClient",
+                    ClientName = "AuthApi Client",
                     // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     // secret for authentication
@@ -53,8 +53,8 @@ namespace IdentityServer
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "ApiGateway",
-                    ClientName = "ApiGateway Client",
+                    ClientId = "CommonApiClient",
+                    ClientName = "CommonApi Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
                     ClientSecrets =
@@ -66,7 +66,7 @@ namespace IdentityServer
                 // OpenID Connect hybrid flow client (MVC)
                 new Client
                 {
-                    ClientId = "HostWeb",
+                    ClientId = "HostWebClient",
                     ClientName = "HostWeb Client",
                     AllowedGrantTypes = GrantTypes.Hybrid,
 

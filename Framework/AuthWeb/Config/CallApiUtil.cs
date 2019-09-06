@@ -1,4 +1,5 @@
 ﻿using IdentityModel.Client;
+using Microsoft.Extensions.Configuration;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,17 @@ namespace AuthWeb.Config
     }
     public class CallApiUtil : ICallApiUtil
     {
+        public IConfiguration Configuration { get; }
         private readonly IHttpClientFactory _httpClientFactory;
-        public CallApiUtil(IHttpClientFactory httpClientFactory)
+        public CallApiUtil(IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
+            Configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
         private async Task<string> GetTokenEndpoint()
         {
             HttpClient client = _httpClientFactory.CreateClient();
-            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:8700");
+            var disco = await client.GetDiscoveryDocumentAsync(Configuration["IdentityService:Authority"]);
             if (disco.IsError)
             {
                 throw new Exception(disco.Error);
@@ -39,7 +42,7 @@ namespace AuthWeb.Config
             var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = await GetTokenEndpoint(),
-                ClientId = "AuthWeb",
+                ClientId = "AuthApiClient",
                 ClientSecret = "P@ssw0rd",
                 Scope = "AuthServiceApi"
             }); 
@@ -59,7 +62,7 @@ namespace AuthWeb.Config
             var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = await GetTokenEndpoint(),
-                ClientId = "ApiGateway",
+                ClientId = "CommonApiClient",
                 ClientSecret = "P@ssw0rd",
                 UserName = userName,
                 Password = userPassword,

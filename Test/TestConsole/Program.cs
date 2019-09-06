@@ -12,7 +12,7 @@ namespace TestConsole
     {
         static async Task Main(string[] args)
         {
-            var callapi = RestService.For<ICallUserLogin>("http://localhost:8810", new RefitSettings() { AuthorizationHeaderValueGetter = GetAuthServiceApiToken });
+            var callapi = RestService.For<ICallUserLogin>("http://localhost:8800", new RefitSettings() { AuthorizationHeaderValueGetter = GetAuthServiceApiToken });
             //var callapi = RestService.For<ICallApi>((new HttpClient(new AuthenticatedHttpClientHandler(GetApiToken)) { BaseAddress = new Uri("http://localhost:5001") }));
             UserLoginRequest userLoginRequest = new UserLoginRequest() { UserCode = "xiaozhuang", UserPassword = "7777" };
             UserLoginResponse p = await callapi.UserLogin(userLoginRequest);
@@ -33,7 +33,7 @@ namespace TestConsole
             var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
             {
                 Address = disco.TokenEndpoint,
-                ClientId = "AuthWeb",
+                ClientId = "AuthApiClient",
                 ClientSecret = "P@ssw0rd",
                 Scope = "AuthServiceApi"
             });
@@ -50,11 +50,11 @@ namespace TestConsole
 
     public interface ICallUserLogin
     {
-        [Post("/api/account/userlogin")]
+        [Post("/AuthService/account/userlogin")]
         [Headers("Authorization: Bearer")]
         Task<UserLoginResponse> UserLogin([Body] UserLoginRequest request);
 
-        [Post("/api/values")]
+        [Post("/AuthService/values")]
         [Headers("Authorization: Bearer")]
         Task<string> GetValues();
     }

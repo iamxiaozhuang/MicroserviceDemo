@@ -37,7 +37,7 @@ namespace AuthService.Api
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "http://localhost:8700";
+                    options.Authority = Configuration["IdentityService:Authority"];
                     options.RequireHttpsMetadata = false;
                     options.Audience = "AuthServiceApi";
                 });
