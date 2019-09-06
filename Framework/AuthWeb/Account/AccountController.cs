@@ -159,9 +159,12 @@ namespace IdentityServer
                         throw new Exception("invalid return URL");
                     }
                 }
-
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
-                ModelState.AddModelError(string.Empty, tokenResponse.ErrorDescription);
+                else
+                {
+                    await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials"));
+                    string errMsg = tokenResponse.Error + ":" + (string.IsNullOrEmpty(tokenResponse.ErrorDescription) ? "" : tokenResponse.ErrorDescription);
+                    ModelState.AddModelError(string.Empty, errMsg);
+                }
             }
 
             // something went wrong, show form with error

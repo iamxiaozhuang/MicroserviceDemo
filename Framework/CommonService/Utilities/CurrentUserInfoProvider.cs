@@ -1,6 +1,7 @@
 ﻿
 using CommonService.Enities;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,26 +31,11 @@ namespace CommonService.Utilities
                 httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) //external
             {
                 ClaimsPrincipal claimsPrincipal = httpContextAccessor.HttpContext.User;
-                var subject = claimsPrincipal.Claims.FirstOrDefault(w => w.Type == "CurrentUserInfo");
-                currentUserInfo = GetCurrentUserInfoFromRedis(subject.Value);
+                var currentUserInfoClaim = claimsPrincipal.Claims.FirstOrDefault(w => w.Type == "CurrentUserInfo");
+                currentUserInfo = JsonConvert.DeserializeObject(currentUserInfoClaim.Value) as CurrentUserInfo;
             }
             return currentUserInfo;
         }
-
-        private CurrentUserInfo GetCurrentUserInfoFromRedis(string usercode)
-        {
-            CurrentUserInfo currentUserInfo = new CurrentUserInfo()
-            {
-                UserCode = "0202",//currentUserCode
-                UserName = "小庄 0202",
-                OrgCode = "",
-                OrgPermission = new List<FunctionPermission>(),
-                RoleCode = "",
-                RolePermission = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "sysuer", PermissionCode = "update" } }
-            };
-            return currentUserInfo;
-        }
-
         public CurrentUserInfo GetCurrentUserInfo()
         {
 

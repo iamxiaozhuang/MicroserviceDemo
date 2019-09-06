@@ -2,6 +2,7 @@
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Newtonsoft.Json;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -24,22 +25,22 @@ namespace IdentityServer
         {
             // call api
             UserLoginRequest userLoginRequest = new UserLoginRequest() { UserCode = context.UserName, UserPassword = context.Password };
-            var callUserLogin = RestService.For<ICallUserLogin>("http://localhost:8810", new RefitSettings() { AuthorizationHeaderValueGetter = _callApiUtil.GetAuthServiceApiToken });
-            //var callUserLogin = RestService.For<ICallUserLogin>((new HttpClient(new AuthenticatedHttpClientHandler(util.GetAuthServiceApiToken)) { BaseAddress = new Uri("http://localhost:8810") }));
-            UserLoginResponse userLoginResponse = await callUserLogin.UserLogin(userLoginRequest);
-
+            UserLoginResponse userLoginResponse = await _callApiUtil.CallUserLogin(userLoginRequest);
             if (!userLoginResponse.IsSuccess)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, userLoginResponse.Message);
             }
             else
             {
+                string userInfoStr = JsonConvert.SerializeObject(userLoginResponse.UserInfo);
                 context.Result = new GrantValidationResult(
-                    subject: userLoginResponse.UserCode,
+                    subject: userLoginResponse.UserInfo.UserCode,
                     authenticationMethod: "custom",
                     claims: new Claim[] {
-                        new Claim("Name", userLoginResponse.UserName),
-                        new Claim("CurrentUserInfo", "CurrentUserInfo2222888")
+                        new Claim("TenantCode", userLoginResponse.UserInfo.TenantCode),
+                        new Claim("UserName", userLoginResponse.UserInfo.UserName),
+                        new Claim("RoleCode", userLoginResponse.UserInfo.RoleCode),
+                        new Claim("CurrentUserInfo", userInfoStr)
                     }
                 );
             }

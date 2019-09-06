@@ -1,4 +1,5 @@
-﻿using IdentityModel.Client;
+﻿using CommonService.Enities;
+using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Refit;
 using System;
@@ -13,7 +14,7 @@ namespace AuthWeb.Config
 {
     public interface ICallApiUtil
     {
-        Task<string> GetAuthServiceApiToken();
+        Task<UserLoginResponse> CallUserLogin(UserLoginRequest userLoginRequest);
         Task<TokenResponse> GetCommonServiceApiToken(string userName, string userPassword);
     }
     public class CallApiUtil : ICallApiUtil
@@ -35,7 +36,7 @@ namespace AuthWeb.Config
             }
             return disco.TokenEndpoint;
         }
-        public async Task<string> GetAuthServiceApiToken()
+        private async Task<string> GetAuthServiceApiToken()
         {
             // request token
             HttpClient client = _httpClientFactory.CreateClient();
@@ -54,6 +55,13 @@ namespace AuthWeb.Config
 
             return tokenResponse.AccessToken;
         }
+        public async Task<UserLoginResponse> CallUserLogin(UserLoginRequest userLoginRequest)
+        {
+             //var callUserLogin = RestService.For<ICallUserLogin>((new HttpClient(new AuthenticatedHttpClientHandler(util.GetAuthServiceApiToken)) { BaseAddress = new Uri("http://localhost:8810") }));
+            var callUserLogin = RestService.For<ICallUserLogin>(Configuration["ApiGatewayService:Url"], 
+                new RefitSettings() { AuthorizationHeaderValueGetter = GetAuthServiceApiToken });
+            return await callUserLogin.UserLogin(userLoginRequest);
+        }
 
         public async Task<TokenResponse> GetCommonServiceApiToken(string userName,string userPassword)
         {
@@ -70,11 +78,12 @@ namespace AuthWeb.Config
             }); 
             return tokenResponse;
         }
+
     }
 
     public interface ICallUserLogin
     {
-        [Post("/api/account/userlogin")]
+        [Post("/AuthService/account/userlogin")]
         [Headers("Authorization: Bearer")]
         Task<UserLoginResponse> UserLogin([Body] UserLoginRequest request);
 
@@ -89,8 +98,7 @@ namespace AuthWeb.Config
     public class UserLoginResponse
     {
         public bool IsSuccess { get; set; }
-        public string UserCode { get; set; }
-        public string UserName { get; set; }
+        public CurrentUserInfo UserInfo { get; set; }
         public string Message { get; set; }
     }
 
