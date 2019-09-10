@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\CommonService\CommonService.csproj" />
+    <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

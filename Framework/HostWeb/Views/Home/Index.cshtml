@@ -13,7 +13,7 @@
     <h1 align="center">This is a Microservice Demo.</h1>
     @if (User.Identity.IsAuthenticated)
     {
-        <h2>Current User Claims:</h2>
+        <h3>Current User Claims:</h3>
         <dl>
             @foreach (var claim in User.Claims)
             {
@@ -21,7 +21,9 @@
                 <dd>@claim.Value</dd>
             }
         </dl>
-        <button asp-area="" asp-controller="Home" asp-action="Logout">Logout</button>
+        <a  href="/Home/Logout">Logout</a>
+        <br /> <br /> <br />
+        <a href="/Home/CallTestApi">CallTestApi</a>
     }
 
 </body>

@@ -20,23 +20,6 @@
         "AllowedScopes": []
       }
     },
-    //PermissionService
-    {
-      "DownstreamPathTemplate": "/api/{url}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "8815"
-        }
-      ],
-      "UpstreamPathTemplate": "/PermissionService/{url}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "CommonServiceApiKey",
-        "AllowedScopes": []
-      }
-    },
     //ProductService
     {
       "DownstreamPathTemplate": "/api/{url}",

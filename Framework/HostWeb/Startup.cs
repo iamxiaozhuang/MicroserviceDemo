@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,7 +37,7 @@ namespace HostWeb
                 options.DefaultChallengeScheme = "oidc";
             })
                 .AddCookie("Cookies")
-                //.AddAutomaticTokenManagement()
+                .AddAutomaticTokenManagement()
                 .AddOpenIdConnect("oidc", options =>
                 {
                     options.SignInScheme = "Cookies";
@@ -49,7 +50,7 @@ namespace HostWeb
                     options.ResponseType = "code id_token";
 
                     options.SaveTokens = true;
-                    //options.GetClaimsFromUserInfoEndpoint = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
 
                     options.Scope.Add("CommonServiceApi");
                     //options.Scope.Add("offline_access");
@@ -67,7 +68,6 @@ namespace HostWeb
             }
 
             app.UseAuthentication();
-
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }

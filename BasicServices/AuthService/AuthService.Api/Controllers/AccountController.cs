@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CommonService.Enities;
+using CommonLibrary.Enities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +17,33 @@ namespace AuthService.Api.Controllers
         public async Task<ActionResult<UserLoginResponse>>  UserLogin([FromBody] UserLoginRequest request)
         {
             List<UserModel> testUsers = GetUsers();
-            var user = testUsers.FirstOrDefault(p => p.UserCode == request.UserCode && p.UserPassword == request.UserPassword);
+            string tenantCode = request.UserCode.Split('-')[0];
+            string userCode = request.UserCode.Split('-')[1];
+            var user = testUsers.FirstOrDefault(p => p.TenantCode == tenantCode && p.UserCode == userCode && p.UserPassword == request.UserPassword);
             if (user != null)
             {
-                return new UserLoginResponse() { IsSuccess = true, UserInfo = GetUserInfo(request.UserCode) };
+                return new UserLoginResponse() { UserCode = request.UserCode, IsSuccess = true};
             }
-            return new UserLoginResponse() { IsSuccess = false, Message = "用户认证失败" };
+            return new UserLoginResponse() { UserCode = request.UserCode, IsSuccess = false, Message = "invalid credentials" };
+        }
+
+
+        [Route("/api/account/getuserinfo/{subject}")]
+        [HttpGet]
+        public async Task<ActionResult<CurrentUserInfo>> GetCurrentUserInfo(string subject)
+        {
+            var tenantCode = subject.Split('-')[0];
+            var userCode = subject.Split('-')[1];
+            CurrentUserInfo currentUserInfo = new CurrentUserInfo()
+            {
+                TenantCode = tenantCode,
+                UserCode = userCode,
+                UserName = "小庄 0202",
+                RoleCode = "",
+                RoleName = "",
+                RolePermission = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "sysuer", PermissionCode = "update" } },
+            };
+            return currentUserInfo;
         }
 
         [NonAction]
@@ -32,23 +53,6 @@ namespace AuthService.Api.Controllers
             testUsers.Add(new UserModel() { TenantCode = "MSFT", UserCode = "xiaozhuang", UserPassword = "123456", UserName = "小庄" });
             testUsers.Add(new UserModel() { TenantCode = "MSFT", UserCode = "xiaoming", UserPassword = "123456", UserName = "小明" });
             return testUsers;
-        }
-
-        [NonAction]
-        private CurrentUserInfo GetUserInfo(string userCode)
-        {
-            var user = GetUsers().FirstOrDefault(p => p.UserCode == userCode);
-            CurrentUserInfo currentUserInfo = new CurrentUserInfo()
-            {
-                TenantCode = user.UserCode,
-                UserCode = user.UserCode,
-                UserName = user.UserName,
-                OrgCode = "",
-                OrgPermission = new List<FunctionPermission>(),
-                RoleCode = "",
-                RolePermission = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "sysuer", PermissionCode = "update" } }
-            };
-            return currentUserInfo;
         }
     }
 
@@ -61,8 +65,8 @@ namespace AuthService.Api.Controllers
 
     public class UserLoginResponse
     {
+        public string UserCode { get; set; }
         public bool IsSuccess { get; set; }
-        public CurrentUserInfo UserInfo { get; set; }
         public string Message { get; set; }
     }
 

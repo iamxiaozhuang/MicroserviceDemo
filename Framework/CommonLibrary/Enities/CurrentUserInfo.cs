@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonService.Enities
+namespace CommonLibrary.Enities
 {
 
     public class CurrentUserInfo
@@ -13,9 +13,6 @@ namespace CommonService.Enities
         public string RoleCode { get; set; }
         public string RoleName { get; set; }
         public List<FunctionPermission> RolePermission { get; set; }
-        public string OrgCode { get; set; }
-        public string OrgName { get; set; }
-        public List<FunctionPermission> OrgPermission { get; set; }
     }
 
     public class FunctionPermission

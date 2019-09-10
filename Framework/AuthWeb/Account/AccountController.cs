@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -37,13 +38,14 @@ namespace IdentityServer
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly ICallApiUtil _callApiUtil;
+        private readonly IConfiguration Configuration;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events, ICallApiUtil callApiUtil)
+            IEventService events, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
@@ -52,7 +54,8 @@ namespace IdentityServer
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
-            _callApiUtil = callApiUtil;
+            Configuration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
         /// <summary>
@@ -112,11 +115,24 @@ namespace IdentityServer
 
             if (ModelState.IsValid)
             {
-                var tokenResponse = await _callApiUtil.GetCommonServiceApiToken(model.Username, model.Password);
+                HttpClient client = _httpClientFactory.CreateClient();
+                var disco = await client.GetDiscoveryDocumentAsync(Configuration["IdentityService:Authority"]);
+                if (disco.IsError)
+                {
+                    throw new Exception(disco.Error);
+                }
+                var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
+                {
+                    Address = disco.TokenEndpoint,
+                    ClientId = "CommonApiClient",
+                    ClientSecret = "P@ssw0rd",
+                    UserName = model.Username,
+                    Password = model.Password,
+                    Scope = "CommonServiceApi"
+                });
                 if (!tokenResponse.IsError)
                 {
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(model.Username, model.Username, model.Username));
-
+                    await _events.RaiseAsync(new UserLoginSuccessEvent("", model.Username, ""));
                     // only set explicit expiration here if user chooses "remember me". 
                     // otherwise we rely upon expiration configured in cookie middleware.
                     AuthenticationProperties props = null;
@@ -129,7 +145,7 @@ namespace IdentityServer
                         };
                     };
                     // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(model.Username, model.Username, props);
+                    await HttpContext.SignInAsync(model.Username, props);
 
                     if (context != null)
                     {

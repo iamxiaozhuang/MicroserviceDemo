@@ -1,5 +1,5 @@
 ﻿
-using CommonService.Enities;
+using CommonLibrary.Enities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonService.Utilities
+namespace CommonLibrary.Utilities
 {
     /// <summary>
     /// https://elanderson.net/2017/02/log-requests-and-responses-in-asp-net-core/
@@ -34,53 +34,55 @@ namespace CommonService.Utilities
 
         public async Task Invoke(HttpContext context)
         {
-            CurrentUserInfo currentUserInfo = _currentUserInfoProvider.ReadCurrentUserInfo();
-            context.Items.Add("CurrentUserInfo", currentUserInfo);
-
             Guid logID = Guid.NewGuid();
             DateTime requestTime = DateTime.UtcNow;
+            string requestTenant = "", requestUser = "";
             string requestBody = await GetRequestBody(context.Request);
             Exception invokeException = null;
             DateTime reponseTime = requestTime;
             string responseBody = "";
 
-            var originalBodyStream = context.Response.Body;
-            using (var memoryResponseBody = new MemoryStream())
+            try
             {
-                context.Response.Body = memoryResponseBody;
-                try
+                CurrentUserInfo currentUserInfo = await _currentUserInfoProvider.ReadCurrentUserInfo();
+                context.Items.Add("CurrentUserInfo", currentUserInfo);
+                var originalBodyStream = context.Response.Body;
+                using (var memoryResponseBody = new MemoryStream())
                 {
+                    context.Response.Body = memoryResponseBody;
                     await _next(context);
+                    responseBody = await GetResponseBody(context.Response);
+                    await memoryResponseBody.CopyToAsync(originalBodyStream);
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+                invokeException = ex;
+                context.Response.ContentType = "application/json";
+                var exceptionResponse = "";
+                FriendlyException friendlyException = ex as FriendlyException;
+                if (friendlyException != null)
                 {
-                    invokeException = ex;
-                    context.Response.ContentType = "application/json";
-                    var exceptionResponse = "";
-                    FriendlyException friendlyException = ex as FriendlyException;
-                    if (friendlyException != null)
+                    context.Response.StatusCode = friendlyException.HttpStatusCode;
+                    exceptionResponse = JsonConvert.SerializeObject(new
                     {
-                        context.Response.StatusCode = friendlyException.HttpStatusCode;
-                        exceptionResponse = JsonConvert.SerializeObject(new { FriendlyExceptionMessage = friendlyException.ExceptionMessage });
-                    }
-                    else
+                        FriendlyExceptionMessage = friendlyException.ExceptionMessage
+                    });
+                }
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    exceptionResponse = JsonConvert.SerializeObject(new
                     {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        exceptionResponse = JsonConvert.SerializeObject(new
-                        {
-                            FriendlyExceptionMessage = $"未知异常, 异常ID为{logID},请联系管理员处理。"
-                        });
-                    }
-                    
-                    await context.Response.WriteAsync(exceptionResponse);
+                        FriendlyExceptionMessage = $"Internal Server Error, Error ID is {logID}, Please contact the administrator to handle."
+                    });
                 }
 
-                reponseTime = DateTime.UtcNow;
-                responseBody = await GetResponseBody(context.Response);
-                await memoryResponseBody.CopyToAsync(originalBodyStream);
+                await context.Response.WriteAsync(exceptionResponse);
             }
 
-            NlogHelper.LogApiRequestAndResponse(logID, context, currentUserInfo, requestTime, requestBody, invokeException, reponseTime, responseBody);
+            reponseTime = DateTime.UtcNow;
+            NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant,requestUser,  requestBody, invokeException, reponseTime, responseBody);
         }
 
         private async Task<string> GetRequestBody(HttpRequest request)

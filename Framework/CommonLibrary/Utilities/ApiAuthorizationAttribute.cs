@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CommonService.Utilities
+namespace CommonLibrary.Utilities
 {
     public class ApiAuthorizationAttribute : Attribute
     {

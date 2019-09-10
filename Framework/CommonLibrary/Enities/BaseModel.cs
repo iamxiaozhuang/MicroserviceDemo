@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonService.Enities
+namespace CommonLibrary.Enities
 {
     public class BaseModel
     {
