@@ -19,6 +19,7 @@ namespace HostWeb.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.CallTestApiResult = new Dictionary<string, string>();
             return View();
         }
 
@@ -32,6 +33,7 @@ namespace HostWeb.Controllers
             var callTestApi = RestService.For<ICallTestApi>(Configuration["ApiGatewayService:Url"],
                new RefitSettings() { AuthorizationHeaderValueGetter = GetCommonServiceApiToken });
             var dic = await callTestApi.CallTestApi();
+            ViewBag.CallTestApiResult = dic;
             return View("Index");
         }
 
