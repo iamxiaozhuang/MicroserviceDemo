@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using CommonLibrary.Utilities;
@@ -63,13 +64,24 @@ namespace ProductService.Api
             {
                 c.SwaggerDoc("v1", new Info
                 {
-                    Title = "MicroServiceDemo",
                     Version = "v1",
-                    Description = "服务接口文档",
-                    Contact = new Contact() { Name = "jerry", Email = "iamjerrysun@outlook.com" }
+                    Title = "Product API",
+                    Description = "A simple example ASP.NET Core Web API",
+                    TermsOfService = "None",
+                    Contact = new Contact
+                    {
+                        Name = "xiaozhuang",
+                        Email = "iamjerrysun@outlook.com",
+                        Url = "https://github.com/iamxiaozhuang"
+                    },
+                    License = new License
+                    {
+                        Name = "MIT",
+                        Url = ""
+                    }
                 });
-                //Set the comments path for the swagger json and ui.
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, "ProductService.API.xml");
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
             //services.AddMediatR(typeof(GetSysUsersHandler).GetTypeInfo().Assembly);

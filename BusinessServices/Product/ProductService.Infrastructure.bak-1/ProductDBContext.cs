@@ -12,10 +12,6 @@ using System.Threading.Tasks;
 
 namespace ProductService.Infrastructure
 {
-    /// <summary>
-    /// Add-Migration 20190929 -Context ProductDBContext
-    /// Update-Database -Context ProductDBContext
-    /// </summary>
     public class ProductDBContext : DbContext
     {
         private readonly CurrentUserInfo currentUserInfo;
