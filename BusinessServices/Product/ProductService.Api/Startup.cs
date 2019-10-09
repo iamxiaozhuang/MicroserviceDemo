@@ -21,7 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ProductService.Infrastructure;
+using ProductService.Domain;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ProductService.Api
@@ -40,7 +40,8 @@ namespace ProductService.Api
         {
             services.AddMvcCore(options => options.Filters.Add(new AuthorizeFilter()))
                 .AddAuthorization()
-                .AddJsonFormatters();
+                .AddJsonFormatters()
+                .AddApiExplorer();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -80,6 +81,15 @@ namespace ProductService.Api
                         Url = ""
                     }
                 });
+                c.IgnoreObsoleteActions();
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "参数结构: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",//jwt默认的参数名称
+                    In = "header",//jwt默认存放Authorization信息的位置(请求头中)
+                    Type = "apiKey"
+                });//Authorization的设置
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -98,6 +108,11 @@ namespace ProductService.Api
             app.UseAuthentication();
             app.UseApiMiddleware();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Docs");
+            });
         }
     }
 }

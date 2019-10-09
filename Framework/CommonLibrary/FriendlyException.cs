@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLibrary.Enities
+namespace CommonLibrary
 {
     public class FriendlyException : Exception
     {

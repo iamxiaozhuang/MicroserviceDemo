@@ -1,6 +1,4 @@
-﻿
-using CommonLibrary.Enities;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
@@ -82,7 +80,8 @@ namespace CommonLibrary.Utilities
             }
 
             reponseTime = DateTime.UtcNow;
-            NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant,requestUser,  requestBody, invokeException, reponseTime, responseBody);
+            if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
+                NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant, requestUser, requestBody, invokeException, reponseTime, responseBody);
         }
 
         private async Task<string> GetRequestBody(HttpRequest request)

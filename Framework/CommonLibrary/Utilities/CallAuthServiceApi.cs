@@ -1,5 +1,4 @@
-﻿using CommonLibrary.Enities;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Refit;
 using System;
