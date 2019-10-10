@@ -43,6 +43,7 @@ namespace HostWeb.Controllers
             var access_token = await HttpContext.GetTokenAsync("access_token");
             JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
             access_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_access_token").Value;
+            ViewBag.AccessToken = access_token;
             return access_token;
         }
     }

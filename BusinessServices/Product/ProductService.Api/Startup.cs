@@ -22,7 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProductService.Domain;
-using Swashbuckle.AspNetCore.Swagger;
+using CommonLibrary.Extensions;
 
 namespace ProductService.Api
 {
@@ -61,34 +61,8 @@ namespace ProductService.Api
             {
                 options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证
             });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v1",
-                    Title = "Product API",
-                    Description = "A simple example ASP.NET Core Web API",
-                    TermsOfService = "None",
-                    Contact = new Contact
-                    {
-                        Name = "xiaozhuang",
-                        Email = "iamjerrysun@outlook.com",
-                        Url = "https://github.com/iamxiaozhuang"
-                    }
-                });
-                c.IgnoreObsoleteActions();
-                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
-                {
-                    Description = "参数结构: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",//jwt默认的参数名称
-                    In = "header",//jwt默认存放Authorization信息的位置(请求头中)
-                    Type = "apiKey"
-                });//Authorization的设置
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            services.AddSwaggerDocumentation("v1", "ProductService API", Assembly.GetExecutingAssembly().GetName().Name);
+          
             services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductManagement.AddProductHandler)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.ProductMamagementAutoMapperProfile)));
         }
@@ -103,11 +77,10 @@ namespace ProductService.Api
             app.UseAuthentication();
             app.UseApiMiddleware();
             app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            if (env.IsDevelopment())
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Docs");
-            });
+                app.UseSwaggerDocumentation("v1", "ProductService API 1.0");
+            }
         }
     }
 }
