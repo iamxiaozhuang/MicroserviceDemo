@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using CommonLibrary.Utilities;
+using CommonLibrary;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,17 +33,31 @@ namespace PermissionService.Api
         {
             services.AddMvcCore(options => options.Filters.Add(new AuthorizeFilter()))
                 .AddAuthorization()
-                .AddJsonFormatters();
+                .AddJsonFormatters()
+                .AddApiExplorer();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.Authority = Configuration["IdentityService:Authority"];
-                    options.RequireHttpsMetadata = false;
                     options.Audience = "GeneralServiceApi";
+                    options.RequireHttpsMetadata = false;
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ICurrentUserInfoProvider, CurrentUserInfoProvider>();
+            services.AddHttpClient<CallGeneralServiceApi>();
+            services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
+
+            //services.AddDbContext<ProductDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
+            //services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证
+            });
+            services.AddSwaggerDocumentation("v1", "PermissionService API", Assembly.GetExecutingAssembly().GetName().Name);
+
+            //services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductManagement.AddProductHandler)));
+            //services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.ProductMamagementAutoMapperProfile)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +67,13 @@ namespace PermissionService.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
             app.UseApiMiddleware();
             app.UseMvc();
+            if (env.IsDevelopment())
+            {
+                app.UseSwaggerDocumentation("v1", "PermissionService API 1.0");
+            }
         }
     }
 }

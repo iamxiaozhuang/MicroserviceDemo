@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CommonLibrary;
-using CommonLibrary.Base;
 using MediatR;
 using ProductService.Domain;
 using ProductService.Domain.Models;

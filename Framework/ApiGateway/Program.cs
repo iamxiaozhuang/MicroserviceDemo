@@ -29,7 +29,9 @@ namespace ApiGateway
                 .UseConfiguration(appconfig)
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
+                .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseStartup<Startup>();
+
             host.Build().Run();
             //CreateWebHostBuilder(args).Build().Run();
         }

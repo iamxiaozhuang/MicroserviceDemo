@@ -20,6 +20,23 @@
         "AllowedScopes": []
       }
     },
+    //PermissionService
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8815"
+        }
+      ],
+      "UpstreamPathTemplate": "/PermissionService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
     //ProductService
     {
       "DownstreamPathTemplate": "/api/{url}",
@@ -36,40 +53,40 @@
         "AuthenticationProviderKey": "GeneralServiceApiKey",
         "AllowedScopes": []
       }
-      },
-      //OrderingService
-      {
-        "DownstreamPathTemplate": "/api/{url}",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "localhost",
-            "Port": "8855"
-          }
-        ],
-        "UpstreamPathTemplate": "/OrderingService/{url}",
-        "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-        "AuthenticationOptions": {
-          "AuthenticationProviderKey": "GeneralServiceApiKey",
-          "AllowedScopes": []
-        }
-        },
-        //PaymentService
+    },
+    //OrderingService
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
         {
-          "DownstreamPathTemplate": "/api/{url}",
-          "DownstreamScheme": "http",
-          "DownstreamHostAndPorts": [
-            {
-              "Host": "localhost",
-              "Port": "8860"
-            }
-          ],
-          "UpstreamPathTemplate": "/PaymentService/{url}",
-          "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-          "AuthenticationOptions": {
-            "AuthenticationProviderKey": "GeneralServiceApiKey",
-            "AllowedScopes": []
-          }
-          }
+          "Host": "localhost",
+          "Port": "8855"
+        }
+      ],
+      "UpstreamPathTemplate": "/OrderingService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //PaymentService
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8860"
+        }
+      ],
+      "UpstreamPathTemplate": "/PaymentService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    }
   ]
 }

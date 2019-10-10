@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommonLibrary.Utilities;
+using CommonLibrary;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +22,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProductService.Domain;
-using CommonLibrary.Extensions;
 
 namespace ProductService.Api
 {
@@ -52,8 +51,8 @@ namespace ProductService.Api
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ICurrentUserInfoProvider, CurrentUserInfoProvider>();
-            services.AddHttpClient<CallAuthServiceApi>();
-            services.AddSingleton<ICallAuthServiceApi, CallAuthServiceApi>();
+            services.AddHttpClient<CallGeneralServiceApi>();
+            services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
 
             services.AddDbContext<ProductDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
             services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));

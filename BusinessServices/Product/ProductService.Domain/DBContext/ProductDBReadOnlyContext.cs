@@ -1,6 +1,4 @@
 ﻿using CommonLibrary;
-using CommonLibrary.Base;
-using CommonLibrary.Utilities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

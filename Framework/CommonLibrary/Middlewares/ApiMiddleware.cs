@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonLibrary.Utilities
+namespace CommonLibrary
 {
     /// <summary>
     /// https://elanderson.net/2017/02/log-requests-and-responses-in-asp-net-core/
@@ -42,8 +42,11 @@ namespace CommonLibrary.Utilities
 
             try
             {
-                CurrentUserInfo currentUserInfo = await _currentUserInfoProvider.ReadCurrentUserInfo();
-                context.Items.Add("CurrentUserInfo", currentUserInfo);
+                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
+                {
+                    CurrentUserInfo currentUserInfo = await _currentUserInfoProvider.ReadCurrentUserInfo();
+                    context.Items.Add("CurrentUserInfo", currentUserInfo);
+                }
                 var originalBodyStream = context.Response.Body;
                 using (var memoryResponseBody = new MemoryStream())
                 {

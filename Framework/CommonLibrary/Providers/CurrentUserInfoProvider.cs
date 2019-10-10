@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonLibrary.Utilities
+namespace CommonLibrary
 {
     public interface ICurrentUserInfoProvider
     {
@@ -20,11 +20,11 @@ namespace CommonLibrary.Utilities
     public class CurrentUserInfoProvider : ICurrentUserInfoProvider
     {
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly ICallAuthServiceApi callAuthServiceApi;
-        public CurrentUserInfoProvider(IHttpContextAccessor _httpContextAccessor, ICallAuthServiceApi _callAuthServiceApi)
+        private readonly ICallGeneralServiceApi callGeneralServiceApi;
+        public CurrentUserInfoProvider(IHttpContextAccessor _httpContextAccessor, ICallGeneralServiceApi _callGeneralServiceApi)
         {
             httpContextAccessor = _httpContextAccessor;
-            callAuthServiceApi = _callAuthServiceApi;
+            callGeneralServiceApi = _callGeneralServiceApi;
         }
 
         public async Task<CurrentUserInfo> ReadCurrentUserInfo()
@@ -43,7 +43,22 @@ namespace CommonLibrary.Utilities
                         ExceptionMessage = "Unauthorized Request."
                     };
                 }
-                currentUserInfo = await GetCurrentUserInfoFromRedis(subClaim.Value, auth_timeClaim.Value);
+                if (httpContextAccessor.HttpContext.Request.Path.HasValue && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/permission/getuserinfo/"))
+                {
+                    return new CurrentUserInfo()
+                    {
+                        TenantCode = subClaim.Value.Split('-')[0],
+                        UserCode = subClaim.Value.Split('-')[1],
+                        UserName = "",
+                        RoleCode = "",
+                        RoleName = "",
+                        RolePermission = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "permission", PermissionCode = "getuserinfo" } },
+                    };
+                }
+                else
+                {
+                    currentUserInfo = await GetCurrentUserInfoFromRedis(subClaim.Value, auth_timeClaim.Value);
+                }
             }
             return currentUserInfo;
         }
@@ -56,7 +71,7 @@ namespace CommonLibrary.Utilities
             if (currentUserInfo == null)
             {
                 //读取用户信息
-                var userInfo = await callAuthServiceApi.GetUserInfo(subject);
+                var userInfo = await callGeneralServiceApi.GetUserInfo(subject);
 
                 await RedisHelper.SetAsync(redisKey, userInfo, 36000);
             }

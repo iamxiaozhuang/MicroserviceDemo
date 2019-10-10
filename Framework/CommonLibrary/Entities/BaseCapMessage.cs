@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLibrary.Base
+namespace CommonLibrary
 {
 
     public class BaseCapMessage
