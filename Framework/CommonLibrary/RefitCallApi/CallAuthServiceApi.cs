@@ -16,9 +16,9 @@ namespace CommonLibrary
         [Headers("Authorization: Bearer")]
         Task<UserLoginResponse> UserLogin([Body] UserLoginRequest request);
 
-        [Get("/AuthService/account/getuserinfo/{subject}")]
-        [Headers("Authorization: Bearer")]
-        Task<CurrentUserInfo> GetUserInfo(string subject);
+        //[Get("/AuthService/account/getuserinfo/{subject}")]
+        //[Headers("Authorization: Bearer")]
+        //Task<CurrentUserInfo> GetUserInfo(string subject);
 
     }
 
@@ -75,10 +75,10 @@ namespace CommonLibrary
             return await callAuthServiceApi.UserLogin(userLoginRequest);
         }
 
-        public async Task<CurrentUserInfo> GetUserInfo(string subject)
-        {
-            return await callAuthServiceApi.GetUserInfo(subject);
-        }
+        //public async Task<CurrentUserInfo> GetUserInfo(string subject)
+        //{
+        //    return await callAuthServiceApi.GetUserInfo(subject);
+        //}
     }
 
     public class UserLoginRequest
