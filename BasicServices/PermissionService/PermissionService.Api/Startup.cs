@@ -39,7 +39,7 @@ namespace PermissionService.Api
                 {
                     options.Authority = Configuration["IdentityService:Authority"];
                     options.RequireHttpsMetadata = false;
-                    options.Audience = "CommonServiceApi";
+                    options.Audience = "GeneralServiceApi";
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ICurrentUserInfoProvider, CurrentUserInfoProvider>();

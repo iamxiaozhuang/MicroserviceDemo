@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AuthWeb.Config;
 using CommonLibrary.Utilities;
 using IdentityServer;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

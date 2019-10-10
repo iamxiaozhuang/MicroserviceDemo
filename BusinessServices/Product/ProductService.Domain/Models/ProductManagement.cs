@@ -1,4 +1,5 @@
-﻿using CommonLibrary.Base;
+﻿using AutoMapper;
+using CommonLibrary.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,8 +22,14 @@ namespace ProductService.Domain.Models
         public string ProductProfile { get; set; }
         [Required(ErrorMessage = "ProductPrice Category is required")]
         public Guid CategoryId { get; set; }
-
-        //[RegularExpression(@"^1[3|4|5|7|8][0-9]\d{8}$", ErrorMessage = "手机号格式错误")]
-        //public string UserMobilePhone { get; set; }
     }
+
+    public class ProductMamagementAutoMapperProfile : Profile
+    {
+        public ProductMamagementAutoMapperProfile()
+        {
+            CreateMap<AddProductModel, Product>();
+        }
+    }
+
 }

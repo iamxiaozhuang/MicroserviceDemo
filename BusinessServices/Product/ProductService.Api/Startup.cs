@@ -47,7 +47,7 @@ namespace ProductService.Api
                 .AddJwtBearer(options =>
                 {
                     options.Authority = Configuration["IdentityService:Authority"];
-                    options.Audience = "CommonServiceApi";
+                    options.Audience = "GeneralServiceApi"; 
                     options.RequireHttpsMetadata = false;
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -74,11 +74,6 @@ namespace ProductService.Api
                         Name = "xiaozhuang",
                         Email = "iamjerrysun@outlook.com",
                         Url = "https://github.com/iamxiaozhuang"
-                    },
-                    License = new License
-                    {
-                        Name = "MIT",
-                        Url = ""
                     }
                 });
                 c.IgnoreObsoleteActions();
@@ -94,8 +89,8 @@ namespace ProductService.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            //services.AddMediatR(typeof(GetSysUsersHandler).GetTypeInfo().Assembly);
-            //services.AddAutoMapper(typeof(SysUserAutoMapperProfile).GetTypeInfo().Assembly);
+            services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductManagement.AddProductHandler)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.ProductMamagementAutoMapperProfile)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

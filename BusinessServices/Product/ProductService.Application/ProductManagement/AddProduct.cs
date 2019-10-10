@@ -20,11 +20,11 @@ namespace ProductService.Application.ProductManagement
         public AddProductModel AddProductModel { get; set; }
     }
 
-    public class AddSysUserHandler : IRequestHandler<AddProductRequest, int>
+    public class AddProductHandler : IRequestHandler<AddProductRequest, int>
     {
         private readonly ProductDBContext dbContext;
         private readonly IMapper autoMapper;
-        public AddSysUserHandler(ProductDBContext _dbContext, IMapper _autoMapper)
+        public AddProductHandler(ProductDBContext _dbContext, IMapper _autoMapper)
         {
             dbContext = _dbContext;
             autoMapper = _autoMapper;

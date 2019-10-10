@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Authentication
+@{
     Layout = null;
 }
 
@@ -13,22 +14,31 @@
     <h1 align="center">This is a Microservice Demo.</h1>
     @if (!User.Identity.IsAuthenticated)
     {
-<h3>Error! User Is not Authenticated.</h3>
+        <h3>Error! User Is not Authenticated.</h3>
     }
-        <a href="/Home/Logout">Logout</a>
-        <br /> <br /> <br />
-        <a href="/Home/CallTestApi">CallTestApi</a>
-        <br />
-        <div>
-           
-                <dl>
-                    @foreach (var item in ViewBag.CallTestApiResult)
-                    {
-                        <dt>@item.Key</dt>
-                        <dd>@item.Value</dd>
-                    }
-                </dl>
-            </div>
+
+    <h2>Claims</h2>
+    <dl>
+        @foreach (var claim in User.Claims)
+        {
+            <dt>@claim.Type</dt>
+            <dd>@claim.Value</dd>
+        }
+    </dl>
+    <a href="/Home/Logout">Logout</a>
+    <br /> <br /> <br />
+    <a href="/Home/CallTestApi">CallTestApi</a>
+    <br />
+    <div>
+
+        <dl>
+            @foreach (var item in ViewBag.CallTestApiResult)
+            {
+                <dt>@item.Key</dt>
+                <dd>@item.Value</dd>
+            }
+        </dl>
+    </div>
 
 </body>
 </html>

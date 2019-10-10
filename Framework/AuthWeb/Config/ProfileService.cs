@@ -1,21 +1,30 @@
 ﻿using IdentityServer4.Models;
 using IdentityServer4.Services;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IdentityServer
 {
     public class ProfileService : IProfileService
     {
-        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
+        public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var claims = context.Subject.Claims.ToList();
-            context.IssuedClaims = claims.ToList();
+            context.AddRequestedClaims(context.Subject.Claims);
+
+            foreach (Claim claim in context.Subject.Claims)
+            {
+                if (context.IssuedClaims.Contains(claim))
+                    continue;
+                context.IssuedClaims.Add(claim);
+            }
+            return Task.FromResult(0);
         }
 
-        public async Task IsActiveAsync(IsActiveContext context)
+        public Task IsActiveAsync(IsActiveContext context)
         {
             context.IsActive = true;
+            return Task.FromResult(0);
         }
     }
 }

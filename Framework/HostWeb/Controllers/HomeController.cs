@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -31,15 +32,18 @@ namespace HostWeb.Controllers
         public async Task<IActionResult> CallTestApi()
         {
             var callTestApi = RestService.For<ICallTestApi>(Configuration["ApiGatewayService:Url"],
-               new RefitSettings() { AuthorizationHeaderValueGetter = GetCommonServiceApiToken });
+               new RefitSettings() { AuthorizationHeaderValueGetter = GetGeneralServiceApiToken });
             var dic = await callTestApi.CallTestApi();
             ViewBag.CallTestApiResult = dic;
             return View("Index");
         }
 
-        private async Task<string> GetCommonServiceApiToken()
+        private async Task<string> GetGeneralServiceApiToken()
         {
-            return await HttpContext.GetTokenAsync("access_token");
+            var access_token = await HttpContext.GetTokenAsync("access_token");
+            JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
+            access_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_access_token").Value;
+            return access_token;
         }
     }
 

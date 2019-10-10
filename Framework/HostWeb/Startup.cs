@@ -52,8 +52,8 @@ namespace HostWeb
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
 
-                    options.Scope.Add("CommonServiceApi");
-                    //options.Scope.Add("offline_access");
+                    //options.Scope.Add("GeneralServiceApi");
+                    options.Scope.Add("offline_access");
 
                     //options.ClaimActions.MapJsonKey("website", "website");
                 });

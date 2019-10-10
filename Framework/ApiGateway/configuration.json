@@ -33,7 +33,7 @@
       "UpstreamPathTemplate": "/ProductService/{url}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "CommonServiceApiKey",
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
         "AllowedScopes": []
       }
       },
@@ -50,7 +50,7 @@
         "UpstreamPathTemplate": "/OrderingService/{url}",
         "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
         "AuthenticationOptions": {
-          "AuthenticationProviderKey": "CommonServiceApiKey",
+          "AuthenticationProviderKey": "GeneralServiceApiKey",
           "AllowedScopes": []
         }
         },
@@ -67,7 +67,7 @@
           "UpstreamPathTemplate": "/PaymentService/{url}",
           "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
           "AuthenticationOptions": {
-            "AuthenticationProviderKey": "CommonServiceApiKey",
+            "AuthenticationProviderKey": "GeneralServiceApiKey",
             "AllowedScopes": []
           }
           }

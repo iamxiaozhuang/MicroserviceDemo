@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -124,11 +125,11 @@ namespace IdentityServer
                 var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
                 {
                     Address = disco.TokenEndpoint,
-                    ClientId = "CommonApiClient",
+                    ClientId = "GeneralApiClient",
                     ClientSecret = "P@ssw0rd",
                     UserName = model.Username,
                     Password = model.Password,
-                    Scope = "CommonServiceApi"
+                    Scope = "GeneralServiceApi offline_access"
                 });
                 if (!tokenResponse.IsError)
                 {
@@ -144,8 +145,11 @@ namespace IdentityServer
                             ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
                         };
                     };
+                    Claim accessTokenClaim = new Claim("general_access_token", tokenResponse.AccessToken);
+                    Claim refreshTokenClaim = new Claim("general_refresh_token", tokenResponse.RefreshToken);
+                    List<Claim> listClaim = new List<Claim>() { accessTokenClaim, refreshTokenClaim };
                     // issue authentication cookie with subject ID and username
-                    await HttpContext.SignInAsync(model.Username, props);
+                    await HttpContext.SignInAsync(model.Username, props, listClaim.ToArray());
 
                     if (context != null)
                     {

@@ -27,7 +27,7 @@ namespace IdentityServer
             return new List<ApiResource>
             {
                 new ApiResource("AuthServiceApi", "AuthService API"),
-                new ApiResource("CommonServiceApi", "CommonService API")
+                new ApiResource("GeneralServiceApi", "GeneralService API")
             };
         }
 
@@ -53,15 +53,18 @@ namespace IdentityServer
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "CommonApiClient",
-                    ClientName = "CommonApi Client",
+                    ClientId = "GeneralApiClient",
+                    ClientName = "GeneralApi Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
+                    SlidingRefreshTokenLifetime = 30,
+                    AllowOfflineAccess = true,
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     ClientSecrets =
                     {
                          new Secret("P@ssw0rd".Sha256())
                     },
-                    AllowedScopes = { "CommonServiceApi" }
+                    AllowedScopes = { "GeneralServiceApi" }
                 },
                 // OpenID Connect hybrid flow client (MVC)
                 new Client
@@ -83,9 +86,9 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "CommonServiceApi"
-                    }
+                        IdentityServerConstants.StandardScopes.Profile
+        },
+                    AllowOfflineAccess = true
                 }
             };
         }

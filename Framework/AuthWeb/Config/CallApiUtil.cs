@@ -42,11 +42,11 @@ namespace AuthWeb.Config
             var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = await GetTokenEndpoint(),
-                ClientId = "CommonApiClient",
+                ClientId = "GeneralApiClient",
                 ClientSecret = "P@ssw0rd",
                 UserName = userName,
                 Password = userPassword,
-                Scope = "CommonServiceApi"
+                Scope = "GeneralServiceApiKey"
             }); 
             return tokenResponse;
         }

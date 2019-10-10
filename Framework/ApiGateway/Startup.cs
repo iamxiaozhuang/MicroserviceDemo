@@ -36,10 +36,10 @@ namespace ApiGateway
                 option.SupportedTokens = SupportedTokens.Both;
             };
 
-            Action<IdentityServerAuthenticationOptions> commonApiClientOpt = option =>
+            Action<IdentityServerAuthenticationOptions> generalApiClientOpt = option =>
             {
                 option.Authority = Configuration["IdentityService:Authority"];
-                option.ApiName = "CommonServiceApi";
+                option.ApiName = "GeneralServiceApi";
                 option.RequireHttpsMetadata = false;
                 option.SupportedTokens = SupportedTokens.Both;
             };
@@ -47,7 +47,7 @@ namespace ApiGateway
 
             services.AddAuthentication()
                .AddIdentityServerAuthentication("AuthServiceApiKey", authApiClientOpt)
-                .AddIdentityServerAuthentication("CommonServiceApiKey", commonApiClientOpt);
+                .AddIdentityServerAuthentication("GeneralServiceApiKey", generalApiClientOpt);
 
             // Ocelot
             services.AddOcelot(Configuration);
