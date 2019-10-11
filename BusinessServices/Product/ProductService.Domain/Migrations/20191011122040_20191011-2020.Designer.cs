@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProductService.Domain;
@@ -9,9 +10,10 @@ using ProductService.Domain;
 namespace ProductService.Domain.Migrations
 {
     [DbContext(typeof(ProductDBContext))]
-    partial class ProductDBContextModelSnapshot : ModelSnapshot
+    [Migration("20191011122040_20191011-2020")]
+    partial class _201910112020
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

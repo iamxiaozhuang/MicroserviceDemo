@@ -64,22 +64,30 @@ namespace CommonLibrary
     }
 
     [ComplexType]
-    public class Attachment : BaseEntity
+    public class Attachment
     {
+        [Key]
+        /// <summary>
+        /// ID
+        /// </summary>
+        public Guid ID { get; set; }
+        [Required]
         /// <summary>
         /// 附件Name
         /// </summary>
         public string AttachmentName { get; set; }
 
+        [Required]
         /// <summary>
         /// 附件地址
         /// </summary>
         public string AttachmentUrl { get; set; }
 
+        [Required]
         /// <summary>
         /// 附件排序
         /// </summary>
-        public Guid AttachmentSort { get; set; }
+        public int AttachmentSort { get; set; }
 
     }
 }
