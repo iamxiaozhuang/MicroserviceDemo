@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace PermissionService.Api
 {
@@ -28,6 +29,7 @@ namespace PermissionService.Api
                 .UseConfiguration(appconfig)
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
+                .UseNLog()
                 .UseStartup<Startup>();
 
             var csredis = new CSRedis.CSRedisClient(appconfig.GetValue<string>("CSRedis:Client"));

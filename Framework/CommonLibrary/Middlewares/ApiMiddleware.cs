@@ -45,7 +45,12 @@ namespace CommonLibrary
                 if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
                 {
                     CurrentUserInfo currentUserInfo = await _currentUserInfoProvider.ReadCurrentUserInfo();
-                    context.Items.Add("CurrentUserInfo", currentUserInfo);
+                    if (currentUserInfo != null)
+                    {
+                        requestTenant = currentUserInfo.TenantCode;
+                        requestUser = currentUserInfo.UserName + " " + currentUserInfo.UserCode;
+                        context.Items.Add("CurrentUserInfo", currentUserInfo);
+                    }
                 }
                 var originalBodyStream = context.Response.Body;
                 using (var memoryResponseBody = new MemoryStream())
@@ -81,10 +86,13 @@ namespace CommonLibrary
 
                 await context.Response.WriteAsync(exceptionResponse);
             }
-
-            reponseTime = DateTime.UtcNow;
-            if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
-                NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant, requestUser, requestBody, invokeException, reponseTime, responseBody);
+            finally
+            {
+                reponseTime = DateTime.UtcNow;
+                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
+                    NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant, requestUser, requestBody, invokeException, reponseTime, responseBody);
+            }
+           
         }
 
         private async Task<string> GetRequestBody(HttpRequest request)

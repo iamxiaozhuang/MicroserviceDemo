@@ -11,13 +11,13 @@ namespace CommonLibrary
     {
         public static void LogApiRequestAndResponse(Guid logID, HttpContext context, DateTime requestTime, string requestTenant, string requestUser,  string requestBody, Exception ex, DateTime reponseTime, string responseBody)
         {
-            NLog.Logger requestLogger = NLog.LogManager.GetLogger("ApiRequestLogger");
+            NLog.Logger requestLogger = NLog.Web.NLogBuilder.ConfigureNLog("Nlog.config").GetLogger("ApiRequestLogger");
             NLog.LogEventInfo requestLogEvent = new NLog.LogEventInfo(NLog.LogLevel.Trace, "ApiRequestLogger", "Invoke");
             requestLogEvent.Properties["RequestLogID"] = logID;
             requestLogEvent.Properties["RequestTimestamp"] = requestTime;
             requestLogEvent.Properties["RequestMethod"] = context.Request.Method;
             requestLogEvent.Properties["RequestUrl"] = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}?{context.Request.QueryString}";//context.Request.GetDisplayUrl()
-            requestLogEvent.Properties["RequestContentType"] = context.Request.ContentType;
+            requestLogEvent.Properties["RequestContentType"] = context.Request.ContentType == null ? "" : context.Request.ContentType;
             requestLogEvent.Properties["RequestBody"] = requestBody;
             requestLogEvent.Properties["RequestUser"] = requestUser;
             requestLogEvent.Properties["RequestTenant"] = requestTenant;
@@ -43,7 +43,7 @@ namespace CommonLibrary
                 }
             }
             requestLogEvent.Properties["ResponseCode"] = context.Response.StatusCode.ToString();
-            requestLogEvent.Properties["ResponseContentType"] = context.Response.ContentType;
+            requestLogEvent.Properties["ResponseContentType"] = context.Response.ContentType == null ? "" : context.Response.ContentType; ;
             requestLogEvent.Properties["ResponseBody"] = responseBody;
             requestLogEvent.Properties["ResponseTimestamp"] = reponseTime;
             requestLogEvent.Properties["ExecuteDuration"] = (int)(reponseTime - requestTime).TotalMilliseconds;
@@ -52,7 +52,7 @@ namespace CommonLibrary
 
         public static void LogGeneralInfo(string info)
         {
-            NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
+            NLog.Logger generalLogger = NLog.Web.NLogBuilder.ConfigureNLog("Nlog.config").GetLogger("GeneralLogger");
             generalLogger.Info(info);
         }
 

@@ -1,0 +1,1741 @@
+2019-10-11 19:47:08.7584 Info Message Template Auto Format enabled
+2019-10-11 19:47:08.7679 Info Loading assembly: NLog.Web.AspNetCore
+2019-10-11 19:47:08.7679 Debug ScanAssembly('NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2019-10-11 19:47:08.8073 Debug Setting 'DatabaseTarget.commandText' to '
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '
+2019-10-11 19:47:08.8073 Debug Setting 'DatabaseTarget.name' to 'databaseGeneralLog'
+2019-10-11 19:47:08.8171 Debug Setting 'DatabaseTarget.dbProvider' to 'Npgsql.NpgsqlConnection, Npgsql'
+2019-10-11 19:47:08.8171 Debug Setting 'DatabaseTarget.connectionString' to 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:08.8310 Debug Setting 'DatabaseParameterInfo.name' to '@application'
+2019-10-11 19:47:08.8310 Debug Setting 'DatabaseParameterInfo.layout' to 'AspNetCoreNlog'
+2019-10-11 19:47:08.8310 Debug Setting 'DatabaseParameterInfo.name' to '@logged'
+2019-10-11 19:47:08.8310 Debug Setting 'DatabaseParameterInfo.layout' to '${date}'
+2019-10-11 19:47:08.8440 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.8440 Trace Scanning DateLayoutRenderer 'Layout Renderer: ${date}'
+2019-10-11 19:47:08.8440 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:08.8440 Debug Setting 'DatabaseParameterInfo.name' to '@level'
+2019-10-11 19:47:08.8440 Debug Setting 'DatabaseParameterInfo.layout' to '${level}'
+2019-10-11 19:47:08.8440 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.8440 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-10-11 19:47:08.8656 Debug Setting 'DatabaseParameterInfo.name' to '@message'
+2019-10-11 19:47:08.8656 Debug Setting 'DatabaseParameterInfo.layout' to '${message}'
+2019-10-11 19:47:08.8656 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.8656 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-10-11 19:47:08.8656 Debug Setting 'DatabaseParameterInfo.name' to '@logger'
+2019-10-11 19:47:08.8767 Debug Setting 'DatabaseParameterInfo.layout' to '${logger}'
+2019-10-11 19:47:08.9085 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9085 Trace Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-10-11 19:47:08.9085 Debug Setting 'DatabaseParameterInfo.name' to '@callSite'
+2019-10-11 19:47:08.9085 Debug Setting 'DatabaseParameterInfo.layout' to '${callsite:filename=true}'
+2019-10-11 19:47:08.9085 Debug Setting 'CallSiteLayoutRenderer.filename' to 'true'
+2019-10-11 19:47:08.9085 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9085 Trace Scanning CallSiteLayoutRenderer 'Layout Renderer: ${callsite}'
+2019-10-11 19:47:08.9085 Debug Setting 'DatabaseParameterInfo.name' to '@exception'
+2019-10-11 19:47:08.9272 Debug Setting 'DatabaseParameterInfo.layout' to '${exception:tostring}'
+2019-10-11 19:47:08.9448 Debug Setting 'ExceptionLayoutRenderer.Format' to 'tostring'
+2019-10-11 19:47:08.9448 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9448 Trace Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2019-10-11 19:47:08.9448 Trace  Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2019-10-11 19:47:08.9448 Info Adding target DatabaseTarget(Name=databaseGeneralLog)
+2019-10-11 19:47:08.9448 Debug Registered target databaseGeneralLog: NLog.Targets.DatabaseTarget
+2019-10-11 19:47:08.9448 Debug Setting 'DatabaseTarget.commandText' to '
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '
+2019-10-11 19:47:08.9448 Debug Setting 'DatabaseTarget.name' to 'databaseApiRequestLog'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseTarget.dbProvider' to 'Npgsql.NpgsqlConnection, Npgsql'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseTarget.connectionString' to 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.name' to '@RequestLogID'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestLogID}'
+2019-10-11 19:47:08.9526 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestLogID'
+2019-10-11 19:47:08.9526 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9526 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:08.9526 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.name' to '@RequestTimestamp'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestTimestamp}'
+2019-10-11 19:47:08.9526 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestTimestamp'
+2019-10-11 19:47:08.9526 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9526 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:08.9526 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.name' to '@RequestMethod'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestMethod}'
+2019-10-11 19:47:08.9526 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestMethod'
+2019-10-11 19:47:08.9526 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9526 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:08.9526 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.name' to '@RequestUrl'
+2019-10-11 19:47:08.9526 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestUrl}'
+2019-10-11 19:47:08.9526 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestUrl'
+2019-10-11 19:47:08.9526 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9526 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:08.9687 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:08.9687 Debug Setting 'DatabaseParameterInfo.name' to '@RequestContentType'
+2019-10-11 19:47:08.9687 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestContentType}'
+2019-10-11 19:47:08.9687 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestContentType'
+2019-10-11 19:47:08.9944 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:08.9944 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:08.9944 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:08.9944 Debug Setting 'DatabaseParameterInfo.name' to '@RequestBody'
+2019-10-11 19:47:08.9944 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestBody}'
+2019-10-11 19:47:08.9944 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestBody'
+2019-10-11 19:47:08.9944 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0264 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0264 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0264 Debug Setting 'DatabaseParameterInfo.name' to '@RequestUser'
+2019-10-11 19:47:09.0264 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestUser}'
+2019-10-11 19:47:09.0264 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestUser'
+2019-10-11 19:47:09.0264 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0264 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0264 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.name' to '@RequestTenant'
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestTenant}'
+2019-10-11 19:47:09.0318 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestTenant'
+2019-10-11 19:47:09.0318 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0318 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0318 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.name' to '@HasError'
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=HasError}'
+2019-10-11 19:47:09.0318 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'HasError'
+2019-10-11 19:47:09.0318 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0318 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0318 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.name' to '@ErrorMessage'
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ErrorMessage}'
+2019-10-11 19:47:09.0318 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ErrorMessage'
+2019-10-11 19:47:09.0318 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0318 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0318 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0318 Debug Setting 'DatabaseParameterInfo.name' to '@ErrorStackTrace'
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ErrorStackTrace}'
+2019-10-11 19:47:09.0481 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ErrorStackTrace'
+2019-10-11 19:47:09.0481 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0481 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0481 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseCode'
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseCode}'
+2019-10-11 19:47:09.0481 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseCode'
+2019-10-11 19:47:09.0481 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0481 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0481 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseContentType'
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseContentType}'
+2019-10-11 19:47:09.0481 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseContentType'
+2019-10-11 19:47:09.0481 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0481 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0481 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseBody'
+2019-10-11 19:47:09.0481 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseBody}'
+2019-10-11 19:47:09.0481 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseBody'
+2019-10-11 19:47:09.0481 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0628 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0628 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0628 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseTimestamp'
+2019-10-11 19:47:09.0628 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseTimestamp}'
+2019-10-11 19:47:09.0628 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseTimestamp'
+2019-10-11 19:47:09.0628 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0628 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0628 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0628 Debug Setting 'DatabaseParameterInfo.name' to '@ExecuteDuration'
+2019-10-11 19:47:09.0628 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ExecuteDuration}'
+2019-10-11 19:47:09.0628 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ExecuteDuration'
+2019-10-11 19:47:09.0628 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:09.0781 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.0781 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.0781 Info Adding target DatabaseTarget(Name=databaseApiRequestLog)
+2019-10-11 19:47:09.0781 Debug Registered target databaseApiRequestLog: NLog.Targets.DatabaseTarget
+2019-10-11 19:47:09.0781 Trace ParseRulesElement
+2019-10-11 19:47:09.0996 Debug Unused target checking is started... Rule Count: 2, Target Count: 2
+2019-10-11 19:47:09.0996 Debug Unused target checking is completed. Total Rule Count: 2, Total Target Count: 2, Unused Target Count: 0
+2019-10-11 19:47:09.1196 Debug Watching path 'D:\GitHub\MicroserviceDemo\BasicServices\PermissionService\PermissionService.Api\bin\Debug\netcoreapp2.2' filter 'NLog.config' for changes.
+2019-10-11 19:47:09.1196 Debug --- NLog configuration dump ---
+2019-10-11 19:47:09.1196 Debug Targets:
+2019-10-11 19:47:09.1263 Debug Database Target[databaseGeneralLog]
+2019-10-11 19:47:09.1263 Debug Database Target[databaseApiRequestLog]
+2019-10-11 19:47:09.1263 Debug Rules:
+2019-10-11 19:47:09.1263 Debug logNamePattern: (GeneralLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseGeneralLog ]
+2019-10-11 19:47:09.1263 Debug logNamePattern: (ApiRequestLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseApiRequestLog ]
+2019-10-11 19:47:09.1263 Debug --- End of NLog configuration dump ---
+2019-10-11 19:47:09.1263 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.1263 Trace Scanning LoggingRule 'logNamePattern: (GeneralLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseGeneralLog ]'
+2019-10-11 19:47:09.1263 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2019-10-11 19:47:09.1503 Trace  Scanning DatabaseTarget 'Database Target[databaseGeneralLog]'
+2019-10-11 19:47:09.1503 Trace   Scanning Property CommandText ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '' NLog.Layouts
+2019-10-11 19:47:09.1503 Trace   Scanning SimpleLayout ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      ''
+2019-10-11 19:47:09.1585 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1585 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.1585 Trace   Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:09.1585 Trace   Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:09.1585 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1585 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.1585 Trace   Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:09.1585 Trace   Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:09.1743 Trace   Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:09.1743 Trace   Scanning SimpleLayout ''.''
+2019-10-11 19:47:09.1743 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1743 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.1743 Trace   Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:09.1743 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.1743 Trace    Scanning Property Layout ''AspNetCoreNlog'' NLog.Layouts
+2019-10-11 19:47:09.1743 Trace    Scanning SimpleLayout ''AspNetCoreNlog''
+2019-10-11 19:47:09.1743 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1743 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.1743 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.1743 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.1743 Trace    Scanning Property Layout ''${date}'' NLog.Layouts
+2019-10-11 19:47:09.1743 Trace    Scanning SimpleLayout ''${date}''
+2019-10-11 19:47:09.1743 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1875 Trace     Scanning DateLayoutRenderer 'Layout Renderer: ${date}'
+2019-10-11 19:47:09.1875 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.1875 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.1875 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.1875 Trace    Scanning Property Layout ''${level}'' NLog.Layouts
+2019-10-11 19:47:09.1875 Trace    Scanning SimpleLayout ''${level}''
+2019-10-11 19:47:09.1875 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1875 Trace     Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-10-11 19:47:09.1875 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.1875 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.1875 Trace    Scanning Property Layout ''${message}'' NLog.Layouts
+2019-10-11 19:47:09.1875 Trace    Scanning SimpleLayout ''${message}''
+2019-10-11 19:47:09.1875 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.1875 Trace     Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-10-11 19:47:09.1875 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.1875 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.1875 Trace    Scanning Property Layout ''${logger}'' NLog.Layouts
+2019-10-11 19:47:09.1875 Trace    Scanning SimpleLayout ''${logger}''
+2019-10-11 19:47:09.2034 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2034 Trace     Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-10-11 19:47:09.2034 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2034 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2034 Trace    Scanning Property Layout ''${callsite:filename=true}'' NLog.Layouts
+2019-10-11 19:47:09.2034 Trace    Scanning SimpleLayout ''${callsite:filename=true}''
+2019-10-11 19:47:09.2034 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2034 Trace     Scanning CallSiteLayoutRenderer 'Layout Renderer: ${callsite}'
+2019-10-11 19:47:09.2034 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2034 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2034 Trace    Scanning Property Layout ''${exception:tostring}'' NLog.Layouts
+2019-10-11 19:47:09.2034 Trace    Scanning SimpleLayout ''${exception:tostring}''
+2019-10-11 19:47:09.2034 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2034 Trace     Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2019-10-11 19:47:09.2034 Trace      Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2019-10-11 19:47:09.2034 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2034 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2019-10-11 19:47:09.2034 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2019-10-11 19:47:09.2196 Trace Scanning LoggingRule 'logNamePattern: (ApiRequestLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseApiRequestLog ]'
+2019-10-11 19:47:09.2196 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2019-10-11 19:47:09.2196 Trace  Scanning DatabaseTarget 'Database Target[databaseApiRequestLog]'
+2019-10-11 19:47:09.2196 Trace   Scanning Property CommandText ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '' NLog.Layouts
+2019-10-11 19:47:09.2196 Trace   Scanning SimpleLayout ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      ''
+2019-10-11 19:47:09.2196 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2196 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.2196 Trace   Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:09.2196 Trace   Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:09.2196 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2196 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.2196 Trace   Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:09.2196 Trace   Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:09.2196 Trace   Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:09.2196 Trace   Scanning SimpleLayout ''.''
+2019-10-11 19:47:09.2196 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2196 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.2196 Trace   Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:09.2343 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2343 Trace    Scanning Property Layout ''${event-properties:item=RequestLogID}'' NLog.Layouts
+2019-10-11 19:47:09.2343 Trace    Scanning SimpleLayout ''${event-properties:item=RequestLogID}''
+2019-10-11 19:47:09.2343 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2343 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2343 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2343 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2343 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2343 Trace    Scanning Property Layout ''${event-properties:item=RequestTimestamp}'' NLog.Layouts
+2019-10-11 19:47:09.2343 Trace    Scanning SimpleLayout ''${event-properties:item=RequestTimestamp}''
+2019-10-11 19:47:09.2343 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2343 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2343 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2343 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2343 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2343 Trace    Scanning Property Layout ''${event-properties:item=RequestMethod}'' NLog.Layouts
+2019-10-11 19:47:09.2343 Trace    Scanning SimpleLayout ''${event-properties:item=RequestMethod}''
+2019-10-11 19:47:09.2343 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2343 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2343 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2505 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2505 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2505 Trace    Scanning Property Layout ''${event-properties:item=RequestUrl}'' NLog.Layouts
+2019-10-11 19:47:09.2505 Trace    Scanning SimpleLayout ''${event-properties:item=RequestUrl}''
+2019-10-11 19:47:09.2505 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2505 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2505 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2505 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2505 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2505 Trace    Scanning Property Layout ''${event-properties:item=RequestContentType}'' NLog.Layouts
+2019-10-11 19:47:09.2505 Trace    Scanning SimpleLayout ''${event-properties:item=RequestContentType}''
+2019-10-11 19:47:09.2505 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2505 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2505 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2505 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2505 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2505 Trace    Scanning Property Layout ''${event-properties:item=RequestBody}'' NLog.Layouts
+2019-10-11 19:47:09.2505 Trace    Scanning SimpleLayout ''${event-properties:item=RequestBody}''
+2019-10-11 19:47:09.2505 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2505 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2652 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2652 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2652 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2652 Trace    Scanning Property Layout ''${event-properties:item=RequestUser}'' NLog.Layouts
+2019-10-11 19:47:09.2652 Trace    Scanning SimpleLayout ''${event-properties:item=RequestUser}''
+2019-10-11 19:47:09.2652 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2652 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2652 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2652 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2652 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2652 Trace    Scanning Property Layout ''${event-properties:item=RequestTenant}'' NLog.Layouts
+2019-10-11 19:47:09.2652 Trace    Scanning SimpleLayout ''${event-properties:item=RequestTenant}''
+2019-10-11 19:47:09.2652 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2652 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2652 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2652 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2810 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2810 Trace    Scanning Property Layout ''${event-properties:item=HasError}'' NLog.Layouts
+2019-10-11 19:47:09.2810 Trace    Scanning SimpleLayout ''${event-properties:item=HasError}''
+2019-10-11 19:47:09.2810 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2810 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2810 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2810 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2810 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2810 Trace    Scanning Property Layout ''${event-properties:item=ErrorMessage}'' NLog.Layouts
+2019-10-11 19:47:09.2810 Trace    Scanning SimpleLayout ''${event-properties:item=ErrorMessage}''
+2019-10-11 19:47:09.2810 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2810 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2810 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2810 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2810 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2810 Trace    Scanning Property Layout ''${event-properties:item=ErrorStackTrace}'' NLog.Layouts
+2019-10-11 19:47:09.2810 Trace    Scanning SimpleLayout ''${event-properties:item=ErrorStackTrace}''
+2019-10-11 19:47:09.2810 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2810 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2810 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2810 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2810 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2972 Trace    Scanning Property Layout ''${event-properties:item=ResponseCode}'' NLog.Layouts
+2019-10-11 19:47:09.2972 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseCode}''
+2019-10-11 19:47:09.2972 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2972 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2972 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2972 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2972 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2972 Trace    Scanning Property Layout ''${event-properties:item=ResponseContentType}'' NLog.Layouts
+2019-10-11 19:47:09.2972 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseContentType}''
+2019-10-11 19:47:09.2972 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.2972 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.2972 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.2972 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.2972 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.2972 Trace    Scanning Property Layout ''${event-properties:item=ResponseBody}'' NLog.Layouts
+2019-10-11 19:47:09.2972 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseBody}''
+2019-10-11 19:47:09.2972 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3120 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3120 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3120 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.3120 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.3120 Trace    Scanning Property Layout ''${event-properties:item=ResponseTimestamp}'' NLog.Layouts
+2019-10-11 19:47:09.3120 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseTimestamp}''
+2019-10-11 19:47:09.3120 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3120 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3120 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3120 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.3120 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.3120 Trace    Scanning Property Layout ''${event-properties:item=ExecuteDuration}'' NLog.Layouts
+2019-10-11 19:47:09.3120 Trace    Scanning SimpleLayout ''${event-properties:item=ExecuteDuration}''
+2019-10-11 19:47:09.3120 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3120 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3120 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3120 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.3120 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2019-10-11 19:47:09.3120 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2019-10-11 19:47:09.3120 Info Found 85 configuration items
+2019-10-11 19:47:09.3312 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3312 Trace Initializing '${event-properties:item=ExecuteDuration}'
+2019-10-11 19:47:09.3312 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3312 Trace Scanning SimpleLayout ''${event-properties:item=ExecuteDuration}''
+2019-10-11 19:47:09.3312 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3312 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3312 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3477 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3477 Trace Initializing '${event-properties:item=ResponseTimestamp}'
+2019-10-11 19:47:09.3477 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3477 Trace Scanning SimpleLayout ''${event-properties:item=ResponseTimestamp}''
+2019-10-11 19:47:09.3477 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3477 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3477 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3477 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3477 Trace Initializing '${event-properties:item=ResponseBody}'
+2019-10-11 19:47:09.3477 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3477 Trace Scanning SimpleLayout ''${event-properties:item=ResponseBody}''
+2019-10-11 19:47:09.3477 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3477 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3477 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3477 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3477 Trace Initializing '${event-properties:item=ResponseContentType}'
+2019-10-11 19:47:09.3591 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3591 Trace Scanning SimpleLayout ''${event-properties:item=ResponseContentType}''
+2019-10-11 19:47:09.3591 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3591 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3591 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3591 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3591 Trace Initializing '${event-properties:item=ResponseCode}'
+2019-10-11 19:47:09.3591 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3591 Trace Scanning SimpleLayout ''${event-properties:item=ResponseCode}''
+2019-10-11 19:47:09.3591 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3591 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3591 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3591 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3591 Trace Initializing '${event-properties:item=ErrorStackTrace}'
+2019-10-11 19:47:09.3591 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3591 Trace Scanning SimpleLayout ''${event-properties:item=ErrorStackTrace}''
+2019-10-11 19:47:09.3591 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3591 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3591 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3591 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3591 Trace Initializing '${event-properties:item=ErrorMessage}'
+2019-10-11 19:47:09.3591 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3591 Trace Scanning SimpleLayout ''${event-properties:item=ErrorMessage}''
+2019-10-11 19:47:09.3591 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3591 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3749 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3749 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3749 Trace Initializing '${event-properties:item=HasError}'
+2019-10-11 19:47:09.3749 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3749 Trace Scanning SimpleLayout ''${event-properties:item=HasError}''
+2019-10-11 19:47:09.3749 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3749 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3749 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3749 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3749 Trace Initializing '${event-properties:item=RequestTenant}'
+2019-10-11 19:47:09.3749 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3749 Trace Scanning SimpleLayout ''${event-properties:item=RequestTenant}''
+2019-10-11 19:47:09.3749 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3749 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3749 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3749 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3749 Trace Initializing '${event-properties:item=RequestUser}'
+2019-10-11 19:47:09.3749 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3749 Trace Scanning SimpleLayout ''${event-properties:item=RequestUser}''
+2019-10-11 19:47:09.3749 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3749 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3749 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3749 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3902 Trace Initializing '${event-properties:item=RequestBody}'
+2019-10-11 19:47:09.3902 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3902 Trace Scanning SimpleLayout ''${event-properties:item=RequestBody}''
+2019-10-11 19:47:09.3902 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3902 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3902 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3902 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3902 Trace Initializing '${event-properties:item=RequestContentType}'
+2019-10-11 19:47:09.3902 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3902 Trace Scanning SimpleLayout ''${event-properties:item=RequestContentType}''
+2019-10-11 19:47:09.3902 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3902 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3902 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3902 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3902 Trace Initializing '${event-properties:item=RequestUrl}'
+2019-10-11 19:47:09.3902 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3902 Trace Scanning SimpleLayout ''${event-properties:item=RequestUrl}''
+2019-10-11 19:47:09.3902 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.3902 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.3902 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.3902 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.3902 Trace Initializing '${event-properties:item=RequestMethod}'
+2019-10-11 19:47:09.3902 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.3902 Trace Scanning SimpleLayout ''${event-properties:item=RequestMethod}''
+2019-10-11 19:47:09.3902 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.4062 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.4062 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.4062 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.4062 Trace Initializing '${event-properties:item=RequestTimestamp}'
+2019-10-11 19:47:09.4062 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.4062 Trace Scanning SimpleLayout ''${event-properties:item=RequestTimestamp}''
+2019-10-11 19:47:09.4062 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.4062 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.4062 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.4062 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:09.4062 Trace Initializing '${event-properties:item=RequestLogID}'
+2019-10-11 19:47:09.4062 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.4062 Trace Scanning SimpleLayout ''${event-properties:item=RequestLogID}''
+2019-10-11 19:47:09.4062 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.4062 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:09.4062 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:09.4062 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:09.4062 Trace Initializing '.'
+2019-10-11 19:47:09.4062 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.4062 Trace Scanning SimpleLayout ''.''
+2019-10-11 19:47:09.4062 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.4062 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.4062 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:09.4062 Trace Initializing 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:09.4062 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.4062 Trace Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:09.4062 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.4223 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.4223 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:09.4223 Trace Initializing '
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '
+2019-10-11 19:47:09.4223 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.4223 Trace Scanning SimpleLayout ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      ''
+2019-10-11 19:47:09.4223 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.4223 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:09.4223 Trace Initializing Database Target[databaseApiRequestLog]
+2019-10-11 19:47:09.4372 Trace FindReachableObject<NLog.Layouts.Layout>:
+2019-10-11 19:47:09.4372 Trace Scanning DatabaseTarget 'Database Target[databaseApiRequestLog]'
+2019-10-11 19:47:09.4372 Trace  Scanning Property CommandText ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '' NLog.Layouts
+2019-10-11 19:47:09.4372 Trace  Scanning SimpleLayout ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      ''
+2019-10-11 19:47:09.4372 Trace  Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:09.4372 Trace  Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:09.4572 Trace  Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:09.4572 Trace  Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:09.4572 Trace  Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:09.4572 Trace  Scanning SimpleLayout ''.''
+2019-10-11 19:47:09.4572 Trace  Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:09.4572 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.4572 Trace   Scanning Property Layout ''${event-properties:item=RequestLogID}'' NLog.Layouts
+2019-10-11 19:47:09.4572 Trace   Scanning SimpleLayout ''${event-properties:item=RequestLogID}''
+2019-10-11 19:47:09.4734 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.4734 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.4734 Trace   Scanning Property Layout ''${event-properties:item=RequestTimestamp}'' NLog.Layouts
+2019-10-11 19:47:09.4734 Trace   Scanning SimpleLayout ''${event-properties:item=RequestTimestamp}''
+2019-10-11 19:47:09.4734 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.4858 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.4858 Trace   Scanning Property Layout ''${event-properties:item=RequestMethod}'' NLog.Layouts
+2019-10-11 19:47:09.4858 Trace   Scanning SimpleLayout ''${event-properties:item=RequestMethod}''
+2019-10-11 19:47:09.4858 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5001 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5001 Trace   Scanning Property Layout ''${event-properties:item=RequestUrl}'' NLog.Layouts
+2019-10-11 19:47:09.5001 Trace   Scanning SimpleLayout ''${event-properties:item=RequestUrl}''
+2019-10-11 19:47:09.5001 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5001 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5001 Trace   Scanning Property Layout ''${event-properties:item=RequestContentType}'' NLog.Layouts
+2019-10-11 19:47:09.5001 Trace   Scanning SimpleLayout ''${event-properties:item=RequestContentType}''
+2019-10-11 19:47:09.5001 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5001 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5001 Trace   Scanning Property Layout ''${event-properties:item=RequestBody}'' NLog.Layouts
+2019-10-11 19:47:09.5001 Trace   Scanning SimpleLayout ''${event-properties:item=RequestBody}''
+2019-10-11 19:47:09.5001 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5001 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5001 Trace   Scanning Property Layout ''${event-properties:item=RequestUser}'' NLog.Layouts
+2019-10-11 19:47:09.5001 Trace   Scanning SimpleLayout ''${event-properties:item=RequestUser}''
+2019-10-11 19:47:09.5152 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5152 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5152 Trace   Scanning Property Layout ''${event-properties:item=RequestTenant}'' NLog.Layouts
+2019-10-11 19:47:09.5152 Trace   Scanning SimpleLayout ''${event-properties:item=RequestTenant}''
+2019-10-11 19:47:09.5152 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5152 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5152 Trace   Scanning Property Layout ''${event-properties:item=HasError}'' NLog.Layouts
+2019-10-11 19:47:09.5152 Trace   Scanning SimpleLayout ''${event-properties:item=HasError}''
+2019-10-11 19:47:09.5152 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5152 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5152 Trace   Scanning Property Layout ''${event-properties:item=ErrorMessage}'' NLog.Layouts
+2019-10-11 19:47:09.5152 Trace   Scanning SimpleLayout ''${event-properties:item=ErrorMessage}''
+2019-10-11 19:47:09.5152 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5152 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5152 Trace   Scanning Property Layout ''${event-properties:item=ErrorStackTrace}'' NLog.Layouts
+2019-10-11 19:47:09.5152 Trace   Scanning SimpleLayout ''${event-properties:item=ErrorStackTrace}''
+2019-10-11 19:47:09.5152 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5152 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5152 Trace   Scanning Property Layout ''${event-properties:item=ResponseCode}'' NLog.Layouts
+2019-10-11 19:47:09.5317 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseCode}''
+2019-10-11 19:47:09.5317 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5317 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5317 Trace   Scanning Property Layout ''${event-properties:item=ResponseContentType}'' NLog.Layouts
+2019-10-11 19:47:09.5317 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseContentType}''
+2019-10-11 19:47:09.5317 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5317 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5317 Trace   Scanning Property Layout ''${event-properties:item=ResponseBody}'' NLog.Layouts
+2019-10-11 19:47:09.5317 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseBody}''
+2019-10-11 19:47:09.5317 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5477 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5477 Trace   Scanning Property Layout ''${event-properties:item=ResponseTimestamp}'' NLog.Layouts
+2019-10-11 19:47:09.5477 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseTimestamp}''
+2019-10-11 19:47:09.5477 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5477 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:09.5477 Trace   Scanning Property Layout ''${event-properties:item=ExecuteDuration}'' NLog.Layouts
+2019-10-11 19:47:09.5477 Trace   Scanning SimpleLayout ''${event-properties:item=ExecuteDuration}''
+2019-10-11 19:47:09.5477 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:09.5477 Trace Database Target[databaseApiRequestLog] has 19 layouts
+2019-10-11 19:47:09.8443 Trace Initializing Layout Renderer: ${exception}
+2019-10-11 19:47:09.8443 Trace Initializing '${exception:tostring}'
+2019-10-11 19:47:09.8443 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.8443 Trace Scanning SimpleLayout ''${exception:tostring}''
+2019-10-11 19:47:09.8443 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.8443 Trace  Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2019-10-11 19:47:09.8443 Trace   Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2019-10-11 19:47:09.8443 Trace Initializing Layout Renderer: ${callsite}
+2019-10-11 19:47:09.8443 Trace Initializing '${callsite:filename=true}'
+2019-10-11 19:47:09.8443 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.8443 Trace Scanning SimpleLayout ''${callsite:filename=true}''
+2019-10-11 19:47:09.8443 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.8609 Trace  Scanning CallSiteLayoutRenderer 'Layout Renderer: ${callsite}'
+2019-10-11 19:47:09.8609 Trace Initializing Layout Renderer: ${logger}
+2019-10-11 19:47:09.8609 Trace Initializing '${logger}'
+2019-10-11 19:47:09.8609 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.8609 Trace Scanning SimpleLayout ''${logger}''
+2019-10-11 19:47:09.8609 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.8609 Trace  Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-10-11 19:47:09.8609 Trace Initializing Layout Renderer: ${message}
+2019-10-11 19:47:09.8609 Trace Initializing '${message}'
+2019-10-11 19:47:09.8609 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.8609 Trace Scanning SimpleLayout ''${message}''
+2019-10-11 19:47:09.8609 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.8609 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-10-11 19:47:09.8758 Trace Initializing Layout Renderer: ${level}
+2019-10-11 19:47:09.8758 Trace Initializing '${level}'
+2019-10-11 19:47:09.8758 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.8758 Trace Scanning SimpleLayout ''${level}''
+2019-10-11 19:47:09.8758 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.9008 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-10-11 19:47:09.9153 Trace Initializing Layout Renderer: ${date}
+2019-10-11 19:47:09.9153 Trace Initializing '${date}'
+2019-10-11 19:47:09.9342 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:09.9461 Trace Scanning SimpleLayout ''${date}''
+2019-10-11 19:47:09.9813 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:09.9969 Trace  Scanning DateLayoutRenderer 'Layout Renderer: ${date}'
+2019-10-11 19:47:10.0050 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:10.0050 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:10.0050 Trace Initializing 'AspNetCoreNlog'
+2019-10-11 19:47:10.0050 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:10.0149 Trace Scanning SimpleLayout ''AspNetCoreNlog''
+2019-10-11 19:47:10.0149 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:10.0149 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:10.0149 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:10.0436 Trace Initializing '.'
+2019-10-11 19:47:10.0538 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:10.0773 Trace Scanning SimpleLayout ''.''
+2019-10-11 19:47:10.0845 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:10.0845 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:10.0845 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:10.0845 Trace Initializing 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:10.0845 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:10.0845 Trace Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:10.0845 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:10.0953 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:10.0953 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:10.0953 Trace Initializing '
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '
+2019-10-11 19:47:10.1099 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:10.1099 Trace Scanning SimpleLayout ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      ''
+2019-10-11 19:47:10.1099 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:10.1099 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:10.1099 Trace Initializing Database Target[databaseGeneralLog]
+2019-10-11 19:47:10.1099 Trace FindReachableObject<NLog.Layouts.Layout>:
+2019-10-11 19:47:10.1099 Trace Scanning DatabaseTarget 'Database Target[databaseGeneralLog]'
+2019-10-11 19:47:10.1099 Trace  Scanning Property CommandText ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '' NLog.Layouts
+2019-10-11 19:47:10.1257 Trace  Scanning SimpleLayout ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      ''
+2019-10-11 19:47:10.1257 Trace  Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:10.1257 Trace  Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:10.1257 Trace  Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:10.1257 Trace  Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:10.1257 Trace  Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:10.1257 Trace  Scanning SimpleLayout ''.''
+2019-10-11 19:47:10.1406 Trace  Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:10.1406 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1406 Trace   Scanning Property Layout ''AspNetCoreNlog'' NLog.Layouts
+2019-10-11 19:47:10.1406 Trace   Scanning SimpleLayout ''AspNetCoreNlog''
+2019-10-11 19:47:10.1406 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1406 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1406 Trace   Scanning Property Layout ''${date}'' NLog.Layouts
+2019-10-11 19:47:10.1406 Trace   Scanning SimpleLayout ''${date}''
+2019-10-11 19:47:10.1406 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1406 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1406 Trace   Scanning Property Layout ''${level}'' NLog.Layouts
+2019-10-11 19:47:10.1564 Trace   Scanning SimpleLayout ''${level}''
+2019-10-11 19:47:10.1564 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1564 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1564 Trace   Scanning Property Layout ''${message}'' NLog.Layouts
+2019-10-11 19:47:10.1564 Trace   Scanning SimpleLayout ''${message}''
+2019-10-11 19:47:10.1564 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1564 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1564 Trace   Scanning Property Layout ''${logger}'' NLog.Layouts
+2019-10-11 19:47:10.1564 Trace   Scanning SimpleLayout ''${logger}''
+2019-10-11 19:47:10.1564 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1564 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1564 Trace   Scanning Property Layout ''${callsite:filename=true}'' NLog.Layouts
+2019-10-11 19:47:10.1725 Trace   Scanning SimpleLayout ''${callsite:filename=true}''
+2019-10-11 19:47:10.1725 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1725 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:10.1725 Trace   Scanning Property Layout ''${exception:tostring}'' NLog.Layouts
+2019-10-11 19:47:10.1725 Trace   Scanning SimpleLayout ''${exception:tostring}''
+2019-10-11 19:47:10.1725 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:10.1725 Trace Database Target[databaseGeneralLog] has 10 layouts
+2019-10-11 19:47:10.1917 Info Configuration initialized.
+2019-10-11 19:47:10.2258 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.6.5.10245. Product version: 4.6.5.
+2019-10-11 19:47:10.2492 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Internal.WebHost
+2019-10-11 19:47:10.5047 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Internal.ApplicationLifetime
+2019-10-11 19:47:10.5047 Debug Targets not configured for logger: Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets
+2019-10-11 19:47:10.6161 Debug Targets not configured for logger: Microsoft.AspNetCore.Server.Kestrel
+2019-10-11 19:47:10.6459 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator
+2019-10-11 19:47:10.6664 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager
+2019-10-11 19:47:10.6736 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory
+2019-10-11 19:47:10.6736 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory
+2019-10-11 19:47:10.6736 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory
+2019-10-11 19:47:10.7034 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor
+2019-10-11 19:47:10.7034 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository
+2019-10-11 19:47:10.7563 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver
+2019-10-11 19:47:10.7563 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider
+2019-10-11 19:47:10.7563 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionStartupFilter
+2019-10-11 19:47:10.7972 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor
+2019-10-11 19:47:10.8546 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.MvcJsonOptions
+2019-10-11 19:47:10.8724 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.MvcOptions
+2019-10-11 19:47:10.9456 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter
+2019-10-11 19:47:10.9456 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Formatters.JsonInputFormatter
+2019-10-11 19:47:10.9568 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ApiBehaviorOptions
+2019-10-11 19:47:10.9694 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.ModelBinderFactory
+2019-10-11 19:47:10.9914 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder
+2019-10-11 19:47:10.9914 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+2019-10-11 19:47:10.9914 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.ActionSelector
+2019-10-11 19:47:10.9914 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.MvcRouteHandler
+2019-10-11 19:47:11.0614 Debug Targets not configured for logger: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+2019-10-11 19:47:11.1561 Debug Targets not configured for logger: Microsoft.AspNetCore.Builder.RouterMiddleware
+2019-10-11 19:47:11.1657 Debug Targets not configured for logger: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware
+2019-10-11 19:47:11.1657 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor
+2019-10-11 19:47:12.1029 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector
+2019-10-11 19:47:12.1029 Debug Targets not configured for logger: Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler
+2019-10-11 19:47:12.2836 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.Tree.TreeRouter
+2019-10-11 19:47:12.2836 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.RouteConstraintMatcher
+2019-10-11 19:47:12.2836 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.MvcAttributeRouteHandler
+2019-10-11 19:47:35.8355 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder
+2019-10-11 19:47:35.8582 Debug Targets not configured for logger: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService
+2019-10-11 19:47:35.8859 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Infrastructure.DefaultOutputFormatterSelector
+2019-10-11 19:47:35.8859 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor
+2019-10-11 19:47:35.9009 Debug ScanAssembly('NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2019-10-11 19:47:35.9009 Debug Loading config from D:\GitHub\MicroserviceDemo\BasicServices\PermissionService\PermissionService.Api\bin\Debug\netcoreapp2.2\Nlog.config
+2019-10-11 19:47:35.9009 Info Configuring from an XML element in D:\GitHub\MicroserviceDemo\BasicServices\PermissionService\PermissionService.Api\bin\Debug\netcoreapp2.2\Nlog.config...
+2019-10-11 19:47:35.9009 Trace ParseNLogElement
+2019-10-11 19:47:35.9056 Trace ParseNLogConfig
+2019-10-11 19:47:35.9056 Info Message Template Auto Format enabled
+2019-10-11 19:47:35.9056 Info Loading assembly: NLog.Web.AspNetCore
+2019-10-11 19:47:35.9056 Debug ScanAssembly('NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseTarget.commandText' to '
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseTarget.name' to 'databaseGeneralLog'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseTarget.dbProvider' to 'Npgsql.NpgsqlConnection, Npgsql'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseTarget.connectionString' to 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.name' to '@application'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.layout' to 'AspNetCoreNlog'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.name' to '@logged'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.layout' to '${date}'
+2019-10-11 19:47:35.9056 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9056 Trace Scanning DateLayoutRenderer 'Layout Renderer: ${date}'
+2019-10-11 19:47:35.9056 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.name' to '@level'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.layout' to '${level}'
+2019-10-11 19:47:35.9056 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9056 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.name' to '@message'
+2019-10-11 19:47:35.9056 Debug Setting 'DatabaseParameterInfo.layout' to '${message}'
+2019-10-11 19:47:35.9056 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9229 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-10-11 19:47:35.9229 Debug Setting 'DatabaseParameterInfo.name' to '@logger'
+2019-10-11 19:47:35.9229 Debug Setting 'DatabaseParameterInfo.layout' to '${logger}'
+2019-10-11 19:47:35.9229 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9229 Trace Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-10-11 19:47:35.9229 Debug Setting 'DatabaseParameterInfo.name' to '@callSite'
+2019-10-11 19:47:35.9229 Debug Setting 'DatabaseParameterInfo.layout' to '${callsite:filename=true}'
+2019-10-11 19:47:35.9229 Debug Setting 'CallSiteLayoutRenderer.filename' to 'true'
+2019-10-11 19:47:35.9229 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9229 Trace Scanning CallSiteLayoutRenderer 'Layout Renderer: ${callsite}'
+2019-10-11 19:47:35.9229 Debug Setting 'DatabaseParameterInfo.name' to '@exception'
+2019-10-11 19:47:35.9229 Debug Setting 'DatabaseParameterInfo.layout' to '${exception:tostring}'
+2019-10-11 19:47:35.9229 Debug Setting 'ExceptionLayoutRenderer.Format' to 'tostring'
+2019-10-11 19:47:35.9229 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9229 Trace Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2019-10-11 19:47:35.9229 Trace  Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2019-10-11 19:47:35.9229 Info Adding target DatabaseTarget(Name=databaseGeneralLog)
+2019-10-11 19:47:35.9390 Debug Registered target databaseGeneralLog: NLog.Targets.DatabaseTarget
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseTarget.commandText' to '
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseTarget.name' to 'databaseApiRequestLog'
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseTarget.dbProvider' to 'Npgsql.NpgsqlConnection, Npgsql'
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseTarget.connectionString' to 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseParameterInfo.name' to '@RequestLogID'
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestLogID}'
+2019-10-11 19:47:35.9390 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestLogID'
+2019-10-11 19:47:35.9390 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9390 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9390 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseParameterInfo.name' to '@RequestTimestamp'
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestTimestamp}'
+2019-10-11 19:47:35.9390 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestTimestamp'
+2019-10-11 19:47:35.9390 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9390 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9390 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseParameterInfo.name' to '@RequestMethod'
+2019-10-11 19:47:35.9390 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestMethod}'
+2019-10-11 19:47:35.9390 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestMethod'
+2019-10-11 19:47:35.9390 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9525 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9525 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.name' to '@RequestUrl'
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestUrl}'
+2019-10-11 19:47:35.9525 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestUrl'
+2019-10-11 19:47:35.9525 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9525 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9525 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.name' to '@RequestContentType'
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestContentType}'
+2019-10-11 19:47:35.9525 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestContentType'
+2019-10-11 19:47:35.9525 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9525 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9525 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.name' to '@RequestBody'
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestBody}'
+2019-10-11 19:47:35.9525 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestBody'
+2019-10-11 19:47:35.9525 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9525 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9525 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.name' to '@RequestUser'
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestUser}'
+2019-10-11 19:47:35.9525 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestUser'
+2019-10-11 19:47:35.9525 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9525 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9525 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.name' to '@RequestTenant'
+2019-10-11 19:47:35.9525 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=RequestTenant}'
+2019-10-11 19:47:35.9686 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'RequestTenant'
+2019-10-11 19:47:35.9686 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9686 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9686 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.name' to '@HasError'
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=HasError}'
+2019-10-11 19:47:35.9686 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'HasError'
+2019-10-11 19:47:35.9686 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9686 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9686 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.name' to '@ErrorMessage'
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ErrorMessage}'
+2019-10-11 19:47:35.9686 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ErrorMessage'
+2019-10-11 19:47:35.9686 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9686 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9686 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.name' to '@ErrorStackTrace'
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ErrorStackTrace}'
+2019-10-11 19:47:35.9686 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ErrorStackTrace'
+2019-10-11 19:47:35.9686 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9686 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9686 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseCode'
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseCode}'
+2019-10-11 19:47:35.9686 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseCode'
+2019-10-11 19:47:35.9686 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9686 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9686 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseContentType'
+2019-10-11 19:47:35.9686 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseContentType}'
+2019-10-11 19:47:35.9686 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseContentType'
+2019-10-11 19:47:35.9686 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9686 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9686 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9857 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseBody'
+2019-10-11 19:47:35.9857 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseBody}'
+2019-10-11 19:47:35.9857 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseBody'
+2019-10-11 19:47:35.9857 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9857 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9857 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9857 Debug Setting 'DatabaseParameterInfo.name' to '@ResponseTimestamp'
+2019-10-11 19:47:35.9857 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ResponseTimestamp}'
+2019-10-11 19:47:35.9857 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ResponseTimestamp'
+2019-10-11 19:47:35.9857 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9857 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9857 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9857 Debug Setting 'DatabaseParameterInfo.name' to '@ExecuteDuration'
+2019-10-11 19:47:35.9857 Debug Setting 'DatabaseParameterInfo.layout' to '${event-properties:item=ExecuteDuration}'
+2019-10-11 19:47:35.9857 Debug Setting 'EventPropertiesLayoutRenderer.item' to 'ExecuteDuration'
+2019-10-11 19:47:35.9857 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2019-10-11 19:47:35.9857 Trace Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:35.9857 Trace  Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:35.9857 Info Adding target DatabaseTarget(Name=databaseApiRequestLog)
+2019-10-11 19:47:35.9857 Debug Registered target databaseApiRequestLog: NLog.Targets.DatabaseTarget
+2019-10-11 19:47:35.9857 Trace ParseRulesElement
+2019-10-11 19:47:35.9857 Debug Unused target checking is started... Rule Count: 2, Target Count: 2
+2019-10-11 19:47:35.9857 Debug Unused target checking is completed. Total Rule Count: 2, Total Target Count: 2, Unused Target Count: 0
+2019-10-11 19:47:36.0003 Info Closing old configuration.
+2019-10-11 19:47:36.0003 Trace LogFactory.Flush(00:00:15)
+2019-10-11 19:47:36.0003 Trace Flushing all targets...
+2019-10-11 19:47:36.0003 Trace ForEachItemInParallel() 2 items
+2019-10-11 19:47:36.0162 Trace Continuation invoked: 
+2019-10-11 19:47:36.0162 Trace Parallel task completed. 1 items remaining
+2019-10-11 19:47:36.0162 Trace Continuation invoked: 
+2019-10-11 19:47:36.0162 Trace Parallel task completed. 0 items remaining
+2019-10-11 19:47:36.0162 Debug Closing logging configuration...
+2019-10-11 19:47:36.0162 Trace Closing Database Target[databaseGeneralLog]
+2019-10-11 19:47:36.0162 Debug Closing target 'Database Target[databaseGeneralLog]'.
+2019-10-11 19:47:36.0307 Trace DatabaseTarget(Name=databaseGeneralLog): Close connection because of CloseTarget
+2019-10-11 19:47:36.0307 Debug Closed target 'Database Target[databaseGeneralLog]'.
+2019-10-11 19:47:36.0307 Trace Closing '
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing '.'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing 'AspNetCoreNlog'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing '${date}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${date}
+2019-10-11 19:47:36.0307 Trace Closing '${level}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${level}
+2019-10-11 19:47:36.0307 Trace Closing '${message}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${message}
+2019-10-11 19:47:36.0307 Trace Closing '${logger}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${logger}
+2019-10-11 19:47:36.0307 Trace Closing '${callsite:filename=true}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${callsite}
+2019-10-11 19:47:36.0307 Trace Closing '${exception:tostring}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${exception}
+2019-10-11 19:47:36.0307 Trace Closing Database Target[databaseApiRequestLog]
+2019-10-11 19:47:36.0307 Debug Closing target 'Database Target[databaseApiRequestLog]'.
+2019-10-11 19:47:36.0307 Trace DatabaseTarget(Name=databaseApiRequestLog): Close connection because of CloseTarget
+2019-10-11 19:47:36.0307 Debug Closed target 'Database Target[databaseApiRequestLog]'.
+2019-10-11 19:47:36.0307 Trace Closing '
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing '.'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${literal}
+2019-10-11 19:47:36.0307 Trace Closing '${event-properties:item=RequestLogID}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0307 Trace Closing '${event-properties:item=RequestTimestamp}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0307 Trace Closing '${event-properties:item=RequestMethod}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0307 Trace Closing '${event-properties:item=RequestUrl}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0307 Trace Closing '${event-properties:item=RequestContentType}'
+2019-10-11 19:47:36.0307 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=RequestBody}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=RequestUser}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=RequestTenant}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=HasError}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ErrorMessage}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ErrorStackTrace}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ResponseCode}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ResponseContentType}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ResponseBody}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ResponseTimestamp}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Trace Closing '${event-properties:item=ExecuteDuration}'
+2019-10-11 19:47:36.0466 Trace Closing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.0466 Debug Finished closing logging configuration.
+2019-10-11 19:47:36.0466 Debug Stopping file watching for path 'D:\GitHub\MicroserviceDemo\BasicServices\PermissionService\PermissionService.Api\bin\Debug\netcoreapp2.2' filter 'NLog.config'
+2019-10-11 19:47:36.0466 Debug Watching path 'D:\GitHub\MicroserviceDemo\BasicServices\PermissionService\PermissionService.Api\bin\Debug\netcoreapp2.2' filter 'Nlog.config' for changes.
+2019-10-11 19:47:36.0466 Debug --- NLog configuration dump ---
+2019-10-11 19:47:36.0466 Debug Targets:
+2019-10-11 19:47:36.0466 Debug Database Target[databaseGeneralLog]
+2019-10-11 19:47:36.0466 Debug Database Target[databaseApiRequestLog]
+2019-10-11 19:47:36.0466 Debug Rules:
+2019-10-11 19:47:36.0466 Debug logNamePattern: (GeneralLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseGeneralLog ]
+2019-10-11 19:47:36.0466 Debug logNamePattern: (ApiRequestLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseApiRequestLog ]
+2019-10-11 19:47:36.0466 Debug --- End of NLog configuration dump ---
+2019-10-11 19:47:36.0466 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.0466 Trace Scanning LoggingRule 'logNamePattern: (GeneralLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseGeneralLog ]'
+2019-10-11 19:47:36.0466 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2019-10-11 19:47:36.0625 Trace  Scanning DatabaseTarget 'Database Target[databaseGeneralLog]'
+2019-10-11 19:47:36.0625 Trace   Scanning Property CommandText ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '' NLog.Layouts
+2019-10-11 19:47:36.0625 Trace   Scanning SimpleLayout ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      ''
+2019-10-11 19:47:36.0625 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0625 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0625 Trace   Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:36.0625 Trace   Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:36.0625 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0625 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0625 Trace   Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.0625 Trace   Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.0625 Trace   Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:36.0625 Trace   Scanning SimpleLayout ''.''
+2019-10-11 19:47:36.0625 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0625 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0625 Trace   Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:36.0625 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0625 Trace    Scanning Property Layout ''AspNetCoreNlog'' NLog.Layouts
+2019-10-11 19:47:36.0625 Trace    Scanning SimpleLayout ''AspNetCoreNlog''
+2019-10-11 19:47:36.0625 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0625 Trace     Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0625 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0625 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0625 Trace    Scanning Property Layout ''${date}'' NLog.Layouts
+2019-10-11 19:47:36.0625 Trace    Scanning SimpleLayout ''${date}''
+2019-10-11 19:47:36.0625 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0625 Trace     Scanning DateLayoutRenderer 'Layout Renderer: ${date}'
+2019-10-11 19:47:36.0625 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.0625 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0625 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0625 Trace    Scanning Property Layout ''${level}'' NLog.Layouts
+2019-10-11 19:47:36.0625 Trace    Scanning SimpleLayout ''${level}''
+2019-10-11 19:47:36.0625 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0625 Trace     Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-10-11 19:47:36.0778 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0778 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0778 Trace    Scanning Property Layout ''${message}'' NLog.Layouts
+2019-10-11 19:47:36.0778 Trace    Scanning SimpleLayout ''${message}''
+2019-10-11 19:47:36.0778 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0778 Trace     Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-10-11 19:47:36.0778 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0778 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0778 Trace    Scanning Property Layout ''${logger}'' NLog.Layouts
+2019-10-11 19:47:36.0778 Trace    Scanning SimpleLayout ''${logger}''
+2019-10-11 19:47:36.0778 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0778 Trace     Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-10-11 19:47:36.0778 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0778 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0778 Trace    Scanning Property Layout ''${callsite:filename=true}'' NLog.Layouts
+2019-10-11 19:47:36.0778 Trace    Scanning SimpleLayout ''${callsite:filename=true}''
+2019-10-11 19:47:36.0778 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0778 Trace     Scanning CallSiteLayoutRenderer 'Layout Renderer: ${callsite}'
+2019-10-11 19:47:36.0778 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0778 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0778 Trace    Scanning Property Layout ''${exception:tostring}'' NLog.Layouts
+2019-10-11 19:47:36.0778 Trace    Scanning SimpleLayout ''${exception:tostring}''
+2019-10-11 19:47:36.0778 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0778 Trace     Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2019-10-11 19:47:36.0778 Trace      Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2019-10-11 19:47:36.0778 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0778 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2019-10-11 19:47:36.0778 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2019-10-11 19:47:36.0778 Trace Scanning LoggingRule 'logNamePattern: (ApiRequestLogger:Equals) levels: [ Trace Debug Info Warn Error Fatal ] appendTo: [ databaseApiRequestLog ]'
+2019-10-11 19:47:36.0778 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2019-10-11 19:47:36.0936 Trace  Scanning DatabaseTarget 'Database Target[databaseApiRequestLog]'
+2019-10-11 19:47:36.0936 Trace   Scanning Property CommandText ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '' NLog.Layouts
+2019-10-11 19:47:36.0936 Trace   Scanning SimpleLayout ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      ''
+2019-10-11 19:47:36.0936 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0936 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0936 Trace   Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:36.0936 Trace   Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:36.0936 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0936 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0936 Trace   Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.0936 Trace   Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.0936 Trace   Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:36.0936 Trace   Scanning SimpleLayout ''.''
+2019-10-11 19:47:36.0936 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0936 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.0936 Trace   Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:36.0936 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0936 Trace    Scanning Property Layout ''${event-properties:item=RequestLogID}'' NLog.Layouts
+2019-10-11 19:47:36.0936 Trace    Scanning SimpleLayout ''${event-properties:item=RequestLogID}''
+2019-10-11 19:47:36.0936 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0936 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.0936 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.0936 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0936 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0936 Trace    Scanning Property Layout ''${event-properties:item=RequestTimestamp}'' NLog.Layouts
+2019-10-11 19:47:36.0936 Trace    Scanning SimpleLayout ''${event-properties:item=RequestTimestamp}''
+2019-10-11 19:47:36.0936 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0936 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.0936 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.0936 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0936 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.0936 Trace    Scanning Property Layout ''${event-properties:item=RequestMethod}'' NLog.Layouts
+2019-10-11 19:47:36.0936 Trace    Scanning SimpleLayout ''${event-properties:item=RequestMethod}''
+2019-10-11 19:47:36.0936 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.0936 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.0936 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.0936 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.0936 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=RequestUrl}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=RequestUrl}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1096 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1096 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1096 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1096 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=RequestContentType}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=RequestContentType}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1096 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1096 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1096 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1096 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=RequestBody}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=RequestBody}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1096 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1096 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1096 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1096 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=RequestUser}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=RequestUser}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1096 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1096 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1096 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1096 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=RequestTenant}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=RequestTenant}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1096 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1096 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1096 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1096 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=HasError}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=HasError}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1096 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1096 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1096 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1096 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1096 Trace    Scanning Property Layout ''${event-properties:item=ErrorMessage}'' NLog.Layouts
+2019-10-11 19:47:36.1096 Trace    Scanning SimpleLayout ''${event-properties:item=ErrorMessage}''
+2019-10-11 19:47:36.1096 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1249 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1249 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1249 Trace    Scanning Property Layout ''${event-properties:item=ErrorStackTrace}'' NLog.Layouts
+2019-10-11 19:47:36.1249 Trace    Scanning SimpleLayout ''${event-properties:item=ErrorStackTrace}''
+2019-10-11 19:47:36.1249 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1249 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1249 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1249 Trace    Scanning Property Layout ''${event-properties:item=ResponseCode}'' NLog.Layouts
+2019-10-11 19:47:36.1249 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseCode}''
+2019-10-11 19:47:36.1249 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1249 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1249 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1249 Trace    Scanning Property Layout ''${event-properties:item=ResponseContentType}'' NLog.Layouts
+2019-10-11 19:47:36.1249 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseContentType}''
+2019-10-11 19:47:36.1249 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1249 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1249 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1249 Trace    Scanning Property Layout ''${event-properties:item=ResponseBody}'' NLog.Layouts
+2019-10-11 19:47:36.1249 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseBody}''
+2019-10-11 19:47:36.1249 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1249 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1249 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1249 Trace    Scanning Property Layout ''${event-properties:item=ResponseTimestamp}'' NLog.Layouts
+2019-10-11 19:47:36.1249 Trace    Scanning SimpleLayout ''${event-properties:item=ResponseTimestamp}''
+2019-10-11 19:47:36.1249 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1249 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1249 Trace   Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1249 Trace    Scanning Property Layout ''${event-properties:item=ExecuteDuration}'' NLog.Layouts
+2019-10-11 19:47:36.1249 Trace    Scanning SimpleLayout ''${event-properties:item=ExecuteDuration}''
+2019-10-11 19:47:36.1249 Trace     Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1249 Trace     Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1249 Trace      Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1408 Trace    Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.1408 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2019-10-11 19:47:36.1408 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2019-10-11 19:47:36.1408 Info Found 85 configuration items
+2019-10-11 19:47:36.1408 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1408 Trace Initializing '${event-properties:item=ExecuteDuration}'
+2019-10-11 19:47:36.1408 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1408 Trace Scanning SimpleLayout ''${event-properties:item=ExecuteDuration}''
+2019-10-11 19:47:36.1408 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1408 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1408 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1408 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1408 Trace Initializing '${event-properties:item=ResponseTimestamp}'
+2019-10-11 19:47:36.1408 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1408 Trace Scanning SimpleLayout ''${event-properties:item=ResponseTimestamp}''
+2019-10-11 19:47:36.1408 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1408 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1408 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1408 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1408 Trace Initializing '${event-properties:item=ResponseBody}'
+2019-10-11 19:47:36.1408 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1408 Trace Scanning SimpleLayout ''${event-properties:item=ResponseBody}''
+2019-10-11 19:47:36.1408 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1408 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1408 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1408 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1408 Trace Initializing '${event-properties:item=ResponseContentType}'
+2019-10-11 19:47:36.1408 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1408 Trace Scanning SimpleLayout ''${event-properties:item=ResponseContentType}''
+2019-10-11 19:47:36.1408 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1408 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1408 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1408 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1408 Trace Initializing '${event-properties:item=ResponseCode}'
+2019-10-11 19:47:36.1408 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1408 Trace Scanning SimpleLayout ''${event-properties:item=ResponseCode}''
+2019-10-11 19:47:36.1556 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1556 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1556 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1556 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1556 Trace Initializing '${event-properties:item=ErrorStackTrace}'
+2019-10-11 19:47:36.1556 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1556 Trace Scanning SimpleLayout ''${event-properties:item=ErrorStackTrace}''
+2019-10-11 19:47:36.1556 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1556 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1556 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1556 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1556 Trace Initializing '${event-properties:item=ErrorMessage}'
+2019-10-11 19:47:36.1556 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1556 Trace Scanning SimpleLayout ''${event-properties:item=ErrorMessage}''
+2019-10-11 19:47:36.1556 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1556 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1556 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1556 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1556 Trace Initializing '${event-properties:item=HasError}'
+2019-10-11 19:47:36.1556 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1556 Trace Scanning SimpleLayout ''${event-properties:item=HasError}''
+2019-10-11 19:47:36.1556 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1556 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1556 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1556 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1556 Trace Initializing '${event-properties:item=RequestTenant}'
+2019-10-11 19:47:36.1556 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1556 Trace Scanning SimpleLayout ''${event-properties:item=RequestTenant}''
+2019-10-11 19:47:36.1556 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1556 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1556 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1556 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1556 Trace Initializing '${event-properties:item=RequestUser}'
+2019-10-11 19:47:36.1556 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1716 Trace Scanning SimpleLayout ''${event-properties:item=RequestUser}''
+2019-10-11 19:47:36.1716 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1716 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1716 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1716 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1716 Trace Initializing '${event-properties:item=RequestBody}'
+2019-10-11 19:47:36.1716 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1716 Trace Scanning SimpleLayout ''${event-properties:item=RequestBody}''
+2019-10-11 19:47:36.1716 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1716 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1716 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1716 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1716 Trace Initializing '${event-properties:item=RequestContentType}'
+2019-10-11 19:47:36.1716 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1716 Trace Scanning SimpleLayout ''${event-properties:item=RequestContentType}''
+2019-10-11 19:47:36.1716 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1716 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1716 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1716 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1716 Trace Initializing '${event-properties:item=RequestUrl}'
+2019-10-11 19:47:36.1716 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1716 Trace Scanning SimpleLayout ''${event-properties:item=RequestUrl}''
+2019-10-11 19:47:36.1716 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1716 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1716 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1716 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1716 Trace Initializing '${event-properties:item=RequestMethod}'
+2019-10-11 19:47:36.1716 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1716 Trace Scanning SimpleLayout ''${event-properties:item=RequestMethod}''
+2019-10-11 19:47:36.1716 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1716 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1716 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1716 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1716 Trace Initializing '${event-properties:item=RequestTimestamp}'
+2019-10-11 19:47:36.1716 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1716 Trace Scanning SimpleLayout ''${event-properties:item=RequestTimestamp}''
+2019-10-11 19:47:36.1716 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1716 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1716 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1716 Trace Initializing Layout Renderer: ${event-properties}
+2019-10-11 19:47:36.1878 Trace Initializing '${event-properties:item=RequestLogID}'
+2019-10-11 19:47:36.1878 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1878 Trace Scanning SimpleLayout ''${event-properties:item=RequestLogID}''
+2019-10-11 19:47:36.1878 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1878 Trace  Scanning EventPropertiesLayoutRenderer 'Layout Renderer: ${event-properties}'
+2019-10-11 19:47:36.1878 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.1878 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.1878 Trace Initializing '.'
+2019-10-11 19:47:36.1878 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1878 Trace Scanning SimpleLayout ''.''
+2019-10-11 19:47:36.1878 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1878 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.1878 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.1878 Trace Initializing 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:36.1878 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1878 Trace Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:36.1878 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1878 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.1878 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.1878 Trace Initializing '
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '
+2019-10-11 19:47:36.1878 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.1878 Trace Scanning SimpleLayout ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      ''
+2019-10-11 19:47:36.1878 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.1878 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.1878 Trace Initializing Database Target[databaseApiRequestLog]
+2019-10-11 19:47:36.1878 Trace FindReachableObject<NLog.Layouts.Layout>:
+2019-10-11 19:47:36.1878 Trace Scanning DatabaseTarget 'Database Target[databaseApiRequestLog]'
+2019-10-11 19:47:36.1878 Trace  Scanning Property CommandText ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      '' NLog.Layouts
+2019-10-11 19:47:36.1878 Trace  Scanning SimpleLayout ''
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      ''
+2019-10-11 19:47:36.1878 Trace  Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:36.1878 Trace  Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:36.1878 Trace  Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.1878 Trace  Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.1878 Trace  Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:36.1878 Trace  Scanning SimpleLayout ''.''
+2019-10-11 19:47:36.1878 Trace  Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:36.1878 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.1878 Trace   Scanning Property Layout ''${event-properties:item=RequestLogID}'' NLog.Layouts
+2019-10-11 19:47:36.1878 Trace   Scanning SimpleLayout ''${event-properties:item=RequestLogID}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestTimestamp}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestTimestamp}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestMethod}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestMethod}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestUrl}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestUrl}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestContentType}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestContentType}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestBody}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestBody}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestUser}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestUser}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=RequestTenant}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=RequestTenant}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=HasError}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=HasError}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=ErrorMessage}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=ErrorMessage}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2029 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2029 Trace   Scanning Property Layout ''${event-properties:item=ErrorStackTrace}'' NLog.Layouts
+2019-10-11 19:47:36.2029 Trace   Scanning SimpleLayout ''${event-properties:item=ErrorStackTrace}''
+2019-10-11 19:47:36.2029 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2187 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2187 Trace   Scanning Property Layout ''${event-properties:item=ResponseCode}'' NLog.Layouts
+2019-10-11 19:47:36.2187 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseCode}''
+2019-10-11 19:47:36.2187 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2187 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2187 Trace   Scanning Property Layout ''${event-properties:item=ResponseContentType}'' NLog.Layouts
+2019-10-11 19:47:36.2187 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseContentType}''
+2019-10-11 19:47:36.2187 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2187 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2187 Trace   Scanning Property Layout ''${event-properties:item=ResponseBody}'' NLog.Layouts
+2019-10-11 19:47:36.2187 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseBody}''
+2019-10-11 19:47:36.2187 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2187 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2187 Trace   Scanning Property Layout ''${event-properties:item=ResponseTimestamp}'' NLog.Layouts
+2019-10-11 19:47:36.2187 Trace   Scanning SimpleLayout ''${event-properties:item=ResponseTimestamp}''
+2019-10-11 19:47:36.2187 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2187 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2187 Trace   Scanning Property Layout ''${event-properties:item=ExecuteDuration}'' NLog.Layouts
+2019-10-11 19:47:36.2187 Trace   Scanning SimpleLayout ''${event-properties:item=ExecuteDuration}''
+2019-10-11 19:47:36.2187 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2187 Trace Database Target[databaseApiRequestLog] has 19 layouts
+2019-10-11 19:47:36.2187 Trace Initializing Layout Renderer: ${exception}
+2019-10-11 19:47:36.2187 Trace Initializing '${exception:tostring}'
+2019-10-11 19:47:36.2187 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2187 Trace Scanning SimpleLayout ''${exception:tostring}''
+2019-10-11 19:47:36.2187 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2187 Trace  Scanning ExceptionLayoutRenderer 'Layout Renderer: ${exception}'
+2019-10-11 19:47:36.2187 Trace   Scanning Property Formats 'System.Collections.Generic.List`1[NLog.Config.ExceptionRenderingFormat]' System.Collections.Generic
+2019-10-11 19:47:36.2187 Trace Initializing Layout Renderer: ${callsite}
+2019-10-11 19:47:36.2187 Trace Initializing '${callsite:filename=true}'
+2019-10-11 19:47:36.2187 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2187 Trace Scanning SimpleLayout ''${callsite:filename=true}''
+2019-10-11 19:47:36.2187 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2187 Trace  Scanning CallSiteLayoutRenderer 'Layout Renderer: ${callsite}'
+2019-10-11 19:47:36.2187 Trace Initializing Layout Renderer: ${logger}
+2019-10-11 19:47:36.2187 Trace Initializing '${logger}'
+2019-10-11 19:47:36.2187 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2187 Trace Scanning SimpleLayout ''${logger}''
+2019-10-11 19:47:36.2187 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2187 Trace  Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2019-10-11 19:47:36.2346 Trace Initializing Layout Renderer: ${message}
+2019-10-11 19:47:36.2346 Trace Initializing '${message}'
+2019-10-11 19:47:36.2346 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2346 Trace Scanning SimpleLayout ''${message}''
+2019-10-11 19:47:36.2346 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2346 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2019-10-11 19:47:36.2346 Trace Initializing Layout Renderer: ${level}
+2019-10-11 19:47:36.2346 Trace Initializing '${level}'
+2019-10-11 19:47:36.2346 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2346 Trace Scanning SimpleLayout ''${level}''
+2019-10-11 19:47:36.2346 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2346 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2019-10-11 19:47:36.2346 Trace Initializing Layout Renderer: ${date}
+2019-10-11 19:47:36.2346 Trace Initializing '${date}'
+2019-10-11 19:47:36.2346 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2346 Trace Scanning SimpleLayout ''${date}''
+2019-10-11 19:47:36.2346 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2346 Trace  Scanning DateLayoutRenderer 'Layout Renderer: ${date}'
+2019-10-11 19:47:36.2346 Trace   Scanning Property Culture '' System.Globalization
+2019-10-11 19:47:36.2346 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.2346 Trace Initializing 'AspNetCoreNlog'
+2019-10-11 19:47:36.2346 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2346 Trace Scanning SimpleLayout ''AspNetCoreNlog''
+2019-10-11 19:47:36.2346 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2346 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.2346 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.2346 Trace Initializing '.'
+2019-10-11 19:47:36.2346 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2346 Trace Scanning SimpleLayout ''.''
+2019-10-11 19:47:36.2346 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2346 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.2346 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.2346 Trace Initializing 'User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'
+2019-10-11 19:47:36.2346 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2346 Trace Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:36.2346 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2346 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.2497 Trace Initializing Layout Renderer: ${literal}
+2019-10-11 19:47:36.2497 Trace Initializing '
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '
+2019-10-11 19:47:36.2497 Trace FindReachableObject<System.Object>:
+2019-10-11 19:47:36.2497 Trace Scanning SimpleLayout ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      ''
+2019-10-11 19:47:36.2497 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2019-10-11 19:47:36.2497 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2019-10-11 19:47:36.2497 Trace Initializing Database Target[databaseGeneralLog]
+2019-10-11 19:47:36.2497 Trace FindReachableObject<NLog.Layouts.Layout>:
+2019-10-11 19:47:36.2497 Trace Scanning DatabaseTarget 'Database Target[databaseGeneralLog]'
+2019-10-11 19:47:36.2497 Trace  Scanning Property CommandText ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      '' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace  Scanning SimpleLayout ''
+        INSERT INTO "GeneralLog" (
+        Application, Logged, Level, Message,
+        Logger, CallSite, Exception
+        ) VALUES (
+        @Application, @Logged, @Level, @Message,
+        @Logger, @Callsite, @Exception
+        );
+      ''
+2019-10-11 19:47:36.2497 Trace  Scanning Property ConnectionString ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace  Scanning SimpleLayout ''User ID=postgres;Password=02020511;Host=10.0.75.1;Port=5432;Database=TestLogDB;Pooling=true;''
+2019-10-11 19:47:36.2497 Trace  Scanning Property InstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.2497 Trace  Scanning Property UninstallDdlCommands 'System.Collections.Generic.List`1[NLog.Targets.DatabaseCommandInfo]' System.Collections.Generic
+2019-10-11 19:47:36.2497 Trace  Scanning Property DBHost ''.'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace  Scanning SimpleLayout ''.''
+2019-10-11 19:47:36.2497 Trace  Scanning Property Parameters 'System.Collections.Generic.List`1[NLog.Targets.DatabaseParameterInfo]' System.Collections.Generic
+2019-10-11 19:47:36.2497 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2497 Trace   Scanning Property Layout ''AspNetCoreNlog'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace   Scanning SimpleLayout ''AspNetCoreNlog''
+2019-10-11 19:47:36.2497 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2497 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2497 Trace   Scanning Property Layout ''${date}'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace   Scanning SimpleLayout ''${date}''
+2019-10-11 19:47:36.2497 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2497 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2497 Trace   Scanning Property Layout ''${level}'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace   Scanning SimpleLayout ''${level}''
+2019-10-11 19:47:36.2497 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2497 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2497 Trace   Scanning Property Layout ''${message}'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace   Scanning SimpleLayout ''${message}''
+2019-10-11 19:47:36.2497 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2497 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2497 Trace   Scanning Property Layout ''${logger}'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace   Scanning SimpleLayout ''${logger}''
+2019-10-11 19:47:36.2497 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2497 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2497 Trace   Scanning Property Layout ''${callsite:filename=true}'' NLog.Layouts
+2019-10-11 19:47:36.2497 Trace   Scanning SimpleLayout ''${callsite:filename=true}''
+2019-10-11 19:47:36.2656 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2656 Trace  Scanning DatabaseParameterInfo 'NLog.Targets.DatabaseParameterInfo'
+2019-10-11 19:47:36.2656 Trace   Scanning Property Layout ''${exception:tostring}'' NLog.Layouts
+2019-10-11 19:47:36.2656 Trace   Scanning SimpleLayout ''${exception:tostring}''
+2019-10-11 19:47:36.2656 Trace   Scanning Property ParameterType 'System.String' System
+2019-10-11 19:47:36.2656 Trace Database Target[databaseGeneralLog] has 10 layouts
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Internal.WebHost
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Internal.ApplicationLifetime
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Server.Kestrel
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionStartupFilter
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.MvcJsonOptions
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.MvcOptions
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Formatters.JsonPatchInputFormatter
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Formatters.JsonInputFormatter
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ApiBehaviorOptions
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.ModelBinderFactory
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.ActionSelector
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.MvcRouteHandler
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Builder.RouterMiddleware
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.Tree.TreeRouter
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.RouteConstraintMatcher
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Internal.MvcAttributeRouteHandler
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder
+2019-10-11 19:47:36.2656 Debug Targets not configured for logger: Microsoft.AspNetCore.Authorization.DefaultAuthorizationService
+2019-10-11 19:47:36.2805 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Infrastructure.DefaultOutputFormatterSelector
+2019-10-11 19:47:36.2805 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor
+2019-10-11 19:47:36.2805 Debug Targets for ApiRequestLogger by level:
+2019-10-11 19:47:36.2805 Debug Trace => databaseApiRequestLog
+2019-10-11 19:47:36.2805 Debug Debug => databaseApiRequestLog
+2019-10-11 19:47:36.2805 Debug Info => databaseApiRequestLog
+2019-10-11 19:47:36.2805 Debug Warn => databaseApiRequestLog
+2019-10-11 19:47:36.2805 Debug Error => databaseApiRequestLog
+2019-10-11 19:47:36.2805 Debug Fatal => databaseApiRequestLog
+2019-10-11 19:47:36.3066 Trace DatabaseTarget(Name=databaseApiRequestLog): Executing Text: 
+        INSERT INTO "ApiRequestLog"
+        ("RequestLogID", "RequestTimestamp", "RequestMethod", "RequestUrl", "RequestContentType", "RequestBody", "RequestUser","RequestTenant",
+        "HasError", "ErrorMessage", "ErrorStackTrace", "ResponseCode", "ResponseContentType", "ResponseBody","ResponseTimestamp","ExecuteDuration")
+        VALUES
+        (CAST(@RequestLogID AS uuid), CAST(@RequestTimestamp AS timestamp), @RequestMethod, @RequestUrl, @RequestContentType, @RequestBody,@RequestUser,@RequestTenant,
+        CAST(@HasError AS bool), @ErrorMessage, @ErrorStackTrace, @ResponseCode, @ResponseContentType, @ResponseBody,CAST(@ResponseTimestamp AS timestamp),CAST(@ExecuteDuration AS int4));
+      
+2019-10-11 19:47:36.3066 Trace DatabaseTarget(Name=databaseApiRequestLog): Open connection.
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestLogID' = '3ed1b9fc-f0fb-41e2-b2e7-e8a5521ad437' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestTimestamp' = '10/11/2019 11:47:35' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestMethod' = 'GET' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestUrl' = 'http://localhost:8815/api/permission/getuserinfo/MSFT-xiaozhuang?' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestContentType' = '' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestBody' = '' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestUser' = ' xiaozhuang' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@RequestTenant' = 'MSFT' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@HasError' = 'False' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ErrorMessage' = '' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ErrorStackTrace' = '' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ResponseCode' = '200' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ResponseContentType' = 'application/json; charset=utf-8' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ResponseBody' = '{"tenantCode":"MSFT","userCode":"xiaozhuang","userName":"小庄 0202","roleCode":"","roleName":"","rolePermission":[{"functionCode":"sysuer","permissionCode":"update"}]}' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ResponseTimestamp' = '10/11/2019 11:47:35' (String)
+2019-10-11 19:47:37.0199 Trace   DatabaseTarget: Parameter: '@ExecuteDuration' = '91' (String)
+2019-10-11 19:47:37.0455 Trace DatabaseTarget(Name=databaseApiRequestLog): Finished execution, result = 1
+2019-10-11 19:47:37.0455 Trace DatabaseTarget(Name=databaseApiRequestLog): Close connection (KeepConnection = false).

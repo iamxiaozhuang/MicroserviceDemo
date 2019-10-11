@@ -71,9 +71,9 @@ namespace CommonLibrary
             if (currentUserInfo == null)
             {
                 //读取用户信息
-                var userInfo = await callGeneralServiceApi.GetUserInfo(subject);
+                currentUserInfo = await callGeneralServiceApi.GetUserInfo(subject);
 
-                await RedisHelper.SetAsync(redisKey, userInfo, 36000);
+                await RedisHelper.SetAsync(redisKey, currentUserInfo, 36000);
             }
             return currentUserInfo;
         }
