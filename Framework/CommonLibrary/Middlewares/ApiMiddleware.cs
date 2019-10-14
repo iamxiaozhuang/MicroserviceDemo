@@ -22,12 +22,12 @@ namespace CommonLibrary
     public class ApiMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ICurrentUserInfoProvider _currentUserInfoProvider;
+        private readonly IUserPermissonProvider _userPermissonProvider;
 
-        public ApiMiddleware(RequestDelegate next, ICurrentUserInfoProvider currentUserInfoProvider)
+        public ApiMiddleware(RequestDelegate next, IUserPermissonProvider userPermissonProvider)
         {
             _next = next;
-            _currentUserInfoProvider = currentUserInfoProvider;
+            _userPermissonProvider = userPermissonProvider;
         }
 
         public async Task Invoke(HttpContext context)
@@ -44,13 +44,14 @@ namespace CommonLibrary
             {
                 if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
                 {
-                    CurrentUserInfo currentUserInfo = await _currentUserInfoProvider.ReadCurrentUserInfo();
-                    if (currentUserInfo != null)
-                    {
-                        requestTenant = currentUserInfo.TenantCode;
-                        requestUser = currentUserInfo.UserName + " " + currentUserInfo.UserCode;
-                        context.Items.Add("CurrentUserInfo", currentUserInfo);
-                    }
+                    Claim userInfoClaim = context.User.FindFirst("current_user_info");
+                    CurrentUserInfo currentUserInfo = JsonConvert.DeserializeObject<CurrentUserInfo>(userInfoClaim.Value);
+                    requestTenant = currentUserInfo.TenantCode;
+                    requestUser = currentUserInfo.UserName;
+                    context.Items.Add("CurrentUserInfo", currentUserInfo);
+
+                    UserPermission userPermission = await _userPermissonProvider.GetUserPermission();
+                    context.Items.Add("CurrentUserPermission", userPermission);
                 }
                 var originalBodyStream = context.Response.Body;
                 using (var memoryResponseBody = new MemoryStream())

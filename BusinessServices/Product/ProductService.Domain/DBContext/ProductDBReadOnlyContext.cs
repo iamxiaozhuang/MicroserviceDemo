@@ -1,4 +1,5 @@
 ﻿using CommonLibrary;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace ProductService.Domain
 {
     public class ProductDBReadOnlyContext : ProductDBContext
     {
-        public ProductDBReadOnlyContext(DbContextOptions<ProductDBContext> options, ICurrentUserInfoProvider currentUserInfoProvider)
-                : base(options, currentUserInfoProvider)
+        public ProductDBReadOnlyContext(DbContextOptions<ProductDBContext> options, IHttpContextAccessor httpContextAccessor)
+                : base(options, httpContextAccessor)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }

@@ -44,7 +44,7 @@ namespace PermissionService.Api
                     options.RequireHttpsMetadata = false;
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<ICurrentUserInfoProvider, CurrentUserInfoProvider>();
+            services.AddSingleton<IUserPermissonProvider, UserPermissionProvider>();
             services.AddHttpClient<CallGeneralServiceApi>();
             services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
 

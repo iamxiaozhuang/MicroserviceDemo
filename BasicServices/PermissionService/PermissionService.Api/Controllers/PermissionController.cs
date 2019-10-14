@@ -10,25 +10,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace PermissionService.Api.Controllers
 {
     [ApiController]
-    public class PermissionController : ControllerBase
+    public class UserPermissionController : ControllerBase
     {
-        [Route("/api/permission/getuserinfo/{subject}")]
+        [Route("/api/userpermission/get/{subject}")]
         [HttpGet]
-        [ApiAuthorization("permission", "getuserinfo")]
-        public async Task<ActionResult<CurrentUserInfo>> GetCurrentUserInfo(string subject)
+        [ApiAuthorization("userpermission", "get")]
+        public async Task<ActionResult<UserPermission>> Get(string subject)
         {
             var tenantCode = subject.Split('-')[0];
             var userCode = subject.Split('-')[1];
-            CurrentUserInfo currentUserInfo = new CurrentUserInfo()
+            UserPermission userPermission = new UserPermission()
             {
-                TenantCode = tenantCode,
-                UserCode = userCode,
-                UserName = "小庄 0202",
                 RoleCode = "",
                 RoleName = "",
-                RolePermission = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "sysuer", PermissionCode = "update" } },
+                Permissions = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "sysuer", PermissionCode = "update" } },
             };
-            return currentUserInfo;
+            return userPermission;
         }
     }
 }

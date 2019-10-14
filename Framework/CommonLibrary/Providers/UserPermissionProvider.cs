@@ -11,25 +11,24 @@ using System.Threading.Tasks;
 
 namespace CommonLibrary
 {
-    public interface ICurrentUserInfoProvider
+    public interface IUserPermissonProvider
     {
-        Task<CurrentUserInfo> ReadCurrentUserInfo();
-        CurrentUserInfo GetCurrentUserInfo();
+        Task<UserPermission> GetUserPermission();
     }
 
-    public class CurrentUserInfoProvider : ICurrentUserInfoProvider
+    public class UserPermissionProvider : IUserPermissonProvider
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ICallGeneralServiceApi callGeneralServiceApi;
-        public CurrentUserInfoProvider(IHttpContextAccessor _httpContextAccessor, ICallGeneralServiceApi _callGeneralServiceApi)
+        public UserPermissionProvider(IHttpContextAccessor _httpContextAccessor, ICallGeneralServiceApi _callGeneralServiceApi)
         {
             httpContextAccessor = _httpContextAccessor;
             callGeneralServiceApi = _callGeneralServiceApi;
         }
 
-        public async Task<CurrentUserInfo> ReadCurrentUserInfo()
+        public async Task<UserPermission> GetUserPermission()
         {
-            CurrentUserInfo currentUserInfo = new CurrentUserInfo();
+            UserPermission userPermission = new UserPermission();
             if (httpContextAccessor.HttpContext.User != null &&
                  httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) 
             {
@@ -43,39 +42,36 @@ namespace CommonLibrary
                         ExceptionMessage = "Unauthorized Request."
                     };
                 }
-                if (httpContextAccessor.HttpContext.Request.Path.HasValue && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/permission/getuserinfo/"))
+                if (httpContextAccessor.HttpContext.Request.Path.HasValue && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/get/"))
                 {
-                    return new CurrentUserInfo()
+                    return new UserPermission()
                     {
-                        TenantCode = subClaim.Value.Split('-')[0],
-                        UserCode = subClaim.Value.Split('-')[1],
-                        UserName = "",
                         RoleCode = "",
                         RoleName = "",
-                        RolePermission = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "permission", PermissionCode = "getuserinfo" } },
+                        Permissions = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "userpermission", PermissionCode = "get" } },
                     };
                 }
                 else
                 {
-                    currentUserInfo = await GetCurrentUserInfoFromRedis(subClaim.Value, auth_timeClaim.Value);
+                    userPermission = await GetUserPermissonFromRedis(subClaim.Value, auth_timeClaim.Value);
                 }
             }
-            return currentUserInfo;
+            return userPermission;
         }
 
-        private async Task<CurrentUserInfo> GetCurrentUserInfoFromRedis(string subject, string auth_time)
+        private async Task<UserPermission> GetUserPermissonFromRedis(string subject, string auth_time)
         {
             //string redisKey = $"CurrentUserInfo_{subject}";
             string redisKey = $"CurrentUserInfo_{subject}_{auth_time}";
-            var currentUserInfo = await RedisHelper.GetAsync<CurrentUserInfo>(redisKey);
-            if (currentUserInfo == null)
+            var userPermission = await RedisHelper.GetAsync<UserPermission>(redisKey);
+            if (userPermission == null)
             {
                 //读取用户信息
-                currentUserInfo = await callGeneralServiceApi.GetUserInfo(subject);
+                userPermission = await callGeneralServiceApi.GetUserPermission(subject);
 
-                await RedisHelper.SetAsync(redisKey, currentUserInfo, 36000);
+                await RedisHelper.SetAsync(redisKey, userPermission, 36000);
             }
-            return currentUserInfo;
+            return userPermission;
         }
 
         public CurrentUserInfo GetCurrentUserInfo()

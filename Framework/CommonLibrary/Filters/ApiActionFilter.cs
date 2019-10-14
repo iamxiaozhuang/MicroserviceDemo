@@ -56,14 +56,14 @@ namespace CommonLibrary
                     ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} information was not found."
                 };
             }
-            if (currentUserInfo.RolePermission == null)
-            {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 401,
-                    ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} have no permission configration."
-                };
-            }
+            //if (currentUserInfo.RolePermission == null)
+            //{
+            //    throw new FriendlyException()
+            //    {
+            //        ExceptionCode = 401,
+            //        ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} have no permission configration."
+            //    };
+            //}
             ApiAuthorizationAttribute authorizationAttribute = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor)
                 .MethodInfo.GetCustomAttribute(typeof(ApiAuthorizationAttribute), false) as ApiAuthorizationAttribute;
             if (authorizationAttribute == null)
@@ -74,15 +74,15 @@ namespace CommonLibrary
                     ExceptionMessage = $"This action {context.ActionDescriptor.DisplayName} have no permission configration."
                 };
             }
-            var query = currentUserInfo.RolePermission.FirstOrDefault(p => p.FunctionCode == authorizationAttribute.FunctionCode && p.PermissionCode == authorizationAttribute.PermissionCode);
-            if (query == null)
-            {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 401,
-                    ExceptionMessage = $"This user  {httpContextAccessor.HttpContext.User.Identity.Name} have no permission for this function/permission:{authorizationAttribute.FunctionCode}/{authorizationAttribute.PermissionCode}."
-                };
-            }
+            //var query = currentUserInfo.RolePermission.FirstOrDefault(p => p.FunctionCode == authorizationAttribute.FunctionCode && p.PermissionCode == authorizationAttribute.PermissionCode);
+            //if (query == null)
+            //{
+            //    throw new FriendlyException()
+            //    {
+            //        ExceptionCode = 401,
+            //        ExceptionMessage = $"This user  {httpContextAccessor.HttpContext.User.Identity.Name} have no permission for this function/permission:{authorizationAttribute.FunctionCode}/{authorizationAttribute.PermissionCode}."
+            //    };
+            //}
         }
 
         public void OnActionExecuted(ActionExecutedContext context)

@@ -14,9 +14,9 @@ namespace CommonLibrary
 
     public interface ICallGeneralServiceApi
     {
-        [Get("/PermissionService/permission/getuserinfo/{subject}")]
+        [Get("/PermissionService/userpermission/get/{subject}")]
         [Headers("Authorization: Bearer")]
-        Task<CurrentUserInfo> GetUserInfo(string subject);
+        Task<UserPermission> GetUserPermission(string subject);
     }
 
 
@@ -42,9 +42,9 @@ namespace CommonLibrary
             }
         }
 
-        public async Task<CurrentUserInfo> GetUserInfo(string subject)
+        public async Task<UserPermission> GetUserPermission(string subject)
         {
-            return await callGenaralServiceApi.GetUserInfo(subject);
+            return await callGenaralServiceApi.GetUserPermission(subject);
         }
     }
 

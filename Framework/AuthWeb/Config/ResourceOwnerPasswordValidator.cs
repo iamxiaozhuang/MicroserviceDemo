@@ -26,17 +26,18 @@ namespace IdentityServer
         {
             // call api
             UserLoginRequest userLoginRequest = new UserLoginRequest() { UserCode = context.UserName, UserPassword = context.Password };
-            UserLoginResponse userLoginResponse = await _callAuthServiceApi.UserLogin(userLoginRequest);
-            if (!userLoginResponse.IsSuccess)
+            try
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, userLoginResponse.Message);
-            }
-            else
-            {
+                CurrentUserInfo currentUserInfo = await _callAuthServiceApi.UserLogin(userLoginRequest);
                 context.Result = new GrantValidationResult(
-                    subject: userLoginResponse.UserCode,
-                    authenticationMethod: "custom"
-                );
+                   subject: userLoginRequest.UserCode,
+                   authenticationMethod: "custom",
+                   claims: new Claim[] { new Claim("current_user_info", JsonConvert.SerializeObject(currentUserInfo)) }
+               );
+            }
+            catch(Exception ex)
+            {
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, ex == null ? "InvalidGrant" : ex.Message);
             }
         }
 

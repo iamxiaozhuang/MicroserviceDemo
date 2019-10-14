@@ -1,4 +1,5 @@
 ﻿using CommonLibrary;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Domain;
 using System;
@@ -18,9 +19,9 @@ namespace ProductService.Domain
     public class ProductDBContext : DbContext
     {
         private readonly CurrentUserInfo currentUserInfo;
-        public ProductDBContext(DbContextOptions<ProductDBContext> options, ICurrentUserInfoProvider currentUserInfoProvider) : base(options)
+        public ProductDBContext(DbContextOptions<ProductDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
-            currentUserInfo = currentUserInfoProvider.GetCurrentUserInfo();
+            currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
             //currentUserInfo = new CurrentUserInfo();
         }
 
