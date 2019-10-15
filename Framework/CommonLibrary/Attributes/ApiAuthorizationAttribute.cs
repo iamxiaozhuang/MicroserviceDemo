@@ -11,23 +11,15 @@ namespace CommonLibrary
     public class ApiAuthorizationAttribute : Attribute
     {
 
-        private readonly string functionCode, permissionCode;
-        public ApiAuthorizationAttribute(string _functionCode, string _permissionCode)
+        private readonly string resourceCode;
+        public ApiAuthorizationAttribute(string _resourceCode)
         {
-            functionCode = _functionCode;
-            permissionCode = _permissionCode;
+            resourceCode = _resourceCode;
         }
 
-        public string  FunctionCode {
+        public string  ResourceCode {
             get {
-                return functionCode;
-            }
-        }
-        public string PermissionCode
-        {
-            get
-            {
-                return permissionCode;
+                return resourceCode;
             }
         }
 

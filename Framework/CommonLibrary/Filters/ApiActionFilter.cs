@@ -39,7 +39,7 @@ namespace CommonLibrary
             }
 
             //当前人员权限验证
-            if (!httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) //external
+            if (!httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) 
             {
                 throw new FriendlyException()
                 {
@@ -56,14 +56,15 @@ namespace CommonLibrary
                     ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} information was not found."
                 };
             }
-            //if (currentUserInfo.RolePermission == null)
-            //{
-            //    throw new FriendlyException()
-            //    {
-            //        ExceptionCode = 401,
-            //        ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} have no permission configration."
-            //    };
-            //}
+            CurrentUserPermission currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as CurrentUserPermission;
+            if (currentUserPermission == null)
+            {
+                throw new FriendlyException()
+                {
+                    ExceptionCode = 401,
+                    ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} permission information was not found."
+                };
+            }
             ApiAuthorizationAttribute authorizationAttribute = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor)
                 .MethodInfo.GetCustomAttribute(typeof(ApiAuthorizationAttribute), false) as ApiAuthorizationAttribute;
             if (authorizationAttribute == null)
@@ -71,18 +72,18 @@ namespace CommonLibrary
                 throw new FriendlyException()
                 {
                     ExceptionCode = 401,
-                    ExceptionMessage = $"This action {context.ActionDescriptor.DisplayName} have no permission configration."
+                    ExceptionMessage = $"This action {context.ActionDescriptor.DisplayName} have no authorization attribute configration."
                 };
             }
-            //var query = currentUserInfo.RolePermission.FirstOrDefault(p => p.FunctionCode == authorizationAttribute.FunctionCode && p.PermissionCode == authorizationAttribute.PermissionCode);
-            //if (query == null)
-            //{
-            //    throw new FriendlyException()
-            //    {
-            //        ExceptionCode = 401,
-            //        ExceptionMessage = $"This user  {httpContextAccessor.HttpContext.User.Identity.Name} have no permission for this function/permission:{authorizationAttribute.FunctionCode}/{authorizationAttribute.PermissionCode}."
-            //    };
-            //}
+            var query = currentUserPermission.AllowResourceCodes.FirstOrDefault(p => p == authorizationAttribute.ResourceCode);
+            if (query == null)
+            {
+                throw new FriendlyException()
+                {
+                    ExceptionCode = 401,
+                    ExceptionMessage = $"This user  {httpContextAccessor.HttpContext.User.Identity.Name} have no permission for this resource : {authorizationAttribute.ResourceCode}."
+                };
+            }
         }
 
         public void OnActionExecuted(ActionExecutedContext context)

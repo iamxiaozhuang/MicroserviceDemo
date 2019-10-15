@@ -14,18 +14,19 @@ namespace PermissionService.Api.Controllers
     {
         [Route("/api/userpermission/get/{subject}")]
         [HttpGet]
-        [ApiAuthorization("userpermission", "get")]
-        public async Task<ActionResult<UserPermission>> Get(string subject)
+        [ApiAuthorization("userpermission.get")]
+        public async Task<ActionResult<CurrentUserPermission>> Get(string subject)
         {
             var tenantCode = subject.Split('-')[0];
             var userCode = subject.Split('-')[1];
-            UserPermission userPermission = new UserPermission()
+            CurrentUserPermission userPermission = new CurrentUserPermission()
             {
                 RoleCode = "",
                 RoleName = "",
-                Permissions = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "sysuer", PermissionCode = "update" } },
+                AllowResourceCodes = new List<string>() { "values.getuserclaims" } 
             };
             return userPermission;
         }
+
     }
 }

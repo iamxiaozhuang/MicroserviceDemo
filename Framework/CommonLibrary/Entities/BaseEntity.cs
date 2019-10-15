@@ -8,10 +8,6 @@ namespace CommonLibrary
 {
     public class BaseEntity
     {
-        [Key]
-        /// <summary>
-        /// ID
-        /// </summary>
         public Guid ID { get; set; }
         public DateTimeOffset CreateIn { get; set; }
         public string CreatedBy { get; set; }
@@ -33,6 +29,11 @@ namespace CommonLibrary
 
     }
 
+    public class BaseEntityWithScope : BaseEntity
+    {
+        public string ScopeCode { get; set; }
+    }
+
     [Table("Recycle")]
     public class Recycle : BaseEntity
     {
@@ -47,7 +48,7 @@ namespace CommonLibrary
         /// <summary>
         /// 记录的主键
         /// </summary>
-        public string RowKey { get; set; }
+        public Guid RowKey { get; set; }
 
         [Required]
         /// <summary>

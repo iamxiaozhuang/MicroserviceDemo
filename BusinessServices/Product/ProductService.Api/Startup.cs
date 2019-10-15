@@ -37,7 +37,7 @@ namespace ProductService.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore(options => options.Filters.Add(new AuthorizeFilter()))
+            services.AddMvcCore(options => options.Filters.Add(typeof(ApiActionFilter)))
                 .AddAuthorization()
                 .AddJsonFormatters()
                 .AddApiExplorer();

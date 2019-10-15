@@ -41,7 +41,7 @@ namespace ProductService.Api.Controllers
         /// <param name="value"></param>
         [HttpPost]
         [Produces("application/json")]
-        [ApiAuthorization("product", "add")]
+        [ApiAuthorization("product.add")]
         public async Task<ActionResult<int>> AddProduct([FromBody] AddProductModel value)
         {
             return Ok(await _mediator.Send(new AddProductRequest() { AddProductModel = value }));

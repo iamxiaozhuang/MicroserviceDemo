@@ -12,10 +12,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PermissionService.Domain;
 
 namespace PermissionService.Api
 {
@@ -31,7 +33,7 @@ namespace PermissionService.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore(options => options.Filters.Add(new AuthorizeFilter()))
+            services.AddMvcCore(options => options.Filters.Add(typeof(ApiActionFilter)))
                 .AddAuthorization()
                 .AddJsonFormatters()
                 .AddApiExplorer();
@@ -48,7 +50,7 @@ namespace PermissionService.Api
             services.AddHttpClient<CallGeneralServiceApi>();
             services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
 
-            //services.AddDbContext<ProductDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
+            services.AddDbContext<PermissionDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
             //services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
             services.Configure<ApiBehaviorOptions>(options =>
             {

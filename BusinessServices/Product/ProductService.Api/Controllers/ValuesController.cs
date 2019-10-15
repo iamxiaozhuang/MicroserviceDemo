@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -20,8 +21,9 @@ namespace ProductService.Api.Controllers
             return new string[] { "value1", "value2","From ProductService" };
         }
 
-        [Route("/api/values/testapi")]
+        [Route("/api/values/getuserclaims")]
         [HttpGet]
+        [ApiAuthorization("values.getuserclaims")]
         public async Task<ActionResult<Dictionary<string,string>>> TestApi()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();

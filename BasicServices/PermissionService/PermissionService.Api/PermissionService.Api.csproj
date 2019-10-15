@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
+    <ProjectReference Include="..\PermissionService.Domain\PermissionService.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

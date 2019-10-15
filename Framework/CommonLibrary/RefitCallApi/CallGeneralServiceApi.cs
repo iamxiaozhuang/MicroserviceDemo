@@ -16,7 +16,7 @@ namespace CommonLibrary
     {
         [Get("/PermissionService/userpermission/get/{subject}")]
         [Headers("Authorization: Bearer")]
-        Task<UserPermission> GetUserPermission(string subject);
+        Task<CurrentUserPermission> GetUserPermission(string subject);
     }
 
 
@@ -42,7 +42,7 @@ namespace CommonLibrary
             }
         }
 
-        public async Task<UserPermission> GetUserPermission(string subject)
+        public async Task<CurrentUserPermission> GetUserPermission(string subject)
         {
             return await callGenaralServiceApi.GetUserPermission(subject);
         }

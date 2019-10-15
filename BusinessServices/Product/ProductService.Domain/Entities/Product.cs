@@ -8,7 +8,7 @@ using System.Text;
 namespace ProductService.Domain
 {
     [Table("Product")]
-    public class Product : BaseEntity
+    public class Product : BaseEntityWithScope
     {
         [Required]
         public string ProductCode { get; set; }

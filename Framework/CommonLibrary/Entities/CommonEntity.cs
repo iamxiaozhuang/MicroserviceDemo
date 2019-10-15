@@ -13,18 +13,16 @@ namespace CommonLibrary
         public string UserPhone { get; set; }
     }
 
-    public class UserPermission
+    public class CurrentUserPermission
     {
         public string RoleCode { get; set; }
         public string RoleName { get; set; }
-        public List<FunctionPermission> Permissions { get; set; }
+        public List<string> AllowResourceCodes { get; set; }
+        public string ScopeCode { get; set; }
+        public string ScopeName { get; set; }
+        public List<string> AllowScopeCodes { get; set; }
+
     }
 
 
-
-    public class FunctionPermission
-    {
-        public string FunctionCode { get; set; }
-        public string PermissionCode { get; set; }
-    }
 }

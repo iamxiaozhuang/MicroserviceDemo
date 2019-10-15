@@ -13,7 +13,7 @@ namespace CommonLibrary
 {
     public interface IUserPermissonProvider
     {
-        Task<UserPermission> GetUserPermission();
+        Task<CurrentUserPermission> GetCurrentUserPermission();
     }
 
     public class UserPermissionProvider : IUserPermissonProvider
@@ -26,44 +26,43 @@ namespace CommonLibrary
             callGeneralServiceApi = _callGeneralServiceApi;
         }
 
-        public async Task<UserPermission> GetUserPermission()
+        public async Task<CurrentUserPermission> GetCurrentUserPermission()
         {
-            UserPermission userPermission = new UserPermission();
-            if (httpContextAccessor.HttpContext.User != null &&
-                 httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) 
+            if (!httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
-                Claim subClaim = httpContextAccessor.HttpContext.User.FindFirst("sub");
-                Claim auth_timeClaim = httpContextAccessor.HttpContext.User.FindFirst("auth_time");
-                if (subClaim == null || auth_timeClaim == null)
+                throw new FriendlyException()
                 {
-                    throw new FriendlyException()
-                    {
-                        ExceptionCode = 401,
-                        ExceptionMessage = "Unauthorized Request."
-                    };
-                }
-                if (httpContextAccessor.HttpContext.Request.Path.HasValue && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/get/"))
-                {
-                    return new UserPermission()
-                    {
-                        RoleCode = "",
-                        RoleName = "",
-                        Permissions = new List<FunctionPermission>() { new FunctionPermission() { FunctionCode = "userpermission", PermissionCode = "get" } },
-                    };
-                }
-                else
-                {
-                    userPermission = await GetUserPermissonFromRedis(subClaim.Value, auth_timeClaim.Value);
-                }
+                    ExceptionCode = 401,
+                    ExceptionMessage = "Unauthorized Request."
+                };
             }
-            return userPermission;
+            Claim subClaim = httpContextAccessor.HttpContext.User.FindFirst("sub");
+            Claim auth_timeClaim = httpContextAccessor.HttpContext.User.FindFirst("auth_time");
+            if (subClaim == null || auth_timeClaim == null)
+            {
+                throw new FriendlyException()
+                {
+                    ExceptionCode = 401,
+                    ExceptionMessage = "The user claim: sub or auth_time is null."
+                };
+            }
+            if (httpContextAccessor.HttpContext.Request.Path.HasValue && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/get/"))
+            {
+                return new CurrentUserPermission()
+                {
+                    RoleCode = "",
+                    RoleName = "",
+                    AllowResourceCodes = new List<string>() { "userpermission.get" }
+                };
+            }
+            return await GetUserPermissonFromRedis(subClaim.Value, auth_timeClaim.Value); ;
         }
 
-        private async Task<UserPermission> GetUserPermissonFromRedis(string subject, string auth_time)
+        private async Task<CurrentUserPermission> GetUserPermissonFromRedis(string subject, string auth_time)
         {
             //string redisKey = $"CurrentUserInfo_{subject}";
-            string redisKey = $"CurrentUserInfo_{subject}_{auth_time}";
-            var userPermission = await RedisHelper.GetAsync<UserPermission>(redisKey);
+            string redisKey = $"CurrentUserPermission_{subject}_{auth_time}";
+            var userPermission = await RedisHelper.GetAsync<CurrentUserPermission>(redisKey);
             if (userPermission == null)
             {
                 //读取用户信息
@@ -72,21 +71,6 @@ namespace CommonLibrary
                 await RedisHelper.SetAsync(redisKey, userPermission, 36000);
             }
             return userPermission;
-        }
-
-        public CurrentUserInfo GetCurrentUserInfo()
-        {
-
-            CurrentUserInfo currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
-            if (currentUserInfo == null)
-            {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 400,
-                    ExceptionMessage = $"CurrentUserInfo is null."
-                };
-            }
-            return currentUserInfo;
         }
     }
 

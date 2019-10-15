@@ -50,7 +50,7 @@ namespace CommonLibrary
                     requestUser = currentUserInfo.UserName;
                     context.Items.Add("CurrentUserInfo", currentUserInfo);
 
-                    UserPermission userPermission = await _userPermissonProvider.GetUserPermission();
+                    CurrentUserPermission userPermission = await _userPermissonProvider.GetCurrentUserPermission();
                     context.Items.Add("CurrentUserPermission", userPermission);
                 }
                 var originalBodyStream = context.Response.Body;

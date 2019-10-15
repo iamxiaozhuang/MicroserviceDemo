@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using ProductService.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,51 +10,75 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProductService.Domain
+namespace PermissionService.Domain
 {
     /// <summary>
-    /// Add-Migration 20191009 -Context ProductDBContext
-    /// Update-Database -Context ProductDBContext
+    /// Add-Migration 20191015 -Context PermissionDBContext
+    /// Update-Database -Context PermissionDBContext
     /// </summary>
-    public class ProductDBContext : DbContext
+    public class PermissionDBContext : DbContext
     {
         private readonly CurrentUserInfo currentUserInfo;
-        private readonly CurrentUserPermission currentUserPermission;
-        public ProductDBContext(DbContextOptions<ProductDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+        public PermissionDBContext(DbContextOptions<PermissionDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
-            currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as CurrentUserPermission;
             //currentUserInfo = new CurrentUserInfo();
         }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Principal> Principals { get; set; }
+        public DbSet<Scope> Scopes { get; set; }
+        public DbSet<RoleAssignment> RoleAssignments { get; set; }
+
         public DbSet<Recycle> Recycles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Category>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Category>().HasIndex(p => p.TenantCode);
-            builder.Entity<Category>().HasIndex(p => new { p.TenantCode, p.CategoryCode }).IsUnique(true);
+            builder.Entity<Resource>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<Resource>().HasIndex(p => p.TenantCode);
+            builder.Entity<Resource>().HasIndex(p => new { p.TenantCode, p.ResourceCode }).IsUnique(true);
+            builder.Entity<Resource>().HasOne<Resource>(p => p.ParentResource).WithMany(p => p.ChildrenResources)
+              .HasForeignKey(s => new { s.TenantCode, s.ParentResourceID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
 
-            builder.Entity<Product>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Product>().HasIndex(p => p.TenantCode);
-            builder.Entity<Product>().HasIndex(p => new { p.TenantCode, p.ProductCode }).IsUnique(true);
-            builder.Entity<Product>().HasOne<Category>(p => p.Category).WithMany(p => p.Products)
-                .HasForeignKey(s => new { s.TenantCode, s.CategoryId }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Product>().Property(d => d.ProductProfile).HasColumnType("json");
+            builder.Entity<Role>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<Role>().HasIndex(p => p.TenantCode);
+            builder.Entity<Role>().HasIndex(p => new { p.TenantCode, p.RoleCode }).IsUnique(true);
+
+            builder.Entity<RolePermission>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<RolePermission>().HasIndex(p => p.TenantCode);
+            builder.Entity<RolePermission>().HasOne<Resource>(p => p.Resource).WithMany(p => p.RolePermissions)
+                .HasForeignKey(s => new { s.TenantCode, s.ResourceID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<RolePermission>().HasOne<Role>(p => p.Role).WithMany(p => p.RolePermissions)
+                .HasForeignKey(s => new { s.TenantCode, s.RoleID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
+
+            builder.Entity<Principal>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<Principal>().HasIndex(p => p.TenantCode);
+            builder.Entity<Principal>().HasIndex(p => new { p.TenantCode, p.PrincipalCode }).IsUnique(true);
+
+            builder.Entity<Scope>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<Scope>().HasIndex(p => p.TenantCode);
+            builder.Entity<Scope>().HasIndex(p => new { p.TenantCode, p.ScopeCode }).IsUnique(true);
+            builder.Entity<Scope>().HasOne<Scope>(p => p.ParentScope).WithMany(p => p.ChildrenScopes)
+              .HasForeignKey(s => new { s.TenantCode, s.ParentScopeID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
+
+            builder.Entity<RoleAssignment>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<RoleAssignment>().HasIndex(p => p.TenantCode);
+            builder.Entity<RoleAssignment>().HasOne<Principal>(p => p.Principal).WithMany(p => p.RoleAssignments)
+           .HasForeignKey(s => new { s.TenantCode, s.PrincipalID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<RoleAssignment>().HasOne<Role>(p => p.Role).WithMany(p => p.RoleAssignments)
+                .HasForeignKey(s => new { s.TenantCode, s.RoleID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<RoleAssignment>().HasOne<Scope>(p => p.Scope).WithMany(p => p.RoleAssignments)
+             .HasForeignKey(s => new { s.TenantCode, s.ScopeID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
+
 
             builder.Entity<Recycle>().HasKey(p => new { p.TenantCode, p.ID });
             builder.Entity<Recycle>().HasIndex(p => p.TenantCode);
 
+
             foreach (var entityType in GetBaseEntityTypes(builder))
             {
                 GlobalTenantQueryMethodInfo.MakeGenericMethod(entityType)
-                 .Invoke(this, new object[] { builder });
-            }
-
-            foreach (var entityType in GetBaseEntityWithScopeTypes(builder))
-            {
-                GlobalScopeQueryMethodInfo.MakeGenericMethod(entityType)
                  .Invoke(this, new object[] { builder });
             }
 
@@ -82,6 +105,7 @@ namespace ProductService.Domain
         {
             var nowTime = DateTimeOffset.UtcNow;
             var deleteBatchID = Guid.NewGuid();
+
             foreach (var entry in this.ChangeTracker.Entries<BaseEntity>().Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
             {
                 var entity = entry.Entity;
@@ -127,30 +151,11 @@ namespace ProductService.Domain
                                      select t.ClrType).ToList();
             return _baseEntityTypesCache;
         }
-        static readonly MethodInfo GlobalTenantQueryMethodInfo = typeof(ProductDBContext).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        static readonly MethodInfo GlobalTenantQueryMethodInfo = typeof(PermissionDBContext).GetMethods(BindingFlags.Public | BindingFlags.Instance)
                                                        .Single(t => t.IsGenericMethod && t.Name == "SetGlobalTenantQuery");
         public void SetGlobalTenantQuery<T>(ModelBuilder builder) where T : BaseEntity
         {
             builder.Entity<T>().HasQueryFilter(e => e.TenantCode == currentUserInfo.TenantCode);
-        }
-        #endregion
-
-        #region 数据权限Scope全局查询过滤
-        private static IList<Type> _baseEntityWithScopeTypesCache;
-        private static IList<Type> GetBaseEntityWithScopeTypes(ModelBuilder builder)
-        {
-            if (_baseEntityWithScopeTypesCache != null)
-                return _baseEntityWithScopeTypesCache.ToList();
-            _baseEntityWithScopeTypesCache = (from t in builder.Model.GetEntityTypes()
-                                     where t.ClrType.BaseType == typeof(BaseEntityWithScope)
-                                     select t.ClrType).ToList();
-            return _baseEntityWithScopeTypesCache;
-        }
-        static readonly MethodInfo GlobalScopeQueryMethodInfo = typeof(ProductDBContext).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                                       .Single(t => t.IsGenericMethod && t.Name == "SetGlobalScopeQuery");
-        public void SetGlobalScopeQuery<T>(ModelBuilder builder) where T : BaseEntityWithScope
-        {
-            builder.Entity<T>().HasQueryFilter(e => currentUserPermission.AllowScopeCodes.Contains(e.ScopeCode));
         }
         #endregion
     }

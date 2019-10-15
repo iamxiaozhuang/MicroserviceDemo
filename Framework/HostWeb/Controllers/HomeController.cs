@@ -50,7 +50,7 @@ namespace HostWeb.Controllers
 
     public interface ICallTestApi
     {
-        [Get("/ProductService/values/testapi")]
+        [Get("/ProductService/values/getuserclaims")]
         [Headers("Authorization: Bearer")]
         Task<Dictionary<string, string>> CallTestApi();
 
