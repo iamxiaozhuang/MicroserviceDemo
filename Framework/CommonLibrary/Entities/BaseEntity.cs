@@ -26,13 +26,21 @@ namespace CommonLibrary
                 tenantCode = value;
             }
         }
+        private string scopeCode;
+        public string ScopeCode
+        {
+            get
+            {
+                return scopeCode == null ? "" : scopeCode;
+            }
+            set
+            {
+                scopeCode = value;
+            }
+        }
 
     }
 
-    public class BaseEntityWithScope : BaseEntity
-    {
-        public string ScopeCode { get; set; }
-    }
 
     [Table("Recycle")]
     public class Recycle : BaseEntity

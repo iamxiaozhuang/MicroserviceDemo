@@ -8,7 +8,7 @@ using CommonLibrary;
 namespace ProductService.Domain
 {
     [Table("Category")]
-    public class Category : BaseEntityWithScope
+    public class Category : BaseEntity
     {
         [Required]
         public string CategoryCode { get; set; }

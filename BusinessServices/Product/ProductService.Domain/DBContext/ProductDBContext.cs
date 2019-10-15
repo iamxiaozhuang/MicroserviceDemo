@@ -53,12 +53,6 @@ namespace ProductService.Domain
                  .Invoke(this, new object[] { builder });
             }
 
-            foreach (var entityType in GetBaseEntityWithScopeTypes(builder))
-            {
-                GlobalScopeQueryMethodInfo.MakeGenericMethod(entityType)
-                 .Invoke(this, new object[] { builder });
-            }
-
             base.OnModelCreating(builder);
         }
 
@@ -132,26 +126,12 @@ namespace ProductService.Domain
         public void SetGlobalTenantQuery<T>(ModelBuilder builder) where T : BaseEntity
         {
             builder.Entity<T>().HasQueryFilter(e => e.TenantCode == currentUserInfo.TenantCode);
+            //数据权限Scope全局查询过滤
+            if (currentUserPermission.AllowScopeCodes != null && currentUserPermission.AllowScopeCodes.Count > 0)
+                builder.Entity<T>().HasQueryFilter(e => currentUserPermission.AllowScopeCodes.Contains(e.ScopeCode));
         }
         #endregion
 
-        #region 数据权限Scope全局查询过滤
-        private static IList<Type> _baseEntityWithScopeTypesCache;
-        private static IList<Type> GetBaseEntityWithScopeTypes(ModelBuilder builder)
-        {
-            if (_baseEntityWithScopeTypesCache != null)
-                return _baseEntityWithScopeTypesCache.ToList();
-            _baseEntityWithScopeTypesCache = (from t in builder.Model.GetEntityTypes()
-                                     where t.ClrType.BaseType == typeof(BaseEntityWithScope)
-                                     select t.ClrType).ToList();
-            return _baseEntityWithScopeTypesCache;
-        }
-        static readonly MethodInfo GlobalScopeQueryMethodInfo = typeof(ProductDBContext).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                                       .Single(t => t.IsGenericMethod && t.Name == "SetGlobalScopeQuery");
-        public void SetGlobalScopeQuery<T>(ModelBuilder builder) where T : BaseEntityWithScope
-        {
-            builder.Entity<T>().HasQueryFilter(e => currentUserPermission.AllowScopeCodes.Contains(e.ScopeCode));
-        }
-        #endregion
+        
     }
 }
