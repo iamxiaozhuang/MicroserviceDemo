@@ -46,16 +46,6 @@ namespace CommonLibrary
                     ExceptionMessage = "The user claim: sub or auth_time is null."
                 };
             }
-            if (httpContextAccessor.HttpContext.Request.Path.HasValue && (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/getroles/")
-                 || httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/getpermission/")))
-            {
-                return new CurrentUserPermission()
-                {
-                    RoleCode = "",
-                    ScopeCode = "",
-                    AllowResourceCodes = new List<string>() { "userpermission.get-role-assignments", "userpermission.get-permission" }
-                };
-            }
             return await GetUserPermissonFromRedis(subClaim.Value, auth_timeClaim.Value); ;
         }
 

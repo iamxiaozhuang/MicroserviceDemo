@@ -7,10 +7,12 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BusinessServices\Product\ProductService.Application\ProductService.Application.csproj" />
     <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
     <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
   </ItemGroup>

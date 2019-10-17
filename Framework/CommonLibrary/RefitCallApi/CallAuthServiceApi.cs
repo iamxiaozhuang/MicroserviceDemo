@@ -15,6 +15,14 @@ namespace CommonLibrary
         [Post("/AuthService/account/userlogin")]
         [Headers("Authorization: Bearer")]
         Task<CurrentUserInfo> UserLogin([Body] UserLoginRequest request);
+
+        [Get("/AuthService/account/getroles/{principalCode}")]
+        [Headers("Authorization: Bearer")]
+        Task<List<RoleAssignmentModel>> GetRoleAssignments(string principalCode);
+
+        [Get("/AuthService/account/getpermission/{principalID}")]
+        [Headers("Authorization: Bearer")]
+        Task<CurrentUserPermission> GetPermission(Guid principalID);
     }
 
 
@@ -70,6 +78,15 @@ namespace CommonLibrary
             return await callAuthServiceApi.UserLogin(userLoginRequest);
         }
 
+        public async Task<List<RoleAssignmentModel>> GetRoleAssignments(string principalCode)
+        {
+            return await callAuthServiceApi.GetRoleAssignments(principalCode);
+        }
+
+        public async Task<CurrentUserPermission> GetPermission(Guid principalID)
+        {
+            return await callAuthServiceApi.GetPermission(principalID);
+        }
     }
 
     public class UserLoginRequest
