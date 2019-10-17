@@ -51,7 +51,7 @@ namespace PermissionService.Api
             services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
 
             services.AddDbContext<PermissionDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
-            //services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
+            services.AddDbContext<PermissionDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证

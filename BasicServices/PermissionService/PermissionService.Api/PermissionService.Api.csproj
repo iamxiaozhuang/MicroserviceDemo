@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.6" />
     <PackageReference Include="Npgsql" Version="4.1.1" />
@@ -16,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
+    <ProjectReference Include="..\PermissionService.Application\PermissionService.Application.csproj" />
     <ProjectReference Include="..\PermissionService.Domain\PermissionService.Domain.csproj" />
   </ItemGroup>
 

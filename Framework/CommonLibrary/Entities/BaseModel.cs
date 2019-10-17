@@ -6,7 +6,7 @@ namespace CommonLibrary
 {
     public class BaseModel
     {
-       
+        public Guid ID { get; set; }
     }
 
 

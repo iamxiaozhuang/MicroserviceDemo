@@ -46,13 +46,14 @@ namespace CommonLibrary
                     ExceptionMessage = "The user claim: sub or auth_time is null."
                 };
             }
-            if (httpContextAccessor.HttpContext.Request.Path.HasValue && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/get/"))
+            if (httpContextAccessor.HttpContext.Request.Path.HasValue && (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/getroles/")
+                 || httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/userpermission/getpermission/")))
             {
                 return new CurrentUserPermission()
                 {
                     RoleCode = "",
-                    RoleName = "",
-                    AllowResourceCodes = new List<string>() { "userpermission.get" }
+                    ScopeCode = "",
+                    AllowResourceCodes = new List<string>() { "userpermission.get-role-assignments", "userpermission.get-permission" }
                 };
             }
             return await GetUserPermissonFromRedis(subClaim.Value, auth_timeClaim.Value); ;
@@ -60,13 +61,13 @@ namespace CommonLibrary
 
         private async Task<CurrentUserPermission> GetUserPermissonFromRedis(string subject, string auth_time)
         {
-            //string redisKey = $"CurrentUserInfo_{subject}";
             string redisKey = $"CurrentUserPermission_{subject}_{auth_time}";
             var userPermission = await RedisHelper.GetAsync<CurrentUserPermission>(redisKey);
             if (userPermission == null)
             {
-                //读取用户信息
-                userPermission = await callGeneralServiceApi.GetUserPermission(subject);
+                //
+                var principalCode = subject.Split('-')[1];
+                userPermission = await callGeneralServiceApi.GetUserPermission(principalCode);
 
                 await RedisHelper.SetAsync(redisKey, userPermission, 36000);
             }

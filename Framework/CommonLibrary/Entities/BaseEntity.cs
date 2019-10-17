@@ -26,16 +26,16 @@ namespace CommonLibrary
                 tenantCode = value;
             }
         }
-        private string scopeCode;
-        public string ScopeCode
+        private string ownerScopeCode;
+        public string OwnerScopeCode
         {
             get
             {
-                return scopeCode == null ? "" : scopeCode;
+                return ownerScopeCode == null ? "" : ownerScopeCode;
             }
             set
             {
-                scopeCode = value;
+                ownerScopeCode = value;
             }
         }
 

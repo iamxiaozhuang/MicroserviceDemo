@@ -13,6 +13,8 @@ namespace PermissionService.Domain
         [Required]
         public string ResourceCode { get; set; }
         [Required]
+        public string FullResourceCode { get; set; }
+        [Required]
         public string ResourceName { get; set; }
         [Required]
         public EnumResourceType ResourceType { get; set; }
@@ -24,6 +26,10 @@ namespace PermissionService.Domain
         public virtual ICollection<Resource> ChildrenResources { get; set; }
 
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
+
+        [Required]
+        public int SortNo { get; set; }
+
         public string ResourceDesc{ get; set; }
     }
 
@@ -45,6 +51,8 @@ namespace PermissionService.Domain
         public EnumRoleType RoleType { get; set; }
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
         public virtual ICollection<RoleAssignment> RoleAssignments { get; set; }
+        [Required]
+        public int SortNo { get; set; }
         public string RoleDesc { get; set; }
     }
     public enum EnumRoleType
@@ -81,6 +89,8 @@ namespace PermissionService.Domain
         [Required]
         public string ScopeCode { get; set; }
         [Required]
+        public string FullScopeCode { get; set; }
+        [Required]
         public string ScopeName { get; set; }
         [Required]
         public Guid ParentScopeID { get; set; }
@@ -89,6 +99,9 @@ namespace PermissionService.Domain
         public virtual ICollection<Scope> ChildrenScopes { get; set; }
 
         public virtual ICollection<RoleAssignment> RoleAssignments { get; set; }
+
+        [Required]
+        public int SortNo { get; set; }
         public string ScopeDesc { get; set; }
     }
 

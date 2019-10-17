@@ -84,6 +84,8 @@ namespace ProductService.Domain
                     case EntityState.Added:
                         if (entity.TenantCode == "")
                             entity.TenantCode = currentUserInfo.TenantCode;
+                        if (entity.OwnerScopeCode == "")
+                            entity.OwnerScopeCode = currentUserPermission.ScopeCode;
                         entity.CreateIn = nowTime;
                         entity.CreatedBy = currentUserInfo.UserName;
                         break;
@@ -127,8 +129,8 @@ namespace ProductService.Domain
         {
             builder.Entity<T>().HasQueryFilter(e => e.TenantCode == currentUserInfo.TenantCode);
             //数据权限Scope全局查询过滤
-            if (currentUserPermission.AllowScopeCodes != null && currentUserPermission.AllowScopeCodes.Count > 0)
-                builder.Entity<T>().HasQueryFilter(e => currentUserPermission.AllowScopeCodes.Contains(e.ScopeCode));
+            if (currentUserPermission.AllowScopeCodes != null && currentUserPermission.AllowScopeCodes.Count() > 0)
+                builder.Entity<T>().HasQueryFilter(e => currentUserPermission.AllowScopeCodes.Contains(e.OwnerScopeCode));
         }
         #endregion
 

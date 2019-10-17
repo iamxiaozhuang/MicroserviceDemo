@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
+    <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

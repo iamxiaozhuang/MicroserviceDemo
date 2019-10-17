@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthService.Application;
+using AuthService.Domain;
 using CommonLibrary;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +15,12 @@ namespace AuthService.Api.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+
+        protected readonly IMediator _mediator;
+        public AccountController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
         /// <summary>
         /// user auth
         /// </summary>
@@ -37,6 +46,22 @@ namespace AuthService.Api.Controllers
                 UserEmail = "",
                 UserPhone = "" 
             };
+        }
+
+       
+
+        [Route("/api/account/getroles/{principalCode}")]
+        [HttpGet]
+        public async Task<ActionResult<List<RoleAssignmentModel>>> GetRoleAssignments(string principalCode)
+        {
+            return Ok(await _mediator.Send(new GetRoleAssignmentsRequest() { PrincipalCode = principalCode }));
+        }
+
+        [Route("/api/account/getpermission/{principalID}")]
+        [HttpGet]
+        public async Task<ActionResult<CurrentUserPermission>> GetPermission(Guid RoleAssignmentID)
+        {
+            return Ok(await _mediator.Send(new GetUserPermissionRequest() { RoleAssignmentID = RoleAssignmentID }));
         }
 
 

@@ -9,7 +9,6 @@ namespace ProductService.Domain.Models
 {
     public class AddProductModel : BaseModel
     {
-        public Guid ID { get; set; }
         [Required(ErrorMessage = "Product Code is required")]
         public string ProductCode { get; set; }
         [Required(ErrorMessage = "Product Name is required")]
