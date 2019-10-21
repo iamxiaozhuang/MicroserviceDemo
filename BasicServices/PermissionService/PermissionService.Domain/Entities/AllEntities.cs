@@ -28,7 +28,7 @@ namespace PermissionService.Domain
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
 
         [Required]
-        public int SortNo { get; set; }
+        public int SortNO { get; set; }
 
         public string ResourceDesc{ get; set; }
     }
@@ -52,7 +52,7 @@ namespace PermissionService.Domain
         public virtual ICollection<RolePermission> RolePermissions { get; set; }
         public virtual ICollection<RoleAssignment> RoleAssignments { get; set; }
         [Required]
-        public int SortNo { get; set; }
+        public int SortNO { get; set; }
         public string RoleDesc { get; set; }
     }
     public enum EnumRoleType
@@ -101,7 +101,7 @@ namespace PermissionService.Domain
         public virtual ICollection<RoleAssignment> RoleAssignments { get; set; }
 
         [Required]
-        public int SortNo { get; set; }
+        public int SortNO { get; set; }
         public string ScopeDesc { get; set; }
     }
 

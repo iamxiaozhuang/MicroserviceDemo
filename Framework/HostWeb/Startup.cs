@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonLibrary;
 using IdentityModel.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +58,9 @@ namespace HostWeb
 
                     //options.ClaimActions.MapJsonKey("website", "website");
                 });
+
+            services.AddHttpClient<CallAuthServiceApi>();
+            services.AddSingleton<ICallAuthServiceApi, CallAuthServiceApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

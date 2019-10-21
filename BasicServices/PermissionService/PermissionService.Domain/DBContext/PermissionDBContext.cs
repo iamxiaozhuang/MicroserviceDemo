@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace PermissionService.Domain
 {
     /// <summary>
-    /// Add-Migration 20191015 -Context PermissionDBContext
+    /// Add-Migration 20191021 -Context PermissionDBContext
     /// Update-Database -Context PermissionDBContext
     /// </summary>
     public class PermissionDBContext : DbContext

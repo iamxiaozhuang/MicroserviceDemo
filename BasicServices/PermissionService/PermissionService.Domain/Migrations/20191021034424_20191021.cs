@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PermissionService.Domain.Migrations
 {
-    public partial class _20191015 : Migration
+    public partial class _20191021 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace PermissionService.Domain.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     UpdateIn = table.Column<DateTimeOffset>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
                     PrincipalCode = table.Column<string>(nullable: false),
                     PrincipalName = table.Column<string>(nullable: false),
                     PrincipalDesc = table.Column<string>(nullable: true)
@@ -24,6 +25,27 @@ namespace PermissionService.Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Principal", x => new { x.TenantCode, x.ID });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Recycle",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(nullable: false),
+                    TenantCode = table.Column<string>(nullable: false),
+                    CreateIn = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    UpdateIn = table.Column<DateTimeOffset>(nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
+                    TableName = table.Column<string>(nullable: false),
+                    RowKey = table.Column<Guid>(nullable: false),
+                    RowData = table.Column<string>(nullable: false),
+                    DeleteBatchID = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Recycle", x => new { x.TenantCode, x.ID });
                 });
 
             migrationBuilder.CreateTable(
@@ -36,10 +58,13 @@ namespace PermissionService.Domain.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     UpdateIn = table.Column<DateTimeOffset>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
                     ResourceCode = table.Column<string>(nullable: false),
+                    FullResourceCode = table.Column<string>(nullable: false),
                     ResourceName = table.Column<string>(nullable: false),
                     ResourceType = table.Column<int>(nullable: false),
                     ParentResourceID = table.Column<Guid>(nullable: false),
+                    SortNo = table.Column<int>(nullable: false),
                     ResourceDesc = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -63,9 +88,11 @@ namespace PermissionService.Domain.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     UpdateIn = table.Column<DateTimeOffset>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
                     RoleCode = table.Column<string>(nullable: false),
                     RoleName = table.Column<string>(nullable: false),
                     RoleType = table.Column<int>(nullable: false),
+                    SortNo = table.Column<int>(nullable: false),
                     RoleDesc = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -83,9 +110,12 @@ namespace PermissionService.Domain.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     UpdateIn = table.Column<DateTimeOffset>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
                     ScopeCode = table.Column<string>(nullable: false),
+                    FullScopeCode = table.Column<string>(nullable: false),
                     ScopeName = table.Column<string>(nullable: false),
                     ParentScopeID = table.Column<Guid>(nullable: false),
+                    SortNo = table.Column<int>(nullable: false),
                     ScopeDesc = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -109,6 +139,7 @@ namespace PermissionService.Domain.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     UpdateIn = table.Column<DateTimeOffset>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
                     RoleID = table.Column<Guid>(nullable: false),
                     ResourceID = table.Column<Guid>(nullable: false)
                 },
@@ -139,6 +170,7 @@ namespace PermissionService.Domain.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     UpdateIn = table.Column<DateTimeOffset>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
+                    OwnerScopeCode = table.Column<string>(nullable: true),
                     PrincipalID = table.Column<Guid>(nullable: false),
                     RoleID = table.Column<Guid>(nullable: false),
                     ScopeID = table.Column<Guid>(nullable: false)
@@ -176,6 +208,11 @@ namespace PermissionService.Domain.Migrations
                 table: "Principal",
                 columns: new[] { "TenantCode", "PrincipalCode" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recycle_TenantCode",
+                table: "Recycle",
+                column: "TenantCode");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Resource_TenantCode",
@@ -258,6 +295,9 @@ namespace PermissionService.Domain.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Recycle");
+
             migrationBuilder.DropTable(
                 name: "RoleAssignment");
 

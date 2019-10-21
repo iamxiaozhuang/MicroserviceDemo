@@ -25,12 +25,12 @@ namespace IdentityServer
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             // call api
-            UserLoginRequest userLoginRequest = new UserLoginRequest() { UserCode = context.UserName, UserPassword = context.Password };
+            UserLoginRequest userLoginRequest = new UserLoginRequest() { UserSubject = context.UserName, UserPassword = context.Password };
             try
             {
                 CurrentUserInfo currentUserInfo = await _callAuthServiceApi.UserLogin(userLoginRequest);
                 context.Result = new GrantValidationResult(
-                   subject: userLoginRequest.UserCode,
+                   subject: userLoginRequest.UserSubject,
                    authenticationMethod: "custom",
                    claims: new Claim[] { new Claim("current_user_info", JsonConvert.SerializeObject(currentUserInfo)) }
                );

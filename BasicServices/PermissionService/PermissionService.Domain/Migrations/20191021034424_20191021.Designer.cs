@@ -10,8 +10,8 @@ using PermissionService.Domain;
 namespace PermissionService.Domain.Migrations
 {
     [DbContext(typeof(PermissionDBContext))]
-    [Migration("20191015013456_20191015")]
-    partial class _20191015
+    [Migration("20191021034424_20191021")]
+    partial class _20191021
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,39 @@ namespace PermissionService.Domain.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("CommonLibrary.Recycle", b =>
+                {
+                    b.Property<string>("TenantCode");
+
+                    b.Property<Guid>("ID");
+
+                    b.Property<DateTimeOffset>("CreateIn");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<Guid>("DeleteBatchID");
+
+                    b.Property<string>("OwnerScopeCode");
+
+                    b.Property<string>("RowData")
+                        .IsRequired();
+
+                    b.Property<Guid>("RowKey");
+
+                    b.Property<string>("TableName")
+                        .IsRequired();
+
+                    b.Property<DateTimeOffset?>("UpdateIn");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("TenantCode", "ID");
+
+                    b.HasIndex("TenantCode");
+
+                    b.ToTable("Recycle");
+                });
 
             modelBuilder.Entity("PermissionService.Domain.Principal", b =>
                 {
@@ -30,6 +63,8 @@ namespace PermissionService.Domain.Migrations
                     b.Property<DateTimeOffset>("CreateIn");
 
                     b.Property<string>("CreatedBy");
+
+                    b.Property<string>("OwnerScopeCode");
 
                     b.Property<string>("PrincipalCode")
                         .IsRequired();
@@ -63,6 +98,11 @@ namespace PermissionService.Domain.Migrations
 
                     b.Property<string>("CreatedBy");
 
+                    b.Property<string>("FullResourceCode")
+                        .IsRequired();
+
+                    b.Property<string>("OwnerScopeCode");
+
                     b.Property<Guid>("ParentResourceID");
 
                     b.Property<string>("ResourceCode")
@@ -74,6 +114,8 @@ namespace PermissionService.Domain.Migrations
                         .IsRequired();
 
                     b.Property<int>("ResourceType");
+
+                    b.Property<int>("SortNo");
 
                     b.Property<DateTimeOffset?>("UpdateIn");
 
@@ -101,6 +143,8 @@ namespace PermissionService.Domain.Migrations
 
                     b.Property<string>("CreatedBy");
 
+                    b.Property<string>("OwnerScopeCode");
+
                     b.Property<string>("RoleCode")
                         .IsRequired();
 
@@ -110,6 +154,8 @@ namespace PermissionService.Domain.Migrations
                         .IsRequired();
 
                     b.Property<int>("RoleType");
+
+                    b.Property<int>("SortNo");
 
                     b.Property<DateTimeOffset?>("UpdateIn");
 
@@ -134,6 +180,8 @@ namespace PermissionService.Domain.Migrations
                     b.Property<DateTimeOffset>("CreateIn");
 
                     b.Property<string>("CreatedBy");
+
+                    b.Property<string>("OwnerScopeCode");
 
                     b.Property<Guid>("PrincipalID");
 
@@ -168,6 +216,8 @@ namespace PermissionService.Domain.Migrations
 
                     b.Property<string>("CreatedBy");
 
+                    b.Property<string>("OwnerScopeCode");
+
                     b.Property<Guid>("ResourceID");
 
                     b.Property<Guid>("RoleID");
@@ -197,6 +247,11 @@ namespace PermissionService.Domain.Migrations
 
                     b.Property<string>("CreatedBy");
 
+                    b.Property<string>("FullScopeCode")
+                        .IsRequired();
+
+                    b.Property<string>("OwnerScopeCode");
+
                     b.Property<Guid>("ParentScopeID");
 
                     b.Property<string>("ScopeCode")
@@ -206,6 +261,8 @@ namespace PermissionService.Domain.Migrations
 
                     b.Property<string>("ScopeName")
                         .IsRequired();
+
+                    b.Property<int>("SortNo");
 
                     b.Property<DateTimeOffset?>("UpdateIn");
 

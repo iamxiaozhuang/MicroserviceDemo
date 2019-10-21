@@ -18,17 +18,16 @@ namespace AuthService.Application
 
     public class GetRoleAssignmentsRequest : IRequest<IEnumerable<RoleAssignmentModel>>
     {
+        public string TenantCode { get; set; }
         public string PrincipalCode { get; set; }
     }
 
     public class GetRoleAssignmentslHandler : IRequestHandler<GetRoleAssignmentsRequest, IEnumerable<RoleAssignmentModel>>
     {
-        private readonly CurrentUserInfo currentUserInfo;
         private readonly string connectionString;
         public GetRoleAssignmentslHandler(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
            connectionString = configuration.GetValue<string>("ConnectionStrings:PermissionDBConnStr");
-           currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
         }
         internal IDbConnection Connection
         {
@@ -43,31 +42,31 @@ namespace AuthService.Application
         {
             using (IDbConnection dbConnection = Connection)
             {
-                var query = @"select a.""ID"",b.""PrincipalCode"",b.""PrincipalName"",c.""RoleCode"",c.""RoleName"",d.""ScopeCode""d.""FullScopeCode"",d.""ScopeName"",c.""SortNO"" 
+                var query = @"select a.""ID"",b.""PrincipalCode"",b.""PrincipalName"",c.""RoleCode"",c.""RoleName"",d.""ScopeCode"",d.""FullScopeCode"",d.""ScopeName"",c.""SortNO"" 
                       from""RoleAssignment"" a 
                       inner join ""Principal"" b on a.""TenantCode"" = b.""TenantCode"" and a.""PrincipalID"" = b.""ID""
                       inner join ""Role"" c on a.""TenantCode"" = c.""TenantCode"" and a.""RoleID"" = c.""ID""
                       inner join ""Scope"" d on a.""TenantCode"" = d.""TenantCode"" and a.""ScopeID"" = d.""ID""
-                      where b.""PrincipalCode"" = '@PrincipalCode' and a.""TenantCode"" = '@TenantCode'
+                      where b.""PrincipalCode"" = @PrincipalCode and a.""TenantCode"" = @TenantCode
                       order by c.""SortNO""";
-                return await dbConnection.QueryAsync<RoleAssignmentModel>(query, new { PrincipalCode = request.PrincipalCode, TenantCode = currentUserInfo.TenantCode });
+                return await dbConnection.QueryAsync<RoleAssignmentModel>(query, new { PrincipalCode = request.PrincipalCode, TenantCode = request.TenantCode });
             }
         }
     }
 
     public class GetUserPermissionRequest : IRequest<CurrentUserPermission>
     {
+
+        public string TenantCode { get; set; }
         public Guid RoleAssignmentID { get; set; }
     }
 
     public class GetUserPermissionHandler : IRequestHandler<GetUserPermissionRequest, CurrentUserPermission>
     {
-        private readonly CurrentUserInfo currentUserInfo;
         private readonly string connectionString;
         public GetUserPermissionHandler(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             connectionString = configuration.GetValue<string>("ConnectionStrings:PermissionDBConnStr");
-            currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
         }
 
         internal IDbConnection Connection
@@ -88,21 +87,21 @@ namespace AuthService.Application
                       inner join ""Principal"" b on a.""TenantCode"" = b.""TenantCode"" and a.""PrincipalID"" = b.""ID""
                       inner join ""Role"" c on a.""TenantCode"" = c.""TenantCode"" and a.""RoleID"" = c.""ID""
                       inner join ""Scope"" d on a.""TenantCode"" = d.""TenantCode"" and a.""ScopeID"" = d.""ID"" 
-                      where a.""ID"" = '@RoleAssignmentID' and a.""TenantCode"" = '@TenantCode'";
+                      where a.""ID"" = @RoleAssignmentID and a.""TenantCode"" = @TenantCode";
 
                 var queryAllowResourceCodes = @"select e.""FullResourceCode""
                       from""RoleAssignment"" a
                       inner join ""Role"" c on a.""TenantCode"" = c.""TenantCode"" and a.""RoleID"" = c.""ID""
                       inner join ""RolePermissions"" d on c.""TenantCode"" = d.""TenantCode"" and c.""ID"" = d.""RoleID""
                       inner join ""Resource"" e on d.""TenantCode"" = e.""TenantCode"" and d.""ResourceID"" = e.""ID""
-                      where a.""ID"" = '@RoleAssignmentID' and a.""TenantCode"" = '@TenantCode'";
+                      where a.""ID"" = @RoleAssignmentID and a.""TenantCode"" = @TenantCode";
 
                 var queryAllowScopeCodes = @"select a.""FullResourceCode""
                       from""Scope"" a
-                      where a.""FullScopeCode"" like '@FullScopeCode%' and a.""TenantCode"" = '@TenantCode'";
+                      where a.""FullScopeCode"" like @FullScopeCode and a.""TenantCode"" = @TenantCode";
 
                 RoleAssignmentModel model = await dbConnection.QueryFirstOrDefaultAsync<RoleAssignmentModel>(query,
-                    new { RoleAssignmentID = request.RoleAssignmentID, TenantCode = currentUserInfo.TenantCode });
+                    new { RoleAssignmentID = request.RoleAssignmentID, TenantCode = request.TenantCode });
 
                 if (model == null)
                 {
@@ -115,9 +114,9 @@ namespace AuthService.Application
                 CurrentUserPermission currentUserPermission = new CurrentUserPermission();
                 currentUserPermission.PrincipalCode = model.PrincipalCode;
                 currentUserPermission.RoleCode = model.RoleCode;
-                currentUserPermission.AllowResourceCodes = dbConnection.Query<string>(queryAllowResourceCodes, new { RoleAssignmentID = request.RoleAssignmentID, TenantCode = currentUserInfo.TenantCode }).AsList();
+                currentUserPermission.AllowResourceCodes = dbConnection.Query<string>(queryAllowResourceCodes, new { RoleAssignmentID = request.RoleAssignmentID, TenantCode = request.TenantCode }).AsList();
                 currentUserPermission.ScopeCode = model.ScopeCode;
-                currentUserPermission.AllowScopeCodes = dbConnection.Query<string>(queryAllowScopeCodes, new { FullScopeCode = model.FullScopeCode, TenantCode = currentUserInfo.TenantCode }).AsList();
+                currentUserPermission.AllowScopeCodes = dbConnection.Query<string>(queryAllowScopeCodes, new { FullScopeCode = model.FullScopeCode+ "%", TenantCode = request.TenantCode }).AsList();
 
                 return currentUserPermission;
             }
