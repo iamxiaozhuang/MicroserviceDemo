@@ -60,23 +60,24 @@ namespace CommonLibrary
         public async Task<CurrentUserPermission> GetCurrentUserPermission()
         {
             string redisKey = GetRedisKey();
-            var currentUserPermission = await RedisHelper.GetAsync<CurrentUserPermission>(redisKey);
-            if (currentUserPermission == null)
+            CurrentUserPermission currentUserPermission;
+            if (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/getpermission/"))
             {
-                if (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/permission/"))
-                {
 
-                    currentUserPermission = new CurrentUserPermission();
-                    currentUserPermission.RoleCode = "";
-                    currentUserPermission.ScopeCode = "";
-                    currentUserPermission.AllowResourceCodes = new List<string>() { "permission.getroles", "permission.get" };
-                    currentUserPermission.AllowScopeCodes = new List<string>();
-                }
-                else
+                currentUserPermission = new CurrentUserPermission();
+                currentUserPermission.RoleCode = "";
+                currentUserPermission.ScopeCode = "";
+                currentUserPermission.AllowResourceCodes = new List<string>() { "GetPermission.RoleAssignments", "GetPermission.CurrentUserPermission" };
+                currentUserPermission.AllowScopeCodes = new List<string>();
+            }
+            else
+            {
+                currentUserPermission = await RedisHelper.GetAsync<CurrentUserPermission>(redisKey);
+                if (currentUserPermission == null)
                 {
                     currentUserPermission = await callPermissionServiceApi.GetPermission(Guid.Empty);
+                    await RedisHelper.SetAsync(redisKey, currentUserPermission);
                 }
-                await RedisHelper.SetAsync(redisKey, currentUserPermission);
             }
             return currentUserPermission;
         }

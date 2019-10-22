@@ -21,18 +21,18 @@ namespace PermissionService.Api.Controllers
             _mediator = mediator;
         }
 
-        [Route("/api/permission/roles/")]
+        [Route("/api/getpermission/roleassignments/")]
         [HttpGet]
-        [ApiAuthorization("permission.getroles")]
+        [ApiAuthorization("GetPermission.RoleAssignments")]
         public async Task<ActionResult<List<RoleAssignmentModel>>> GetRoleAssignments(string userSubject)
         {
             return Ok(await _mediator.Send(new GetRoleAssignmentsRequest()));
         }
 
-        [Route("/api/permission/{roleAssignmentID}")]
+        [Route("/api/getpermission/{roleAssignmentID}")]
         [HttpGet]
-        [ApiAuthorization("permission.get")]
-        public async Task<ActionResult<CurrentUserPermission>> GetPermission(Guid roleAssignmentID)
+        [ApiAuthorization("GetPermission.CurrentUserPermission")]
+        public async Task<ActionResult<CurrentUserPermission>> GetUserPermission(Guid roleAssignmentID)
         {
             return Ok(await _mediator.Send(new GetUserPermissionRequest() { RoleAssignmentID = roleAssignmentID}));
         }

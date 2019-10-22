@@ -75,7 +75,7 @@ namespace HostWeb.Controllers
         [Headers("Authorization: Bearer")]
         Task<Dictionary<string, string>> GetApiClaims();
 
-        [Get("/PermissionService/permission/roles/")]
+        [Get("/PermissionService/getpermission/roleassignments/")]
         [Headers("Authorization: Bearer")]
         Task<List<RoleAssignmentModel>> GetRoleAssignments();
 
