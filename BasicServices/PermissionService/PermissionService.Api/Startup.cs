@@ -4,7 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommonLibrary;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,9 +48,10 @@ namespace PermissionService.Api
                     options.RequireHttpsMetadata = false;
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUserPermissonProvider, UserPermissionProvider>();
-            services.AddHttpClient<CallGeneralServiceApi>();
-            services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
+
+            services.AddSingleton<IUserPermissionCache, UserPermissionCache>();
+            services.AddHttpClient<CallPermissionServiceApi>();
+            services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
 
             services.AddDbContext<PermissionDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
             services.AddDbContext<PermissionDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
@@ -58,8 +61,8 @@ namespace PermissionService.Api
             });
             services.AddSwaggerDocumentation("v1", "PermissionService API", Assembly.GetExecutingAssembly().GetName().Name);
 
-            //services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductManagement.AddProductHandler)));
-            //services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.ProductMamagementAutoMapperProfile)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(Application.GetUserPermissionHandler)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.AutoMapperProfile)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

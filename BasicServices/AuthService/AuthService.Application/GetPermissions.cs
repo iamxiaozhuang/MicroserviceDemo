@@ -1,13 +1,13 @@
 ﻿using AuthService.Domain;
 using CommonLibrary;
 using Dapper;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace AuthService.Application
 {
+    /*
 
     public class GetRoleAssignmentsRequest : IRequest<IEnumerable<RoleAssignmentModel>>
     {
-        public string TenantCode { get; set; }
-        public string PrincipalCode { get; set; }
+       public string UserSubject { get; set; }
     }
 
     public class GetRoleAssignmentslHandler : IRequestHandler<GetRoleAssignmentsRequest, IEnumerable<RoleAssignmentModel>>
@@ -40,6 +40,8 @@ namespace AuthService.Application
 
         public async Task<IEnumerable<RoleAssignmentModel>> Handle(GetRoleAssignmentsRequest request, CancellationToken cancellationToken)
         {
+            string tenantCode = request.UserSubject.Split('-')[0];
+            string principalCode = request.UserSubject.Split('-')[1];
             using (IDbConnection dbConnection = Connection)
             {
                 var query = @"select a.""ID"",b.""PrincipalCode"",b.""PrincipalName"",c.""RoleCode"",c.""RoleName"",d.""ScopeCode"",d.""FullScopeCode"",d.""ScopeName"",c.""SortNO"" 
@@ -49,7 +51,7 @@ namespace AuthService.Application
                       inner join ""Scope"" d on a.""TenantCode"" = d.""TenantCode"" and a.""ScopeID"" = d.""ID""
                       where b.""PrincipalCode"" = @PrincipalCode and a.""TenantCode"" = @TenantCode
                       order by c.""SortNO""";
-                return await dbConnection.QueryAsync<RoleAssignmentModel>(query, new { PrincipalCode = request.PrincipalCode, TenantCode = request.TenantCode });
+                return await dbConnection.QueryAsync<RoleAssignmentModel>(query, new { PrincipalCode = principalCode, TenantCode = tenantCode });
             }
         }
     }
@@ -57,16 +59,18 @@ namespace AuthService.Application
     public class GetUserPermissionRequest : IRequest<CurrentUserPermission>
     {
 
-        public string TenantCode { get; set; }
+        public string UserSubject { get; set; }
         public Guid RoleAssignmentID { get; set; }
     }
 
     public class GetUserPermissionHandler : IRequestHandler<GetUserPermissionRequest, CurrentUserPermission>
     {
         private readonly string connectionString;
-        public GetUserPermissionHandler(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        protected readonly IMediator mediator;
+        public GetUserPermissionHandler(IConfiguration configuration, IMediator _mediator)
         {
             connectionString = configuration.GetValue<string>("ConnectionStrings:PermissionDBConnStr");
+            mediator = _mediator;
         }
 
         internal IDbConnection Connection
@@ -80,14 +84,31 @@ namespace AuthService.Application
 
         public async Task<CurrentUserPermission> Handle(GetUserPermissionRequest request, CancellationToken cancellationToken)
         {
+            string tenantCode = request.UserSubject.Split('-')[0];
+            string principalCode = request.UserSubject.Split('-')[1];
             using (IDbConnection dbConnection = Connection)
             {
-                var query = @"select a.""ID"",b.""PrincipalCode"",b.""PrincipalName"",c.""RoleCode"",c.""RoleName"",d.""ScopeCode"",d.""FullScopeCode"",d.""ScopeName"",c.""SortNO"" 
-                      from""RoleAssignment"" a 
-                      inner join ""Principal"" b on a.""TenantCode"" = b.""TenantCode"" and a.""PrincipalID"" = b.""ID""
-                      inner join ""Role"" c on a.""TenantCode"" = c.""TenantCode"" and a.""RoleID"" = c.""ID""
-                      inner join ""Scope"" d on a.""TenantCode"" = d.""TenantCode"" and a.""ScopeID"" = d.""ID"" 
-                      where a.""ID"" = @RoleAssignmentID and a.""TenantCode"" = @TenantCode";
+                RoleAssignmentModel assignmentModel;
+                IEnumerable<RoleAssignmentModel> roleAssignmentModels = await mediator.Send(new GetRoleAssignmentsRequest() { UserSubject = request.UserSubject });
+                if (request.RoleAssignmentID == Guid.Empty)
+                {
+                    assignmentModel = roleAssignmentModels.First();
+                }
+                else
+                {
+                    assignmentModel = roleAssignmentModels.First(p => p.ID == request.RoleAssignmentID);
+                }
+                if (assignmentModel == null)
+                {
+                    throw new FriendlyException()
+                    {
+                        ExceptionCode = (int)HttpStatusCode.NotFound,
+                        ExceptionMessage = $"The RoleAssignment id: {request.RoleAssignmentID} does not exist."
+                    };
+                }
+
+                //写缓存
+
 
                 var queryAllowResourceCodes = @"select e.""FullResourceCode""
                       from""RoleAssignment"" a
@@ -100,26 +121,17 @@ namespace AuthService.Application
                       from""Scope"" a
                       where a.""FullScopeCode"" like @FullScopeCode and a.""TenantCode"" = @TenantCode";
 
-                RoleAssignmentModel model = await dbConnection.QueryFirstOrDefaultAsync<RoleAssignmentModel>(query,
-                    new { RoleAssignmentID = request.RoleAssignmentID, TenantCode = request.TenantCode });
-
-                if (model == null)
-                {
-                    throw new FriendlyException()
-                    {
-                        ExceptionCode = (int)HttpStatusCode.NotFound,
-                        ExceptionMessage = $"The RoleAssignment id: {request.RoleAssignmentID} does not exist."
-                    };
-                }
+              
                 CurrentUserPermission currentUserPermission = new CurrentUserPermission();
-                currentUserPermission.PrincipalCode = model.PrincipalCode;
-                currentUserPermission.RoleCode = model.RoleCode;
-                currentUserPermission.AllowResourceCodes = dbConnection.Query<string>(queryAllowResourceCodes, new { RoleAssignmentID = request.RoleAssignmentID, TenantCode = request.TenantCode }).AsList();
-                currentUserPermission.ScopeCode = model.ScopeCode;
-                currentUserPermission.AllowScopeCodes = dbConnection.Query<string>(queryAllowScopeCodes, new { FullScopeCode = model.FullScopeCode+ "%", TenantCode = request.TenantCode }).AsList();
+                currentUserPermission.UserSubject = request.UserSubject;
+                currentUserPermission.RoleCode = assignmentModel.RoleCode;
+                currentUserPermission.AllowResourceCodes = dbConnection.Query<string>(queryAllowResourceCodes, new { RoleAssignmentID = assignmentModel.ID, TenantCode = tenantCode }).AsList();
+                currentUserPermission.ScopeCode = assignmentModel.ScopeCode;
+                currentUserPermission.AllowScopeCodes = dbConnection.Query<string>(queryAllowScopeCodes, new { FullScopeCode = assignmentModel.FullScopeCode+ "%", TenantCode = tenantCode }).AsList();
 
                 return currentUserPermission;
             }
         }
     }
+    */
 }

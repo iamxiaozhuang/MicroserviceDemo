@@ -28,7 +28,10 @@ namespace PaymentService.Api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUserPermissonProvider, UserPermissionProvider>();
+
+            services.AddSingleton<IUserPermissionCache, UserPermissionCache>();
+            services.AddHttpClient<CallPermissionServiceApi>();
+            services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

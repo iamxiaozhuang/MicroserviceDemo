@@ -22,12 +22,12 @@ namespace CommonLibrary
     public class ApiMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IUserPermissonProvider _userPermissonProvider;
+        private readonly IUserPermissionCache _userPermissionCache;
 
-        public ApiMiddleware(RequestDelegate next, IUserPermissonProvider userPermissonProvider)
+        public ApiMiddleware(RequestDelegate next, IUserPermissionCache userPermissionCache)
         {
             _next = next;
-            _userPermissonProvider = userPermissonProvider;
+            _userPermissionCache = userPermissionCache;
         }
 
         public async Task Invoke(HttpContext context)
@@ -50,8 +50,9 @@ namespace CommonLibrary
                     requestUser = currentUserInfo.UserName;
                     context.Items.Add("CurrentUserInfo", currentUserInfo);
 
-                    CurrentUserPermission userPermission = await _userPermissonProvider.GetCurrentUserPermission();
+                    CurrentUserPermission userPermission = await _userPermissionCache.GetCurrentUserPermission();
                     context.Items.Add("CurrentUserPermission", userPermission);
+
                 }
                 var originalBodyStream = context.Response.Body;
                 using (var memoryResponseBody = new MemoryStream())

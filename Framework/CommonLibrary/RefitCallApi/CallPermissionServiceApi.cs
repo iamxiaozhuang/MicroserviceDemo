@@ -12,20 +12,20 @@ using System.Threading.Tasks;
 namespace CommonLibrary
 {
 
-    public interface ICallGeneralServiceApi
+    public interface ICallPermissionServiceApi
     {
-        [Get("/PermissionService/userpermission/get/{subject}")]
+        [Get("/PermissionService/permission/{roleAssignmentID}")]
         [Headers("Authorization: Bearer")]
-        Task<CurrentUserPermission> GetUserPermission(string subject);
+        Task<CurrentUserPermission> GetPermission(Guid roleAssignmentID);
     }
 
 
 
-    public class CallGeneralServiceApi : ICallGeneralServiceApi
+    public class CallPermissionServiceApi : ICallPermissionServiceApi
     {
         public IConfiguration Configuration { get; }
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public CallGeneralServiceApi(IConfiguration configuration,IHttpContextAccessor httpContextAccessor)
+        public CallPermissionServiceApi(IConfiguration configuration,IHttpContextAccessor httpContextAccessor)
         {
             Configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
@@ -35,16 +35,17 @@ namespace CommonLibrary
             return await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
         } 
 
-        private ICallGeneralServiceApi callGenaralServiceApi {
+        private ICallPermissionServiceApi callPermissionServiceApi
+        {
             get {
-                return RestService.For<ICallGeneralServiceApi>(Configuration["ApiGatewayService:Url"],
+                return RestService.For<ICallPermissionServiceApi>(Configuration["ApiGatewayService:Url"],
                     new RefitSettings() { AuthorizationHeaderValueGetter = GetGeneralServiceApiToken });
             }
         }
 
-        public async Task<CurrentUserPermission> GetUserPermission(string subject)
+        public async Task<CurrentUserPermission> GetPermission(Guid roleAssignmentID)
         {
-            return await callGenaralServiceApi.GetUserPermission(subject);
+            return await callPermissionServiceApi.GetPermission(roleAssignmentID);
         }
     }
 

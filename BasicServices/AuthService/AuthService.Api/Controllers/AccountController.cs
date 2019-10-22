@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AuthService.Application;
 using AuthService.Domain;
 using CommonLibrary;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +14,6 @@ namespace AuthService.Api.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-
-        protected readonly IMediator _mediator;
-        public AccountController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
         /// <summary>
         /// user auth
         /// </summary>
@@ -50,22 +43,6 @@ namespace AuthService.Api.Controllers
 
 
 
-        [Route("/api/account/getroles/{userSubject}")]
-        [HttpGet]
-        public async Task<ActionResult<List<RoleAssignmentModel>>> GetRoleAssignments(string userSubject)
-        {
-            string tenantCode = userSubject.Split('-')[0];
-            string userCode = userSubject.Split('-')[1];
-            return Ok(await _mediator.Send(new GetRoleAssignmentsRequest() { TenantCode = tenantCode, PrincipalCode = userCode }));
-        }
-
-        [Route("/api/account/getpermission/{principalID}/{userSubject}")]
-        [HttpGet]
-        public async Task<ActionResult<CurrentUserPermission>> GetPermission(Guid RoleAssignmentID,string userSubject)
-        {
-            string tenantCode = userSubject.Split('-')[0];
-            return Ok(await _mediator.Send(new GetUserPermissionRequest() { RoleAssignmentID = RoleAssignmentID, TenantCode = tenantCode }));
-        }
 
 
         [NonAction]

@@ -16,20 +16,19 @@ namespace HostWeb.Controllers
     public class HomeController : Controller
     {
         private IConfiguration Configuration { get; }
-        private readonly ICallAuthServiceApi _callAuthServiceApi;
-        public HomeController(IConfiguration configuration, ICallAuthServiceApi callAuthServiceApi)
+        public HomeController(IConfiguration configuration)
         {
             Configuration = configuration;
-            _callAuthServiceApi = callAuthServiceApi;
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["APIAccessToken"] = GetApiAccessToken();
+            ViewData["APIAccessToken"] = await GetApiAccessToken();
 
             ViewBag.ApiClaims = new Dictionary<string, string>();
 
-            Claim subClaim = HttpContext.User.FindFirst("sub");
-            List<RoleAssignmentModel> roleAssignments = await _callAuthServiceApi.GetRoleAssignments(subClaim.Value);
+            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
+              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+            List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
             List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
             foreach (var item in roleAssignments)
             {
@@ -61,7 +60,7 @@ namespace HostWeb.Controllers
 
         public async Task<IActionResult> GetApiClaims()
         {
-            var callTestApi = RestService.For<ICallGetApiClaims>(Configuration["ApiGatewayService:Url"],
+            var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
                new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             var dic = await callTestApi.GetApiClaims();
             ViewBag.ApiClaims = dic;
@@ -70,11 +69,28 @@ namespace HostWeb.Controllers
 
     }
 
-    public interface ICallGetApiClaims
+    public interface ICallApi
     {
         [Get("/ProductService/values/getuserclaims")]
         [Headers("Authorization: Bearer")]
         Task<Dictionary<string, string>> GetApiClaims();
+
+        [Get("/PermissionService/permission/roles/")]
+        [Headers("Authorization: Bearer")]
+        Task<List<RoleAssignmentModel>> GetRoleAssignments();
+
+    }
+
+    public class RoleAssignmentModel : BaseModel
+    {
+        public string PrincipalCode { get; set; }
+        public string PrincipalName { get; set; }
+        public string RoleCode { get; set; }
+        public string RoleName { get; set; }
+        public string ScopeCode { get; set; }
+        public string FullScopeCode { get; set; }
+        public string ScopeName { get; set; }
+        public int SortNO { get; set; }
 
     }
 }

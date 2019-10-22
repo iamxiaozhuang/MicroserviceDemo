@@ -50,9 +50,10 @@ namespace ProductService.Api
                     options.RequireHttpsMetadata = false;
                 });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUserPermissonProvider, UserPermissionProvider>();
-            services.AddHttpClient<CallGeneralServiceApi>();
-            services.AddSingleton<ICallGeneralServiceApi, CallGeneralServiceApi>();
+
+            services.AddSingleton<IUserPermissionCache, UserPermissionCache>();
+            services.AddHttpClient<CallPermissionServiceApi>();
+            services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
 
             services.AddDbContext<ProductDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
             services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));

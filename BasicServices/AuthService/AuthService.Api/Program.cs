@@ -29,6 +29,10 @@ namespace AuthService.Api
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
                 .UseStartup<Startup>();
+
+            var csredis = new CSRedis.CSRedisClient(appconfig.GetValue<string>("CSRedis:Client"));
+            RedisHelper.Initialization(csredis);
+
             host.Build().Run();
             //CreateWebHostBuilder(args).Build().Run();
         }
