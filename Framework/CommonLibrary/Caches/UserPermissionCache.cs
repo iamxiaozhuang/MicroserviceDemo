@@ -75,7 +75,7 @@ namespace CommonLibrary
                 currentUserPermission = await RedisHelper.GetAsync<CurrentUserPermission>(redisKey);
                 if (currentUserPermission == null)
                 {
-                    currentUserPermission = await callPermissionServiceApi.GetPermission(Guid.Empty);
+                    currentUserPermission = await callPermissionServiceApi.GetUserPermission(Guid.Empty);
                     await RedisHelper.SetAsync(redisKey, currentUserPermission);
                 }
             }

@@ -84,51 +84,17 @@ namespace PermissionService.Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Principal");
-                });
 
-            modelBuilder.Entity("PermissionService.Domain.Resource", b =>
-                {
-                    b.Property<string>("TenantCode");
-
-                    b.Property<Guid>("ID");
-
-                    b.Property<DateTimeOffset>("CreateIn");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<string>("FullResourceCode")
-                        .IsRequired();
-
-                    b.Property<string>("OwnerScopeCode");
-
-                    b.Property<Guid>("ParentResourceID");
-
-                    b.Property<string>("ResourceCode")
-                        .IsRequired();
-
-                    b.Property<string>("ResourceDesc");
-
-                    b.Property<string>("ResourceName")
-                        .IsRequired();
-
-                    b.Property<int>("ResourceType");
-
-                    b.Property<int>("SortNO");
-
-                    b.Property<DateTimeOffset?>("UpdateIn");
-
-                    b.Property<string>("UpdatedBy");
-
-                    b.HasKey("TenantCode", "ID");
-
-                    b.HasIndex("TenantCode");
-
-                    b.HasIndex("TenantCode", "ParentResourceID");
-
-                    b.HasIndex("TenantCode", "ResourceCode")
-                        .IsUnique();
-
-                    b.ToTable("Resource");
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("5d3fc5d1-a30f-4742-b626-b978a7c4af5e"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            PrincipalCode = "admin",
+                            PrincipalName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("PermissionService.Domain.Role", b =>
@@ -167,6 +133,19 @@ namespace PermissionService.Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            RoleCode = "administor",
+                            RoleName = "administor",
+                            RoleType = 1,
+                            SortNO = 0
+                        });
                 });
 
             modelBuilder.Entity("PermissionService.Domain.RoleAssignment", b =>
@@ -202,6 +181,18 @@ namespace PermissionService.Domain.Migrations
                     b.HasIndex("TenantCode", "ScopeID");
 
                     b.ToTable("RoleAssignment");
+
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("55c3cbd1-1427-4bc5-b325-3dd5b4b0a24f"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            PrincipalID = new Guid("5d3fc5d1-a30f-4742-b626-b978a7c4af5e"),
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf"),
+                            ScopeID = new Guid("88888888-8888-8888-8888-888888888888")
+                        });
                 });
 
             modelBuilder.Entity("PermissionService.Domain.RolePermission", b =>
@@ -216,7 +207,11 @@ namespace PermissionService.Domain.Migrations
 
                     b.Property<string>("OwnerScopeCode");
 
-                    b.Property<Guid>("ResourceID");
+                    b.Property<string>("ResourceCode")
+                        .IsRequired();
+
+                    b.Property<string>("ResourceName")
+                        .IsRequired();
 
                     b.Property<Guid>("RoleID");
 
@@ -228,11 +223,101 @@ namespace PermissionService.Domain.Migrations
 
                     b.HasIndex("TenantCode");
 
-                    b.HasIndex("TenantCode", "ResourceID");
-
                     b.HasIndex("TenantCode", "RoleID");
 
                     b.ToTable("RolePermission");
+
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("effb913d-7092-42a5-b75d-be5f856aa3a0"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "RootMenu",
+                            ResourceName = "RootMenu",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("8eabe7f3-9604-4d0b-8e66-b7de07cdaa6d"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "ProductMngmt",
+                            ResourceName = "产品管理",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("c934eddf-e65a-4828-acfb-6b947801488d"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt",
+                            ResourceName = "系统管理",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("708c9838-ad2f-48b9-aee6-d0d218e3db42"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt.PermissionMngmt",
+                            ResourceName = "权限管理",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("da520c6a-f60f-4f56-b7b8-d6a71e160e64"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt",
+                            ResourceName = "角色管理",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("a2ca3b83-3ee8-4785-83f8-26dd4264ca42"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt.Read",
+                            ResourceName = "查看",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("1b139b8f-25f9-41d2-bba2-6f79a5a8d05a"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt.Update",
+                            ResourceName = "更改",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("c06b8be9-680b-4898-acd8-e6cda5169738"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt.PermissionMngmt.ScopeMngmt",
+                            ResourceName = "范围管理",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        },
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("3a6d08c3-5c43-473a-bef1-cc9b67b5ace7"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ResourceCode = "SystemMngmt.PermissionMngmt.AssignmnentMngmt",
+                            ResourceName = "授权管理",
+                            RoleID = new Guid("8e28c0e8-92e0-4449-8907-4454fa084caf")
+                        });
                 });
 
             modelBuilder.Entity("PermissionService.Domain.Scope", b =>
@@ -244,9 +329,6 @@ namespace PermissionService.Domain.Migrations
                     b.Property<DateTimeOffset>("CreateIn");
 
                     b.Property<string>("CreatedBy");
-
-                    b.Property<string>("FullScopeCode")
-                        .IsRequired();
 
                     b.Property<string>("OwnerScopeCode");
 
@@ -276,14 +358,19 @@ namespace PermissionService.Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Scope");
-                });
 
-            modelBuilder.Entity("PermissionService.Domain.Resource", b =>
-                {
-                    b.HasOne("PermissionService.Domain.Resource", "ParentResource")
-                        .WithMany("ChildrenResources")
-                        .HasForeignKey("TenantCode", "ParentResourceID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("88888888-8888-8888-8888-888888888888"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ParentScopeID = new Guid("88888888-8888-8888-8888-888888888888"),
+                            ScopeCode = "RootScope",
+                            ScopeName = "RootScope",
+                            SortNO = 0
+                        });
                 });
 
             modelBuilder.Entity("PermissionService.Domain.RoleAssignment", b =>
@@ -306,11 +393,6 @@ namespace PermissionService.Domain.Migrations
 
             modelBuilder.Entity("PermissionService.Domain.RolePermission", b =>
                 {
-                    b.HasOne("PermissionService.Domain.Resource", "Resource")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("TenantCode", "ResourceID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("PermissionService.Domain.Role", "Role")
                         .WithMany("RolePermissions")
                         .HasForeignKey("TenantCode", "RoleID")

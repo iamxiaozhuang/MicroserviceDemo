@@ -9,7 +9,27 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    <script type="text/javascript" src="~/Scripts/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="~/scripts/jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+    $(document).ready(init);
+
+    function init() {
+        $("select[name='ddlCurrentUserRoles']").change(function () {
+            var selectedValue = $(this).val();
+            ShowCurrentUserPermission(selectedValue);
+        });
+    }
+
+    function ShowCurrentUserPermission(val) {
+        $.ajax({
+            url: "@Url.Action("ShowCurrentUserPermission", "Home")",
+            data: { roleassignmentid: val },
+            success: function (data) {
+                $("#divCurrentUserPermisson").html(JSON.stringify(data));
+            }
+        });
+    }
+    </script>
 </head>
 <body>
     <h1 align="center">This is a Microservice Demo.</h1>
@@ -29,7 +49,7 @@
     </dl>
     "API AccessToken: Bearer @ViewData["APIAccessToken"]
     <br />
-    Current User Roles：@Html.DropDownList("ddlCurrentUserRoles")
+    Current User Roles：@Html.DropDownList("ddlCurrentUserRoles","-- select --")
     <br />
     Current User Permissions：
     <div id="divCurrentUserPermisson"></div>
@@ -52,24 +72,5 @@
 
 </body>
 
-<script type="text/javascript">
-    $(document).ready(init);
 
-    function init() {
-        $("select[name='ddlCurrentUserRoles']").change(function () {
-            var selectedValue = $(this).val();
-            ShowCurrentUserPermission(selectedValue);
-        });
-    }
-
-    function ShowCurrentUserPermission(val) {
-        $.ajax({
-            url: "@Url.Action("ShowCurrentUserPermission", "Home")",
-            data: { provinceId: province },
-            success: function (data) {
-                $("#divCurrentUserPermisson").html(data);
-            }
-        });
-    }
-    </script>
 </html>

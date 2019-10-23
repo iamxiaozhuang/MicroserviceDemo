@@ -59,8 +59,8 @@ namespace HostWeb
                     //options.ClaimActions.MapJsonKey("website", "website");
                 });
 
-            services.AddHttpClient<CallAuthServiceApi>();
-            services.AddSingleton<ICallAuthServiceApi, CallAuthServiceApi>();
+            services.AddHttpClient<CallSystemServiceApi>();
+            services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

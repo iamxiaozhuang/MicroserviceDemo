@@ -26,7 +26,7 @@ namespace IdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("AuthServiceApi", "AuthService API"),
+                new ApiResource("SystemServiceApi", "SystemService API"),
                 new ApiResource("GeneralServiceApi", "GeneralService API")
             };
         }
@@ -37,8 +37,8 @@ namespace IdentityServer
             {
                 new Client
                 {
-                    ClientId = "AuthApiClient",
-                    ClientName = "AuthApi Client",
+                    ClientId = "SystemApiClient",
+                    ClientName = "SystemApi Client",
                     // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     // secret for authentication
@@ -48,7 +48,7 @@ namespace IdentityServer
                     },
 
                     // scopes that client has access to
-                    AllowedScopes = { "AuthServiceApi" }
+                    AllowedScopes = { "SystemServiceApi" }
                 },
                 // resource owner password grant client
                 new Client

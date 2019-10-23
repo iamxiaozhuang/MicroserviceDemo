@@ -55,12 +55,24 @@ namespace ProductService.Api
             services.AddHttpClient<CallPermissionServiceApi>();
             services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
 
-            services.AddDbContext<ProductDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
-            services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr")));
+            services.AddDbContext<ProductDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr"), npgsqlOptions =>
+                    {
+                        npgsqlOptions.EnableRetryOnFailure();
+                        npgsqlOptions.CommandTimeout(60);
+                    })
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                    );
+            services.AddDbContext<ProductDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("ProductDBConnStr"), npgsqlOptions =>
+                    {
+                        npgsqlOptions.EnableRetryOnFailure();
+                        npgsqlOptions.CommandTimeout(60);
+                    })
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                    );
             services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证
-            });
+                    {
+                        options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证
+                    });
             services.AddSwaggerDocumentation("v1", "ProductService API", Assembly.GetExecutingAssembly().GetName().Name);
           
             services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductManagement.AddProductHandler)));

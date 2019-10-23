@@ -1,4 +1,5 @@
 ﻿using CommonLibrary;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,38 +8,7 @@ using System.Text;
 
 namespace PermissionService.Domain
 {
-    [Table("Resource")]
-    public class Resource : BaseEntity
-    {
-        [Required]
-        public string ResourceCode { get; set; }
-        [Required]
-        public string FullResourceCode { get; set; }
-        [Required]
-        public string ResourceName { get; set; }
-        [Required]
-        public EnumResourceType ResourceType { get; set; }
-
-        [Required]
-        public Guid ParentResourceID { get; set; }
-
-        public virtual Resource ParentResource { get; set; }
-        public virtual ICollection<Resource> ChildrenResources { get; set; }
-
-        public virtual ICollection<RolePermission> RolePermissions { get; set; }
-
-        [Required]
-        public int SortNO { get; set; }
-
-        public string ResourceDesc{ get; set; }
-    }
-
-    public enum EnumResourceType
-    {
-        Menu = 1,
-        Action = 2,
-        Button = 3
-    }
+    
 
     [Table("Role")]
     public class Role : BaseEntity
@@ -68,8 +38,9 @@ namespace PermissionService.Domain
         public Guid RoleID { get; set; }
         public virtual Role Role { get; set; }
         [Required]
-        public Guid ResourceID { get; set; }
-        public virtual Resource Resource { get; set; }
+        public string ResourceCode { get; set; }
+        [Required]
+        public string ResourceName { get; set; }
     }
 
     [Table("Principal")]
@@ -88,8 +59,6 @@ namespace PermissionService.Domain
     {
         [Required]
         public string ScopeCode { get; set; }
-        [Required]
-        public string FullScopeCode { get; set; }
         [Required]
         public string ScopeName { get; set; }
         [Required]
@@ -119,6 +88,7 @@ namespace PermissionService.Domain
         public Guid ScopeID { get; set; }
         public virtual Scope Scope { get; set; }
     }
+
 
 
 }

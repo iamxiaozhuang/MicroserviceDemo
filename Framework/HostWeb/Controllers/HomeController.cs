@@ -50,7 +50,14 @@ namespace HostWeb.Controllers
             return apiAccess_token;
         }
 
-
+        public async Task<IActionResult> ShowCurrentUserPermission(string roleassignmentid)
+        {
+            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
+              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+            if (roleassignmentid == null) return Ok();
+            CurrentUserPermission userPermission = await callApi.GetUserPermission(Guid.Parse(roleassignmentid));
+            return Ok(userPermission);
+        }
 
 
         public IActionResult Logout()
@@ -78,6 +85,10 @@ namespace HostWeb.Controllers
         [Get("/PermissionService/getpermission/roleassignments/")]
         [Headers("Authorization: Bearer")]
         Task<List<RoleAssignmentModel>> GetRoleAssignments();
+
+        [Get("/PermissionService/getpermission/{roleAssignmentID}")]
+        [Headers("Authorization: Bearer")]
+        Task<CurrentUserPermission> GetUserPermission(Guid roleAssignmentID);
 
     }
 

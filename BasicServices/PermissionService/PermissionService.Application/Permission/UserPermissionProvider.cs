@@ -69,11 +69,13 @@ namespace PermissionService.Application
             RoleAssignment roleAssignment;
             if (request.RoleAssignmentID == Guid.Empty)
             {
-                roleAssignment = dbContext.RoleAssignments.Where(p => p.Principal.PrincipalCode == currentUserInfo.UserCode).OrderBy(p => p.Role.SortNO).First();
+                roleAssignment = dbContext.RoleAssignments.Include(p => p.Role).Include(p => p.Scope)
+                    .Where(p => p.Principal.PrincipalCode == currentUserInfo.UserCode).OrderBy(p => p.Role.SortNO).First();
             }
             else
             {
-                roleAssignment = dbContext.RoleAssignments.First(p => p.ID == request.RoleAssignmentID);
+                roleAssignment = dbContext.RoleAssignments.Include(p => p.Role).Include(p => p.Scope)
+                    .Where(p => p.ID == request.RoleAssignmentID).First();
             }
             if (roleAssignment == null)
             {
@@ -85,9 +87,9 @@ namespace PermissionService.Application
             }
             CurrentUserPermission currentUserPermission = new CurrentUserPermission();
             currentUserPermission.RoleCode = roleAssignment.Role.RoleCode;
-            currentUserPermission.AllowResourceCodes = dbContext.RolePermissions.Where(p => p.Role.ID == roleAssignment.RoleID).Select(p => p.Resource.FullResourceCode).ToList();
+            currentUserPermission.AllowResourceCodes = dbContext.RolePermissions.Where(p => p.Role.ID == roleAssignment.RoleID).Select(p => p.ResourceCode).ToList();
             currentUserPermission.ScopeCode = roleAssignment.Scope.ScopeCode;
-            currentUserPermission.AllowScopeCodes = dbContext.Scopes.Where(p => p.FullScopeCode.StartsWith(roleAssignment.Scope.FullScopeCode)).Select(p => p.FullScopeCode).ToList();
+            currentUserPermission.AllowScopeCodes = dbContext.Scopes.Where(p => p.ScopeCode.StartsWith(roleAssignment.Scope.ScopeCode)).Select(p => p.ScopeCode).ToList();
 
             await userPermissionCache.SetCurrentUserPermission(currentUserPermission);
 

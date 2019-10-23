@@ -41,6 +41,15 @@ namespace CommonLibrary
 
     }
 
+    public class BaseEntityWithNoTenant
+    {
+        public Guid ID { get; set; }
+        public DateTimeOffset CreateIn { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTimeOffset? UpdateIn { get; set; }
+        public string UpdatedBy { get; set; }
+    }
+
 
     [Table("Recycle")]
     public class Recycle : BaseEntity

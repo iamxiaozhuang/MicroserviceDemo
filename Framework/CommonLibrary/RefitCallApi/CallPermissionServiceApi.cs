@@ -16,7 +16,7 @@ namespace CommonLibrary
     {
         [Get("/PermissionService/getpermission/{roleAssignmentID}")]
         [Headers("Authorization: Bearer")]
-        Task<CurrentUserPermission> GetPermission(Guid roleAssignmentID);
+        Task<CurrentUserPermission> GetUserPermission(Guid roleAssignmentID);
     }
 
 
@@ -43,9 +43,9 @@ namespace CommonLibrary
             }
         }
 
-        public async Task<CurrentUserPermission> GetPermission(Guid roleAssignmentID)
+        public async Task<CurrentUserPermission> GetUserPermission(Guid roleAssignmentID)
         {
-            return await callPermissionServiceApi.GetPermission(roleAssignmentID);
+            return await callPermissionServiceApi.GetUserPermission(roleAssignmentID);
         }
     }
 

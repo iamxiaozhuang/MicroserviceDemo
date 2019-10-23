@@ -37,8 +37,8 @@ namespace AuthWeb
                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                .AddProfileService<ProfileService>();
 
-            services.AddHttpClient<CallAuthServiceApi>();
-            services.AddSingleton<ICallAuthServiceApi, CallAuthServiceApi>();
+            services.AddHttpClient<CallSystemServiceApi>();
+            services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
 
             if (Environment.IsDevelopment())
             {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using PermissionService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,6 @@ namespace PermissionService.Domain
             //currentUserInfo = new CurrentUserInfo();
         }
 
-        public DbSet<Resource> Resources { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<Principal> Principals { get; set; }
@@ -35,46 +35,8 @@ namespace PermissionService.Domain
         public DbSet<Recycle> Recycles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Resource>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Resource>().HasIndex(p => p.TenantCode);
-            builder.Entity<Resource>().HasIndex(p => new { p.TenantCode, p.ResourceCode }).IsUnique(true);
-            builder.Entity<Resource>().HasOne<Resource>(p => p.ParentResource).WithMany(p => p.ChildrenResources)
-              .HasForeignKey(s => new { s.TenantCode, s.ParentResourceID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
 
-            builder.Entity<Role>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Role>().HasIndex(p => p.TenantCode);
-            builder.Entity<Role>().HasIndex(p => new { p.TenantCode, p.RoleCode }).IsUnique(true);
-
-            builder.Entity<RolePermission>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<RolePermission>().HasIndex(p => p.TenantCode);
-            builder.Entity<RolePermission>().HasOne<Resource>(p => p.Resource).WithMany(p => p.RolePermissions)
-                .HasForeignKey(s => new { s.TenantCode, s.ResourceID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<RolePermission>().HasOne<Role>(p => p.Role).WithMany(p => p.RolePermissions)
-                .HasForeignKey(s => new { s.TenantCode, s.RoleID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-
-            builder.Entity<Principal>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Principal>().HasIndex(p => p.TenantCode);
-            builder.Entity<Principal>().HasIndex(p => new { p.TenantCode, p.PrincipalCode }).IsUnique(true);
-
-            builder.Entity<Scope>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Scope>().HasIndex(p => p.TenantCode);
-            builder.Entity<Scope>().HasIndex(p => new { p.TenantCode, p.ScopeCode }).IsUnique(true);
-            builder.Entity<Scope>().HasOne<Scope>(p => p.ParentScope).WithMany(p => p.ChildrenScopes)
-              .HasForeignKey(s => new { s.TenantCode, s.ParentScopeID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-
-            builder.Entity<RoleAssignment>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<RoleAssignment>().HasIndex(p => p.TenantCode);
-            builder.Entity<RoleAssignment>().HasOne<Principal>(p => p.Principal).WithMany(p => p.RoleAssignments)
-           .HasForeignKey(s => new { s.TenantCode, s.PrincipalID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<RoleAssignment>().HasOne<Role>(p => p.Role).WithMany(p => p.RoleAssignments)
-                .HasForeignKey(s => new { s.TenantCode, s.RoleID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<RoleAssignment>().HasOne<Scope>(p => p.Scope).WithMany(p => p.RoleAssignments)
-             .HasForeignKey(s => new { s.TenantCode, s.ScopeID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-
-
-            builder.Entity<Recycle>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Recycle>().HasIndex(p => p.TenantCode);
-
+            builder.InitializeEntities();
 
             foreach (var entityType in GetBaseEntityTypes(builder))
             {

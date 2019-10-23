@@ -53,12 +53,26 @@ namespace PermissionService.Api
             services.AddHttpClient<CallPermissionServiceApi>();
             services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
 
-            services.AddDbContext<PermissionDBContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
-            services.AddDbContext<PermissionDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr")));
+            services.AddDbContext<PermissionDBContext>(option =>
+            option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr"), npgsqlOptions =>
+                    {
+                        npgsqlOptions.EnableRetryOnFailure();
+                        npgsqlOptions.CommandTimeout(60);
+                    })
+                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+            );
+
+            services.AddDbContext<PermissionDBReadOnlyContext>(option => option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr"), npgsqlOptions =>
+                    {
+                        npgsqlOptions.EnableRetryOnFailure();
+                        npgsqlOptions.CommandTimeout(60);
+                    })
+                        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                    );
             services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证
-            });
+                    {
+                        options.SuppressModelStateInvalidFilter = true;  //去掉自动模型验证
+                    });
             services.AddSwaggerDocumentation("v1", "PermissionService API", Assembly.GetExecutingAssembly().GetName().Name);
 
             services.AddMediatR(Assembly.GetAssembly(typeof(Application.GetUserPermissionHandler)));

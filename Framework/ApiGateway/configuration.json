@@ -13,10 +13,10 @@
           "Port": "8810"
         }
       ],
-      "UpstreamPathTemplate": "/AuthService/{url}",
+      "UpstreamPathTemplate": "/SystemService/{url}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "AuthServiceApiKey",
+        "AuthenticationProviderKey": "SystemServiceApiKey",
         "AllowedScopes": []
       }
     },

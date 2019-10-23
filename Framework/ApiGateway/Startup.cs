@@ -29,10 +29,10 @@ namespace ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             #region IdentityServer
-            Action<IdentityServerAuthenticationOptions> authApiClientOpt = option =>
+            Action<IdentityServerAuthenticationOptions> systemApiClientOpt = option =>
             {
                 option.Authority = Configuration["IdentityService:Authority"];
-                option.ApiName = "AuthServiceApi";
+                option.ApiName = "SystemServiceApi";
                 option.RequireHttpsMetadata = false;
                 option.SupportedTokens = SupportedTokens.Both;
             };
@@ -47,7 +47,7 @@ namespace ApiGateway
             #endregion
 
             services.AddAuthentication()
-               .AddIdentityServerAuthentication("AuthServiceApiKey", authApiClientOpt)
+               .AddIdentityServerAuthentication("SystemServiceApiKey", systemApiClientOpt)
                 .AddIdentityServerAuthentication("GeneralServiceApiKey", generalApiClientOpt);
 
             // Ocelot

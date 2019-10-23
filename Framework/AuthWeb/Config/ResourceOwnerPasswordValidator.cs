@@ -16,10 +16,10 @@ namespace IdentityServer
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly ICallAuthServiceApi _callAuthServiceApi;
-        public ResourceOwnerPasswordValidator(ICallAuthServiceApi callAuthServiceApi)
+        private readonly ICallSystemServiceApi _callSystemServiceApi;
+        public ResourceOwnerPasswordValidator(ICallSystemServiceApi callSystemServiceApi)
         {
-            _callAuthServiceApi = callAuthServiceApi;
+            _callSystemServiceApi = callSystemServiceApi;
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
@@ -28,7 +28,7 @@ namespace IdentityServer
             UserLoginRequest userLoginRequest = new UserLoginRequest() { UserSubject = context.UserName, UserPassword = context.Password };
             try
             {
-                CurrentUserInfo currentUserInfo = await _callAuthServiceApi.UserLogin(userLoginRequest);
+                CurrentUserInfo currentUserInfo = await _callSystemServiceApi.UserLogin(userLoginRequest);
                 context.Result = new GrantValidationResult(
                    subject: userLoginRequest.UserSubject,
                    authenticationMethod: "custom",
