@@ -24,8 +24,6 @@ namespace HostWeb.Controllers
         {
             ViewData["APIAccessToken"] = await GetApiAccessToken();
 
-            ViewBag.ApiClaims = new Dictionary<string, string>();
-
             var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
@@ -70,8 +68,7 @@ namespace HostWeb.Controllers
             var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
                new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             var dic = await callTestApi.GetApiClaims();
-            ViewBag.ApiClaims = dic;
-            return View("Index");
+            return Ok(dic);
         }
 
     }

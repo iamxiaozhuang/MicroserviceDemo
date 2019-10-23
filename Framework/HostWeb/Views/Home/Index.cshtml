@@ -20,12 +20,21 @@
         });
     }
 
-    function ShowCurrentUserPermission(val) {
+        function ShowCurrentUserPermission(val) {
+            $.ajax({
+                url: "@Url.Action("ShowCurrentUserPermission", "Home")",
+                data: { roleassignmentid: val },
+                success: function (data) {
+                    $("#divCurrentUserPermisson").html(JSON.stringify(data));
+                }
+            });
+        }
+
+        function GetApiClaims() {
         $.ajax({
-            url: "@Url.Action("ShowCurrentUserPermission", "Home")",
-            data: { roleassignmentid: val },
+            url: "@Url.Action("GetApiClaims", "Home")",
             success: function (data) {
-                $("#divCurrentUserPermisson").html(JSON.stringify(data));
+                $("#apiClaims").html(JSON.stringify(data));
             }
         });
     }
@@ -56,15 +65,9 @@
     <br />
 
     <div>
-        <h2>API Claims: <a href="/Home/GetApiClaims">GetApiClaims</a></h2>
-        <dl>
-            @foreach (var item in ViewBag.ApiClaims)
-            {
-                <dt>@item.Key</dt>
-                <dd>@item.Value</dd>
-            }
-        </dl>
-        <br />
+        <h3>API Claims: <a href="#" onclick="GetApiClaims()">GetApiClaims</a></h3>
+        <div id="apiClaims"></div>
+             <br />
         <a href="/Home/Logout">Logout</a>
         <br />
 

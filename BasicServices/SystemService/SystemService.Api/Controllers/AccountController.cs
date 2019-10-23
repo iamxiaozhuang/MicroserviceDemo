@@ -29,7 +29,7 @@ namespace SystemService.Api.Controllers
             {
                 TenantCode = tenantCode,
                 UserCode = userCode,
-                UserName = "小庄 0202",
+                UserName = user.UserName,
                 UserEmail = "",
                 UserPhone = ""
             };
