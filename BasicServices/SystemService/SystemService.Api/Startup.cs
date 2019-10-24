@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SystemService.Domain;
+using CommonLibrary;
+using AutoMapper;
 
 namespace SystemService.Api
 {
@@ -32,7 +36,8 @@ namespace SystemService.Api
         {
             services.AddMvcCore(options => options.Filters.Add(new AuthorizeFilter()))
                 .AddAuthorization()
-                .AddJsonFormatters();
+                .AddJsonFormatters()
+                .AddApiExplorer();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -58,6 +63,11 @@ namespace SystemService.Api
             })
                         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     );
+
+            services.AddSwaggerDocumentation("v1", "SystemService API", Assembly.GetExecutingAssembly().GetName().Name);
+
+            services.AddMediatR(Assembly.GetAssembly(typeof(Application.ResourceApp.GetUserMenuslHandler)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(Application.ResourceApp.GetUserMenusRequest)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +79,10 @@ namespace SystemService.Api
             }
             app.UseAuthentication();
             app.UseMvc();
+            if (env.IsDevelopment())
+            {
+                app.UseSwaggerDocumentation("v1", "SystemService API 1.0");
+            }
         }
     }
 }

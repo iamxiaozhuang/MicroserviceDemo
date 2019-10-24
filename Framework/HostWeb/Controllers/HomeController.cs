@@ -53,7 +53,7 @@ namespace HostWeb.Controllers
             var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             if (roleassignmentid == null) return Ok();
-            CurrentUserPermission userPermission = await callApi.GetUserPermission(Guid.Parse(roleassignmentid));
+            UserPermission userPermission = await callApi.GetUserPermission(Guid.Parse(roleassignmentid));
             return Ok(userPermission);
         }
 
@@ -62,7 +62,13 @@ namespace HostWeb.Controllers
         {
             return SignOut("Cookies", "oidc");
         }
-
+        public async Task<IActionResult> GetUserMenus()
+        {
+            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
+               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+            var data = await callApi.GetUserMenus();
+            return Ok(data);
+        }
         public async Task<IActionResult> GetApiClaims()
         {
             var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
@@ -79,13 +85,17 @@ namespace HostWeb.Controllers
         [Headers("Authorization: Bearer")]
         Task<Dictionary<string, string>> GetApiClaims();
 
-        [Get("/PermissionService/getpermission/roleassignments/")]
+        [Get("/PermissionService/permissionprovider/roleassignments/")]
         [Headers("Authorization: Bearer")]
         Task<List<RoleAssignmentModel>> GetRoleAssignments();
 
-        [Get("/PermissionService/getpermission/{roleAssignmentID}")]
+        [Get("/PermissionService/permissionprovider/{roleAssignmentID}")]
         [Headers("Authorization: Bearer")]
-        Task<CurrentUserPermission> GetUserPermission(Guid roleAssignmentID);
+        Task<UserPermission> GetUserPermission(Guid roleAssignmentID);
+
+        [Get("/PermissionService/permission/menus")]
+        [Headers("Authorization: Bearer")]
+        Task<List<UserMenu>> GetUserMenus();
 
     }
 

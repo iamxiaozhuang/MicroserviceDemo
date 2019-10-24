@@ -28,7 +28,7 @@ namespace IdentityServer
             UserLoginRequest userLoginRequest = new UserLoginRequest() { UserSubject = context.UserName, UserPassword = context.Password };
             try
             {
-                CurrentUserInfo currentUserInfo = await _callSystemServiceApi.UserLogin(userLoginRequest);
+                UserInfo currentUserInfo = await _callSystemServiceApi.UserLogin(userLoginRequest);
                 context.Result = new GrantValidationResult(
                    subject: userLoginRequest.UserSubject,
                    authenticationMethod: "custom",

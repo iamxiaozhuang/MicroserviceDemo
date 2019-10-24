@@ -1,40 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using CommonLibrary;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PermissionService.Application;
-using PermissionService.Domain.Models;
+using PermissionService.Application.Permission;
 
 namespace PermissionService.Api.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    public class UserPermissionController : ControllerBase
+    public class PermissionController : ControllerBase
     {
         protected readonly IMediator _mediator;
-        public UserPermissionController(IMediator mediator)
+        public PermissionController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [Route("/api/getpermission/roleassignments/")]
+        [Route("/api/permission/menus")]
         [HttpGet]
-        [ApiAuthorization("GetPermission.RoleAssignments")]
-        public async Task<ActionResult<List<RoleAssignmentModel>>> GetRoleAssignments(string userSubject)
+        [ApiAuthorization("Permission.GetUserMenus")]
+        public async Task<ActionResult<List<UserMenu>>> GetUserMenus()
         {
-            return Ok(await _mediator.Send(new GetRoleAssignmentsRequest()));
-        }
-
-        [Route("/api/getpermission/{roleAssignmentID}")]
-        [HttpGet]
-        [ApiAuthorization("GetPermission.CurrentUserPermission")]
-        public async Task<ActionResult<CurrentUserPermission>> GetUserPermission(Guid roleAssignmentID)
-        {
-            return Ok(await _mediator.Send(new GetUserPermissionRequest() { RoleAssignmentID = roleAssignmentID}));
+            return Ok(await _mediator.Send(new GetUserMenusRequest()));
         }
     }
 }

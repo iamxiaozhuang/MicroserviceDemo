@@ -29,12 +29,12 @@ namespace PermissionService.Application
     {
         private readonly PermissionDBReadOnlyContext dbContext;
         private readonly IMapper autoMapper;
-        private readonly CurrentUserInfo currentUserInfo;
+        private readonly UserInfo currentUserInfo;
         public GetRoleAssignmentslHandler(PermissionDBReadOnlyContext _dbContext, IMapper _autoMapper, IHttpContextAccessor _httpContextAccessor)
         {
             dbContext = _dbContext;
             autoMapper = _autoMapper;
-            currentUserInfo = _httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
+            currentUserInfo = _httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as UserInfo;
         }
 
         public async Task<List<RoleAssignmentModel>> Handle(GetRoleAssignmentsRequest request, CancellationToken cancellationToken)
@@ -45,26 +45,26 @@ namespace PermissionService.Application
         }
     }
 
-    public class GetUserPermissionRequest : IRequest<CurrentUserPermission>
+    public class GetUserPermissionRequest : IRequest<UserPermission>
     {
         public Guid RoleAssignmentID { get; set; }
     }
 
-    public class GetUserPermissionHandler : IRequestHandler<GetUserPermissionRequest, CurrentUserPermission>
+    public class GetUserPermissionHandler : IRequestHandler<GetUserPermissionRequest, UserPermission>
     {
         private readonly PermissionDBReadOnlyContext dbContext;
         private readonly IMapper autoMapper;
-        private readonly CurrentUserInfo currentUserInfo;
+        private readonly UserInfo currentUserInfo;
         private readonly IUserPermissionCache userPermissionCache;
         public GetUserPermissionHandler(PermissionDBReadOnlyContext _dbContext, IMapper _autoMapper, IHttpContextAccessor _httpContextAccessor, IUserPermissionCache _userPermissionCache)
         {
             dbContext = _dbContext;
             autoMapper = _autoMapper;
-            currentUserInfo = _httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
+            currentUserInfo = _httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as UserInfo;
             userPermissionCache = _userPermissionCache;
         }
 
-        public async Task<CurrentUserPermission> Handle(GetUserPermissionRequest request, CancellationToken cancellationToken)
+        public async Task<UserPermission> Handle(GetUserPermissionRequest request, CancellationToken cancellationToken)
         {
             RoleAssignment roleAssignment;
             if (request.RoleAssignmentID == Guid.Empty)
@@ -85,7 +85,7 @@ namespace PermissionService.Application
                     ExceptionMessage = $"The RoleAssignment id: {request.RoleAssignmentID} does not exist."
                 };
             }
-            CurrentUserPermission currentUserPermission = new CurrentUserPermission();
+            UserPermission currentUserPermission = new UserPermission();
             currentUserPermission.RoleCode = roleAssignment.Role.RoleCode;
             currentUserPermission.AllowResourceCodes = dbContext.RolePermissions.Where(p => p.Role.ID == roleAssignment.RoleID).Select(p => p.ResourceCode).ToList();
             currentUserPermission.ScopeCode = roleAssignment.Scope.ScopeCode;
@@ -97,4 +97,6 @@ namespace PermissionService.Application
 
         }
     }
+
 }
+

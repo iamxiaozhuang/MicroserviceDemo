@@ -15,7 +15,7 @@ namespace SystemService.Api.Controllers
 
         [Route("/api/account/userlogin")]
         [HttpPost]
-        public async Task<ActionResult<CurrentUserInfo>> UserLogin([FromBody] UserLoginRequest request)
+        public async Task<ActionResult<UserInfo>> UserLogin([FromBody] UserLoginRequest request)
         {
             List<UserModel> testUsers = GetUsers();
             string tenantCode = request.userSubject.Split('-')[0];
@@ -25,7 +25,7 @@ namespace SystemService.Api.Controllers
             {
                 return new UnauthorizedResult();
             }
-            return new CurrentUserInfo()
+            return new UserInfo()
             {
                 TenantCode = tenantCode,
                 UserCode = userCode,

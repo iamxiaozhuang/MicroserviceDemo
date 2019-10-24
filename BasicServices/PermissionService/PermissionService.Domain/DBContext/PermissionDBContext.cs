@@ -19,11 +19,11 @@ namespace PermissionService.Domain
     /// </summary>
     public class PermissionDBContext : DbContext
     {
-        private readonly CurrentUserInfo currentUserInfo;
+        private readonly UserInfo currentUserInfo;
         public PermissionDBContext(DbContextOptions<PermissionDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
-            currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
-            //currentUserInfo = new CurrentUserInfo();
+            currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as UserInfo;
+            //currentUserInfo = new UserInfo();
         }
 
         public DbSet<Role> Roles { get; set; }

@@ -14,7 +14,11 @@ namespace CommonLibrary
     {
         [Post("/SystemService/account/userlogin")]
         [Headers("Authorization: Bearer")]
-        Task<CurrentUserInfo> UserLogin([Body] UserLoginRequest request);
+        Task<UserInfo> UserLogin([Body] UserLoginRequest request);
+
+        [Post("/SystemService/resource/menus")]
+        [Headers("Authorization: Bearer")]
+        Task<List<UserMenu>> GetUserMenus([Body] List<string> allowResourceCodes);
 
     }
 
@@ -66,12 +70,15 @@ namespace CommonLibrary
             }
         }
 
-        public async Task<CurrentUserInfo> UserLogin(UserLoginRequest userLoginRequest)
+        public async Task<UserInfo> UserLogin(UserLoginRequest userLoginRequest)
         { 
             return await callSystemServiceApi.UserLogin(userLoginRequest);
         }
 
-      
+        public async Task<List<UserMenu>> GetUserMenus(List<string> allowResourceCodes)
+        {
+            return await callSystemServiceApi.GetUserMenus(allowResourceCodes);
+        }
     }
 
     public class UserLoginRequest

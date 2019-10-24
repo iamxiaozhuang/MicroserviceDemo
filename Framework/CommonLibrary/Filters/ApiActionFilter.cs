@@ -47,7 +47,7 @@ namespace CommonLibrary
                     ExceptionMessage = $"The current user is not logged on."
                 };
             }
-            CurrentUserInfo currentUserInfo = context.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
+            UserInfo currentUserInfo = context.HttpContext.Items["CurrentUserInfo"] as UserInfo;
             if (currentUserInfo == null )
             {
                 throw new FriendlyException()
@@ -56,7 +56,7 @@ namespace CommonLibrary
                     ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} information was not found."
                 };
             }
-            CurrentUserPermission currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as CurrentUserPermission;
+            UserPermission currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as UserPermission;
             if (currentUserPermission == null)
             {
                 throw new FriendlyException()

@@ -53,6 +53,9 @@ namespace PermissionService.Api
             services.AddHttpClient<CallPermissionServiceApi>();
             services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
 
+            services.AddHttpClient<ICallSystemServiceApi>();
+            services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
+
             services.AddDbContext<PermissionDBContext>(option =>
             option.UseNpgsql(Configuration.GetConnectionString("PermissionDBConnStr"), npgsqlOptions =>
                     {

@@ -19,12 +19,12 @@ namespace ProductService.Domain
     /// </summary>
     public class ProductDBContext : DbContext
     {
-        private readonly CurrentUserInfo currentUserInfo;
-        private readonly CurrentUserPermission currentUserPermission;
+        private readonly UserInfo currentUserInfo;
+        private readonly UserPermission currentUserPermission;
         public ProductDBContext(DbContextOptions<ProductDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
-            currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as CurrentUserInfo;
-            currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as CurrentUserPermission;
+            currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as UserInfo;
+            currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as UserPermission;
             //currentUserInfo = new CurrentUserInfo();
         }
 

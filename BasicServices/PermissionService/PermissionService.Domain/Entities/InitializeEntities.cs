@@ -39,6 +39,22 @@ namespace PermissionService.Domain.Entities
                     TenantCode = "SYSTEM",
                     ID = Guid.NewGuid(),
                     RoleID = adminRoleID,
+                    ResourceCode = "Permission.GetUserMenus",
+                    ResourceName = "获取用户菜单"
+                },
+                 new RolePermission()
+                 {
+                     TenantCode = "SYSTEM",
+                     ID = Guid.NewGuid(),
+                     RoleID = adminRoleID,
+                     ResourceCode = "values.getuserclaims",
+                     ResourceName = "getuserclaims"
+                 },
+                new RolePermission()
+                {
+                    TenantCode = "SYSTEM",
+                    ID = Guid.NewGuid(),
+                    RoleID = adminRoleID,
                     ResourceCode = "RootMenu",
                     ResourceName = "RootMenu"
                 },

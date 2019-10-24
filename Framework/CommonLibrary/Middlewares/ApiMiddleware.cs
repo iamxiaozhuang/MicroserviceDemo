@@ -45,12 +45,12 @@ namespace CommonLibrary
                 if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
                 {
                     Claim userInfoClaim = context.User.FindFirst("current_user_info");
-                    CurrentUserInfo currentUserInfo = JsonConvert.DeserializeObject<CurrentUserInfo>(userInfoClaim.Value);
+                    UserInfo currentUserInfo = JsonConvert.DeserializeObject<UserInfo>(userInfoClaim.Value);
                     requestTenant = currentUserInfo.TenantCode;
                     requestUser = currentUserInfo.UserName;
                     context.Items.Add("CurrentUserInfo", currentUserInfo);
 
-                    CurrentUserPermission userPermission = await _userPermissionCache.GetCurrentUserPermission();
+                    UserPermission userPermission = await _userPermissionCache.GetCurrentUserPermission();
                     context.Items.Add("CurrentUserPermission", userPermission);
 
                 }

@@ -14,9 +14,9 @@ namespace CommonLibrary
 
     public interface ICallPermissionServiceApi
     {
-        [Get("/PermissionService/getpermission/{roleAssignmentID}")]
+        [Get("/PermissionService/permissionprovider/{roleAssignmentID}")]
         [Headers("Authorization: Bearer")]
-        Task<CurrentUserPermission> GetUserPermission(Guid roleAssignmentID);
+        Task<UserPermission> GetUserPermission(Guid roleAssignmentID);
     }
 
 
@@ -43,7 +43,7 @@ namespace CommonLibrary
             }
         }
 
-        public async Task<CurrentUserPermission> GetUserPermission(Guid roleAssignmentID)
+        public async Task<UserPermission> GetUserPermission(Guid roleAssignmentID)
         {
             return await callPermissionServiceApi.GetUserPermission(roleAssignmentID);
         }

@@ -14,8 +14,8 @@ namespace CommonLibrary
 {
     public interface IUserPermissionCache
     {
-        Task SetCurrentUserPermission(CurrentUserPermission currentUserPermission);
-        Task<CurrentUserPermission> GetCurrentUserPermission();
+        Task SetCurrentUserPermission(UserPermission currentUserPermission);
+        Task<UserPermission> GetCurrentUserPermission();
     }
 
     public class UserPermissionCache : IUserPermissionCache
@@ -52,27 +52,27 @@ namespace CommonLibrary
             return $"CurrentUserPermission_{subClaim.Value}_{auth_timeClaim.Value}";
         }
 
-        public async Task SetCurrentUserPermission(CurrentUserPermission currentUserPermission)
+        public async Task SetCurrentUserPermission(UserPermission currentUserPermission)
         {
             await RedisHelper.SetAsync(GetRedisKey(), currentUserPermission, 36000);
         }
 
-        public async Task<CurrentUserPermission> GetCurrentUserPermission()
+        public async Task<UserPermission> GetCurrentUserPermission()
         {
             string redisKey = GetRedisKey();
-            CurrentUserPermission currentUserPermission;
-            if (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/getpermission/"))
+            UserPermission currentUserPermission;
+            if (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/permissionprovider/"))
             {
 
-                currentUserPermission = new CurrentUserPermission();
+                currentUserPermission = new UserPermission();
                 currentUserPermission.RoleCode = "";
                 currentUserPermission.ScopeCode = "";
-                currentUserPermission.AllowResourceCodes = new List<string>() { "GetPermission.RoleAssignments", "GetPermission.CurrentUserPermission" };
+                currentUserPermission.AllowResourceCodes = new List<string>() { "PermissionProvider.GetUserRoleAssignments", "PermissionProvider.GetUserPermission"};
                 currentUserPermission.AllowScopeCodes = new List<string>();
             }
             else
             {
-                currentUserPermission = await RedisHelper.GetAsync<CurrentUserPermission>(redisKey);
+                currentUserPermission = await RedisHelper.GetAsync<UserPermission>(redisKey);
                 if (currentUserPermission == null)
                 {
                     currentUserPermission = await callPermissionServiceApi.GetUserPermission(Guid.Empty);
