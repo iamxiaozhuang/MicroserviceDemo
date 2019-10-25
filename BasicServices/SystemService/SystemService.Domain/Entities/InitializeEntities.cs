@@ -31,6 +31,15 @@ namespace SystemService.Domain.Entities
                      ParentResourceID = rootID,
                      SortNO = 0
                  },
+                   new Resource()
+                   {
+                       ID = Guid.NewGuid(),
+                       ResourceCode = "Permission.GetUserMenus",
+                       ResourceName = "获取用户菜单",
+                       ResourceType = EnumResourceType.Action,
+                       ParentResourceID = rootID,
+                       SortNO = 0
+                   },
                  new Resource()
                  {
                      ID = productMngmtID,

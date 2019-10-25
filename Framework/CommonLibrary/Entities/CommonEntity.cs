@@ -19,7 +19,9 @@ namespace CommonLibrary
     {
         public string RoleCode { get; set; }
         public string ScopeCode { get; set; }
-        public List<string> AllowResourceCodes { get; set; }
+        public List<string> AllowMenuCodes { get; set; }
+        public List<string> AllowActionCodes { get; set; }
+        public List<string> AllowBtnCodes { get; set; }
         public List<string> AllowScopeCodes { get; set; }
 
     }
@@ -34,6 +36,22 @@ namespace CommonLibrary
 
     }
 
+    public class ResourceData
+    {
+        public Guid ID { get; set; }
+        public string ResourceCode { get; set; }
+        public string ResourceName { get; set; }
+        public EnumResourceType ResourceType { get; set; }
+        public Guid ParentResourceID { get; set; }
+        public int SortNO { get; set; }
+        public string ResourceDesc { get; set; }
+    }
+    public enum EnumResourceType
+    {
+        Menu = 1,
+        Action = 2,
+        Button = 3
+    }
 
 
 

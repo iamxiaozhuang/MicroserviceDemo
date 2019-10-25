@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using CommonLibrary;
+using CommonLibrary.Caches;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -53,6 +54,7 @@ namespace PermissionService.Api
             services.AddHttpClient<CallPermissionServiceApi>();
             services.AddSingleton<ICallPermissionServiceApi, CallPermissionServiceApi>();
 
+            services.AddSingleton<ISystemDataCache, SystemDataCache>();
             services.AddHttpClient<ICallSystemServiceApi>();
             services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
 

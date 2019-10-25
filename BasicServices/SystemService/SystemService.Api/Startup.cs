@@ -66,8 +66,8 @@ namespace SystemService.Api
 
             services.AddSwaggerDocumentation("v1", "SystemService API", Assembly.GetExecutingAssembly().GetName().Name);
 
-            services.AddMediatR(Assembly.GetAssembly(typeof(Application.ResourceApp.GetUserMenuslHandler)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(Application.ResourceApp.GetUserMenusRequest)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(Application.ResourceApp.GetResourceHandler)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.AutoMapperProfile)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

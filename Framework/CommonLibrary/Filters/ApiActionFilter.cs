@@ -75,7 +75,7 @@ namespace CommonLibrary
                     ExceptionMessage = $"This action {context.ActionDescriptor.DisplayName} have no authorization attribute configration."
                 };
             }
-            var query = currentUserPermission.AllowResourceCodes.FirstOrDefault(p => p == authorizationAttribute.ResourceCode);
+            var query = currentUserPermission.AllowActionCodes.FirstOrDefault(p => p == authorizationAttribute.ResourceCode);
             if (query == null)
             {
                 throw new FriendlyException()

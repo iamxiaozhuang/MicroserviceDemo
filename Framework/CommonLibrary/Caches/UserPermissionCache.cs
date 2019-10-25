@@ -67,7 +67,7 @@ namespace CommonLibrary
                 currentUserPermission = new UserPermission();
                 currentUserPermission.RoleCode = "";
                 currentUserPermission.ScopeCode = "";
-                currentUserPermission.AllowResourceCodes = new List<string>() { "PermissionProvider.GetUserRoleAssignments", "PermissionProvider.GetUserPermission"};
+                currentUserPermission.AllowActionCodes = new List<string>() { "PermissionProvider.GetUserRoleAssignments", "PermissionProvider.GetUserPermission"};
                 currentUserPermission.AllowScopeCodes = new List<string>();
             }
             else

@@ -19,11 +19,11 @@ namespace SystemService.Api.Controllers
         {
             _mediator = mediator;
         }
-        [Route("/api/resource/menus")]
-        [HttpPost]
-        public async Task<ActionResult<List<UserMenu>>> GetUserMenus([FromBody] List<string> allowResourceCodes)
+        [Route("/api/resource")]
+        [HttpGet]
+        public async Task<ActionResult<List<ResourceData>>> GetResources()
         {
-            return Ok(await _mediator.Send(new GetUserMenusRequest() { AllowResourceCodes = allowResourceCodes }));
+            return Ok(await _mediator.Send(new GetResourcesRequest()));
         }
     }
 }

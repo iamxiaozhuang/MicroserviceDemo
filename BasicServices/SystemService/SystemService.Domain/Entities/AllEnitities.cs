@@ -29,12 +29,7 @@ namespace SystemService.Domain
 
         public string ResourceDesc { get; set; }
     }
-    public enum EnumResourceType
-    {
-        Menu = 1,
-        Action = 2,
-        Button = 3
-    }
+  
 
     [Table("Tenant")]
     public class Tenant : BaseEntityWithNoTenant
