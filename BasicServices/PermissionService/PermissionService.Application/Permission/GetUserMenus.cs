@@ -1,5 +1,5 @@
-﻿using CommonLibrary;
-using CommonLibrary.Caches;
+﻿using ServiceCommon;
+using ServiceCommon.Caches;
 using MediatR;
 using System;
 using System.Collections.Generic;

@@ -8,7 +8,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace CommonLibrary
+namespace ServiceCommon
 {
     public static class SwaggerServiceExtension
     {

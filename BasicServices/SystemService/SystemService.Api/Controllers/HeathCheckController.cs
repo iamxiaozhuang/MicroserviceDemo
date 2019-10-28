@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using ServiceCommon;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
-namespace ProductService.Api.Controllers
+namespace SystemService.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class HeathCheckController : ControllerBase
     {
         [HttpGet]
         [Route("test")]
         public ActionResult<IEnumerable<string>> Test()
         {
-            return new string[] { "API From ProductService" };
+            return new string[] { "API From SystemService" };
         }
 
         [HttpGet]

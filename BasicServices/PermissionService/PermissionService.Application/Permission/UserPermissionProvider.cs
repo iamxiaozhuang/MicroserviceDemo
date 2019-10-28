@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using CommonLibrary;
-using CommonLibrary.Caches;
+using ServiceCommon;
+using ServiceCommon.Caches;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

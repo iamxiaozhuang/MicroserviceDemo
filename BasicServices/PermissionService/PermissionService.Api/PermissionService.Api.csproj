@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
+    <ProjectReference Include="..\..\..\Framework\ServiceCommon\ServiceCommon.csproj" />
     <ProjectReference Include="..\PermissionService.Application\PermissionService.Application.csproj" />
     <ProjectReference Include="..\PermissionService.Domain\PermissionService.Domain.csproj" />
   </ItemGroup>

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-namespace CommonLibrary
+namespace ServiceCommon
 {
     public class ApiActionFilter : IActionFilter
     {
@@ -18,8 +18,13 @@ namespace CommonLibrary
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            //参数验证
-            if (!context.ModelState.IsValid)
+            if (httpContextAccessor.HttpContext.Request.Path.HasValue 
+                && !httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/swagger") && !httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/heathcheck"))
+            {
+                return;
+            }
+                //参数验证
+                if (!context.ModelState.IsValid)
             {
                 //context.Result = new BadRequestObjectResult(context.ModelState);
                 string errorString = string.Empty;

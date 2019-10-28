@@ -13,7 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonLibrary
+namespace ServiceCommon
 {
     /// <summary>
     /// https://elanderson.net/2017/02/log-requests-and-responses-in-asp-net-core/
@@ -34,15 +34,18 @@ namespace CommonLibrary
         {
             Guid logID = Guid.NewGuid();
             DateTime requestTime = DateTime.UtcNow;
-            string requestTenant = "", requestUser = "";
-            string requestBody = await GetRequestBody(context.Request);
+            string requestTenant = "", requestUser = "", requestBody = "";
             Exception invokeException = null;
             DateTime reponseTime = requestTime;
             string responseBody = "";
 
             try
             {
-                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
+                if (context.Request.ContentType != null && !context.Request.ContentType.Contains("multipart/form-data"))
+                {
+                    requestBody = await GetRequestBody(context.Request);
+                }
+                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/heathcheck"))
                 {
                     Claim userInfoClaim = context.User.FindFirst("current_user_info");
                     UserInfo currentUserInfo = JsonConvert.DeserializeObject<UserInfo>(userInfoClaim.Value);
@@ -53,46 +56,55 @@ namespace CommonLibrary
                     UserPermission userPermission = await _userPermissionCache.GetCurrentUserPermission();
                     context.Items.Add("CurrentUserPermission", userPermission);
 
+                    var originalBodyStream = context.Response.Body;
+                    using (var memoryResponseBody = new MemoryStream())
+                    {
+                        context.Response.Body = memoryResponseBody;
+                        await _next(context);
+                        responseBody = await GetResponseBody(context.Response);
+                        await memoryResponseBody.CopyToAsync(originalBodyStream);
+                    }
                 }
-                var originalBodyStream = context.Response.Body;
-                using (var memoryResponseBody = new MemoryStream())
+                else
                 {
-                    context.Response.Body = memoryResponseBody;
                     await _next(context);
-                    responseBody = await GetResponseBody(context.Response);
-                    await memoryResponseBody.CopyToAsync(originalBodyStream);
                 }
+               
             }
             catch (Exception ex)
             {
                 invokeException = ex;
-                context.Response.ContentType = "application/json";
-                var exceptionResponse = "";
-                FriendlyException friendlyException = ex as FriendlyException;
-                if (friendlyException != null)
-                {
-                    context.Response.StatusCode = friendlyException.HttpStatusCode;
-                    exceptionResponse = JsonConvert.SerializeObject(new
-                    {
-                        FriendlyExceptionMessage = friendlyException.ExceptionMessage
-                    });
-                }
-                else
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    exceptionResponse = JsonConvert.SerializeObject(new
-                    {
-                        FriendlyExceptionMessage = $"Internal Server Error, Error ID is {logID}, Please contact the administrator to handle."
-                    });
-                }
-
-                await context.Response.WriteAsync(exceptionResponse);
             }
             finally
             {
                 reponseTime = DateTime.UtcNow;
-                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger"))
+                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/heathcheck"))
+                {
                     NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant, requestUser, requestBody, invokeException, reponseTime, responseBody);
+
+                    if (invokeException != null)
+                    {
+                        context.Response.ContentType = "application/json";
+                        FriendlyException friendlyException = invokeException as FriendlyException;
+                        if (friendlyException != null)
+                        {
+                            context.Response.StatusCode = friendlyException.HttpStatusCode;
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                            {
+                                FriendlyExceptionMessage = friendlyException.ExceptionMessage
+                            }));
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                            {
+                                FriendlyExceptionMessage = $"Internal Server Error, Error ID is {logID}, Please contact the administrator to handle."
+                            }));
+                        }
+                        
+                    }
+                }
             }
            
         }

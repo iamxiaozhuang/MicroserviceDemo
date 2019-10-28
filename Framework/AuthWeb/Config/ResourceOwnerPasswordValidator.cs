@@ -1,5 +1,5 @@
 ﻿using AuthWeb.Config;
-using CommonLibrary;
+using ServiceCommon;
 using IdentityModel.Client;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;

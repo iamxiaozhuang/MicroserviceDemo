@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\CommonLibrary\CommonLibrary.csproj" />
+    <ProjectReference Include="..\..\..\Framework\ServiceCommon\ServiceCommon.csproj" />
     <ProjectReference Include="..\ProductService.Application\ProductService.Application.csproj" />
     <ProjectReference Include="..\ProductService.Domain\ProductService.Domain.csproj" />
   </ItemGroup>

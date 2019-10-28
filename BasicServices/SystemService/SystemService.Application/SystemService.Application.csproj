@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\ServiceCommon\ServiceCommon.csproj" />
     <ProjectReference Include="..\SystemService.Domain\SystemService.Domain.csproj" />
   </ItemGroup>
 

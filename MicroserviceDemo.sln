@@ -55,15 +55,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{FD24E893-2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "Test\TestConsole\TestConsole.csproj", "{A13CA14C-5891-4998-8914-F4EA3CF63A92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary", "Framework\CommonLibrary\CommonLibrary.csproj", "{3FF245AE-9CD8-419F-B304-E62338141689}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SystemService", "SystemService", "{980F2A74-AE68-4514-907B-36698379EF78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemService.Api", "BasicServices\SystemService\SystemService.Api\SystemService.Api.csproj", "{0CE24CC8-42DF-471D-BFF3-E3BBD59CEB46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemService.Api", "BasicServices\SystemService\SystemService.Api\SystemService.Api.csproj", "{0CE24CC8-42DF-471D-BFF3-E3BBD59CEB46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemService.Application", "BasicServices\SystemService\SystemService.Application\SystemService.Application.csproj", "{64B5F102-B029-442F-8093-79A266E5561E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemService.Application", "BasicServices\SystemService\SystemService.Application\SystemService.Application.csproj", "{64B5F102-B029-442F-8093-79A266E5561E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemService.Domain", "BasicServices\SystemService\SystemService.Domain\SystemService.Domain.csproj", "{887F75DA-DFBD-4F2E-84E8-FB20B2251276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemService.Domain", "BasicServices\SystemService\SystemService.Domain\SystemService.Domain.csproj", "{887F75DA-DFBD-4F2E-84E8-FB20B2251276}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceCommon", "Framework\ServiceCommon\ServiceCommon.csproj", "{1DAC58D3-53D2-4650-998D-A930F56E369E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,10 +135,6 @@ Global
 		{A13CA14C-5891-4998-8914-F4EA3CF63A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A13CA14C-5891-4998-8914-F4EA3CF63A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A13CA14C-5891-4998-8914-F4EA3CF63A92}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FF245AE-9CD8-419F-B304-E62338141689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FF245AE-9CD8-419F-B304-E62338141689}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FF245AE-9CD8-419F-B304-E62338141689}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FF245AE-9CD8-419F-B304-E62338141689}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0CE24CC8-42DF-471D-BFF3-E3BBD59CEB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CE24CC8-42DF-471D-BFF3-E3BBD59CEB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CE24CC8-42DF-471D-BFF3-E3BBD59CEB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -151,6 +147,10 @@ Global
 		{887F75DA-DFBD-4F2E-84E8-FB20B2251276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{887F75DA-DFBD-4F2E-84E8-FB20B2251276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{887F75DA-DFBD-4F2E-84E8-FB20B2251276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,11 +178,11 @@ Global
 		{44D58004-FAE4-418C-BA65-70E6550CE72B} = {CE514026-2C30-415B-923A-292FE752F2E0}
 		{A838232B-9D9D-4F55-95AD-B66B35474216} = {CE514026-2C30-415B-923A-292FE752F2E0}
 		{A13CA14C-5891-4998-8914-F4EA3CF63A92} = {FD24E893-2DB2-40E0-822D-48821AE5A8BB}
-		{3FF245AE-9CD8-419F-B304-E62338141689} = {76A0ED33-0DA6-48F1-93F1-B43A2B2A178A}
 		{980F2A74-AE68-4514-907B-36698379EF78} = {D6BC0F68-EED9-4A20-9BBC-6F9A8348DEF8}
 		{0CE24CC8-42DF-471D-BFF3-E3BBD59CEB46} = {980F2A74-AE68-4514-907B-36698379EF78}
 		{64B5F102-B029-442F-8093-79A266E5561E} = {980F2A74-AE68-4514-907B-36698379EF78}
 		{887F75DA-DFBD-4F2E-84E8-FB20B2251276} = {980F2A74-AE68-4514-907B-36698379EF78}
+		{1DAC58D3-53D2-4650-998D-A930F56E369E} = {76A0ED33-0DA6-48F1-93F1-B43A2B2A178A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8EE6B471-0F9E-4BC9-80E1-2591688EEEA4}

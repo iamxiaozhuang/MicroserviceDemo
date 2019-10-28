@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SystemService.Domain;
-using CommonLibrary;
+using ServiceCommon;
 using AutoMapper;
 
 namespace SystemService.Api

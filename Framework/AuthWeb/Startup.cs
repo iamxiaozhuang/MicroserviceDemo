@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AuthWeb.Config;
-using CommonLibrary;
+using ServiceCommon;
 using IdentityServer;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
