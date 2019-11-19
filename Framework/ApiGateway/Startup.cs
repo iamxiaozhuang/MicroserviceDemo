@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiGateway.Extensions;
+using CacheManager.Core;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Ocelot.Cache;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -52,6 +55,12 @@ namespace ApiGateway
 
             // Ocelot
             services.AddOcelot(Configuration);
+
+            //OcelotCaching
+            services.AddCacheManager<CachedResponse>(inline => inline.WithDictionaryHandle());
+            services.AddSingleton<IOcelotCache<CachedResponse>, RedisOcelotCache>();
+
+            //services.AddCacheManagerConfiguration(Configuration, "cachename").AddCacheManager<CachedResponse>(inline => inline.WithDictionaryHandle());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

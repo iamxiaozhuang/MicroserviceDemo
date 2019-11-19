@@ -30,6 +30,7 @@ namespace AuthWeb
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
+                //.UseIISIntegration()
                 .UseStartup<Startup>();
             host.Build().Run();
             //CreateWebHostBuilder(args).Build().Run();

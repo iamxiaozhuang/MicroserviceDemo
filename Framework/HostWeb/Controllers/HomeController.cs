@@ -69,22 +69,18 @@ namespace HostWeb.Controllers
             var data = await callApi.GetUserMenus();
             return Ok(data);
         }
-        public async Task<IActionResult> GetApiClaims()
+        public async Task<IActionResult> TestApigatewayCache()
         {
             var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
                new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
-            var dic = await callTestApi.GetApiClaims();
-            return Ok(dic);
+            var str = await callTestApi.TestApigatewayCache();
+            return Ok(str);
         }
 
     }
 
     public interface ICallApi
     {
-        [Get("/ProductService/values/getuserclaims")]
-        [Headers("Authorization: Bearer")]
-        Task<Dictionary<string, string>> GetApiClaims();
-
         [Get("/PermissionService/permissionprovider/roleassignments/")]
         [Headers("Authorization: Bearer")]
         Task<List<RoleAssignmentModel>> GetRoleAssignments();
@@ -96,6 +92,11 @@ namespace HostWeb.Controllers
         [Get("/PermissionService/permission/menus")]
         [Headers("Authorization: Bearer")]
         Task<List<UserMenu>> GetUserMenus();
+
+
+        [Get("/PermissionService/permission/testapigatewaycache")]
+        [Headers("Authorization: Bearer")]
+        Task<string> TestApigatewayCache();
 
     }
 

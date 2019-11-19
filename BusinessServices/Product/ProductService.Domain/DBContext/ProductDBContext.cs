@@ -25,7 +25,8 @@ namespace ProductService.Domain
         {
             currentUserInfo = httpContextAccessor.HttpContext.Items["CurrentUserInfo"] as UserInfo;
             currentUserPermission = httpContextAccessor.HttpContext.Items["CurrentUserPermission"] as UserPermission;
-            //currentUserInfo = new CurrentUserInfo();
+            //currentUserInfo = new UserInfo();
+            //currentUserPermission = new UserPermission();
         }
 
         public DbSet<Product> Products { get; set; }

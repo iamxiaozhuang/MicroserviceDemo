@@ -23,6 +23,7 @@ namespace ApiGateway
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{envName}.json", optional: true)
                 .AddJsonFile($"configuration.json", optional: true)
+                //.AddJsonFile($"cache.json", optional: true)
                 .Build();
             var host = new WebHostBuilder()
                 .UseEnvironment(envName)
@@ -31,6 +32,9 @@ namespace ApiGateway
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
                 .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseStartup<Startup>();
+
+            var csredis = new CSRedis.CSRedisClient(appconfig.GetValue<string>("CSRedis:Client"));
+            RedisHelper.Initialization(csredis);
 
             host.Build().Run();
             //CreateWebHostBuilder(args).Build().Run();

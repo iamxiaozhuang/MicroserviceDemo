@@ -36,6 +36,11 @@ namespace AuthWeb
                .AddInMemoryClients(IdentityServer.Config.GetClients())
                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                .AddProfileService<ProfileService>();
+            //services.Configure<IISOptions>(iis =>
+            //{
+            //    iis.AuthenticationDisplayName = "Windows";
+            //    iis.AutomaticAuthentication = false;
+            //});
 
             services.AddHttpClient<CallSystemServiceApi>();
             services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();

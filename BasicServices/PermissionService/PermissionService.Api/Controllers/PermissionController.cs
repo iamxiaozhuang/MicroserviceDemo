@@ -27,5 +27,13 @@ namespace PermissionService.Api.Controllers
         {
             return Ok(await _mediator.Send(new GetUserMenusRequest()));
         }
+
+        [Route("/api/permission/testapigatewaycache")]
+        [HttpGet]
+        [ApiAuthorization("Permission.GetUserMenus")]
+        public ActionResult TestApigatewayCache()
+        {
+            return Ok(DateTime.UtcNow.ToString());
+        }
     }
 }

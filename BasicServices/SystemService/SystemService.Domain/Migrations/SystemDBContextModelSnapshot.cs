@@ -19,7 +19,7 @@ namespace SystemService.Domain.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("CommonLibrary.Recycle", b =>
+            modelBuilder.Entity("ServiceCommon.Recycle", b =>
                 {
                     b.Property<string>("TenantCode");
 
@@ -101,7 +101,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("5ae86054-b6c8-4408-a0d3-fe3b060c53e9"),
+                            ID = new Guid("58ff99ee-1ad9-4cfe-8407-74fbb494fff7"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ParentResourceID = new Guid("88888888-8888-8888-8888-888888888888"),
                             ResourceCode = "Permission.GetUserMenus",
@@ -111,7 +111,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("c58858e2-861c-4e06-8917-4d853ac86dfe"),
+                            ID = new Guid("3feae607-8c67-4870-ad7b-9f7a685d4db8"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ParentResourceID = new Guid("88888888-8888-8888-8888-888888888888"),
                             ResourceCode = "ProductMngmt",
@@ -121,9 +121,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("c119ac7b-2c52-40dc-93e2-7467623efa4f"),
+                            ID = new Guid("d0c9d91d-145d-4941-9a8f-f75083feaf66"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("c58858e2-861c-4e06-8917-4d853ac86dfe"),
+                            ParentResourceID = new Guid("3feae607-8c67-4870-ad7b-9f7a685d4db8"),
                             ResourceCode = "ProductMngmt.Read",
                             ResourceName = "查看",
                             ResourceType = 2,
@@ -131,9 +131,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("0da1e306-9e27-41ea-af0a-4b492f21c45a"),
+                            ID = new Guid("ab944839-be7d-4184-98dd-1292011c1a1e"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("c58858e2-861c-4e06-8917-4d853ac86dfe"),
+                            ParentResourceID = new Guid("3feae607-8c67-4870-ad7b-9f7a685d4db8"),
                             ResourceCode = "ProductMngmt.Add",
                             ResourceName = "添加",
                             ResourceType = 2,
@@ -141,9 +141,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("306f47d5-1ae0-4e1f-b192-b0487c8fbbed"),
+                            ID = new Guid("fd87a982-d757-44b6-a2e4-6bba177f2448"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("0da1e306-9e27-41ea-af0a-4b492f21c45a"),
+                            ParentResourceID = new Guid("ab944839-be7d-4184-98dd-1292011c1a1e"),
                             ResourceCode = "ProductMngmt.Add.AddBtn",
                             ResourceName = "添加按钮",
                             ResourceType = 3,
@@ -151,9 +151,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("20816b2d-79ff-4731-8cf7-76e0c05e172e"),
+                            ID = new Guid("340baee6-c56e-4b47-8f32-0445a9c3331d"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("c58858e2-861c-4e06-8917-4d853ac86dfe"),
+                            ParentResourceID = new Guid("3feae607-8c67-4870-ad7b-9f7a685d4db8"),
                             ResourceCode = "ProductMngmt.Edit",
                             ResourceName = "修改",
                             ResourceType = 2,
@@ -161,9 +161,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("2c702c83-c8d4-41f5-a57e-64a770105538"),
+                            ID = new Guid("c4a3567b-bc52-4406-88dd-eac55a31e891"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("c58858e2-861c-4e06-8917-4d853ac86dfe"),
+                            ParentResourceID = new Guid("3feae607-8c67-4870-ad7b-9f7a685d4db8"),
                             ResourceCode = "ProductMngmt.Delete",
                             ResourceName = "删除",
                             ResourceType = 2,
@@ -171,7 +171,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("3a394bcb-76ef-43fe-8bfc-e56016405c4d"),
+                            ID = new Guid("fd10e54b-2e87-4abc-becd-3b39882413bd"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ParentResourceID = new Guid("88888888-8888-8888-8888-888888888888"),
                             ResourceCode = "OrderingMngmt",
@@ -181,7 +181,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("9b9c3ebb-f4fc-4347-a03e-5364bbee973d"),
+                            ID = new Guid("85312b0a-fc1f-43a2-8dc6-50266fc99cc1"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ParentResourceID = new Guid("88888888-8888-8888-8888-888888888888"),
                             ResourceCode = "PaymentMngmt",
@@ -191,7 +191,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("897335d5-562b-4e86-85e0-8aff46d01f7a"),
+                            ID = new Guid("eee46887-62a2-4d55-b8cf-77c096339d14"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             ParentResourceID = new Guid("88888888-8888-8888-8888-888888888888"),
                             ResourceCode = "SystemMngmt",
@@ -201,9 +201,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("84448bbd-1ada-458d-8c9f-799c07331e51"),
+                            ID = new Guid("3c9a3c21-daf2-4653-8034-88ec946d36ca"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("897335d5-562b-4e86-85e0-8aff46d01f7a"),
+                            ParentResourceID = new Guid("eee46887-62a2-4d55-b8cf-77c096339d14"),
                             ResourceCode = "SystemMngmt.PermissionMngmt",
                             ResourceName = "权限管理",
                             ResourceType = 1,
@@ -211,9 +211,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("ff494d37-c94c-487b-95bd-863a8bdaddb9"),
+                            ID = new Guid("22f7aaeb-8a5e-448d-a53c-ab8bc11aba79"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("84448bbd-1ada-458d-8c9f-799c07331e51"),
+                            ParentResourceID = new Guid("3c9a3c21-daf2-4653-8034-88ec946d36ca"),
                             ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt",
                             ResourceName = "角色管理",
                             ResourceType = 1,
@@ -221,9 +221,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("b86aa3c8-0c2e-4f60-ac24-fb76ce513aad"),
+                            ID = new Guid("ab427912-168e-42d7-8ace-a99b4f3b0e9c"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("ff494d37-c94c-487b-95bd-863a8bdaddb9"),
+                            ParentResourceID = new Guid("22f7aaeb-8a5e-448d-a53c-ab8bc11aba79"),
                             ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt.Read",
                             ResourceName = "查看",
                             ResourceType = 2,
@@ -231,9 +231,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("66955fbc-a99d-4527-99af-ecf65124731b"),
+                            ID = new Guid("253e85e9-35ac-459e-bb5c-662c3e680c3f"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("ff494d37-c94c-487b-95bd-863a8bdaddb9"),
+                            ParentResourceID = new Guid("22f7aaeb-8a5e-448d-a53c-ab8bc11aba79"),
                             ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt.Update",
                             ResourceName = "更改",
                             ResourceType = 2,
@@ -241,9 +241,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("e4c2a130-cc9a-42df-a56f-ba173e05898d"),
+                            ID = new Guid("3e1ac31b-2459-43ad-b4b7-65c409ac527a"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("84448bbd-1ada-458d-8c9f-799c07331e51"),
+                            ParentResourceID = new Guid("3c9a3c21-daf2-4653-8034-88ec946d36ca"),
                             ResourceCode = "SystemMngmt.PermissionMngmt.ScopeMngmt",
                             ResourceName = "范围管理",
                             ResourceType = 1,
@@ -251,9 +251,19 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("e66cf7c5-7679-4b30-8655-2b056f7b8513"),
+                            ID = new Guid("e1a98928-e0d3-413a-b516-c1b9021316e2"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("84448bbd-1ada-458d-8c9f-799c07331e51"),
+                            ParentResourceID = new Guid("3c9a3c21-daf2-4653-8034-88ec946d36ca"),
+                            ResourceCode = "SystemMngmt.PermissionMngmt.UserMngmt",
+                            ResourceName = "用户管理",
+                            ResourceType = 1,
+                            SortNO = 2
+                        },
+                        new
+                        {
+                            ID = new Guid("7ed38fa3-6314-43f4-a3c3-9f2a1b4f96ad"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ParentResourceID = new Guid("3c9a3c21-daf2-4653-8034-88ec946d36ca"),
                             ResourceCode = "SystemMngmt.PermissionMngmt.AssignmnentMngmt",
                             ResourceName = "授权管理",
                             ResourceType = 1,
@@ -261,9 +271,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("8f2a9f1d-dc12-45f2-8e0e-865e09d81968"),
+                            ID = new Guid("17c7f6f9-0d34-4b16-9e6a-3b05638b8afe"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("897335d5-562b-4e86-85e0-8aff46d01f7a"),
+                            ParentResourceID = new Guid("eee46887-62a2-4d55-b8cf-77c096339d14"),
                             ResourceCode = "SystemMngmt.JobMngmt",
                             ResourceName = "任务管理",
                             ResourceType = 1,
@@ -271,9 +281,9 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("aabe04af-602c-4dd4-9274-50a173ec6042"),
+                            ID = new Guid("2ce185a5-8095-4276-90b8-d4554682851e"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("897335d5-562b-4e86-85e0-8aff46d01f7a"),
+                            ParentResourceID = new Guid("eee46887-62a2-4d55-b8cf-77c096339d14"),
                             ResourceCode = "SystemMngmt.MessageMngmt",
                             ResourceName = "消息管理",
                             ResourceType = 1,
@@ -281,43 +291,23 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("539d1f4b-5555-4765-95d2-da9d4a5e67d1"),
+                            ID = new Guid("8c0debaa-33a9-421e-b29a-a2da0cb4ce78"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("897335d5-562b-4e86-85e0-8aff46d01f7a"),
+                            ParentResourceID = new Guid("eee46887-62a2-4d55-b8cf-77c096339d14"),
+                            ResourceCode = "SystemMngmt.CacheMngmt",
+                            ResourceName = "缓存管理",
+                            ResourceType = 1,
+                            SortNO = 3
+                        },
+                        new
+                        {
+                            ID = new Guid("7d64baf8-43a0-4c02-bf66-c13a91fb0198"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ParentResourceID = new Guid("eee46887-62a2-4d55-b8cf-77c096339d14"),
                             ResourceCode = "SystemMngmt.LogMngmt",
                             ResourceName = "日志管理",
                             ResourceType = 1,
                             SortNO = 4
-                        },
-                        new
-                        {
-                            ID = new Guid("e4a756b3-34e9-45ef-b6e6-d831e05a7c82"),
-                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("88888888-8888-8888-8888-888888888888"),
-                            ResourceCode = "PlatformMngmt",
-                            ResourceName = "平台管理",
-                            ResourceType = 1,
-                            SortNO = 5
-                        },
-                        new
-                        {
-                            ID = new Guid("f29fc97f-79fc-4fc4-971f-fa41425acb6f"),
-                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("e4a756b3-34e9-45ef-b6e6-d831e05a7c82"),
-                            ResourceCode = "PlatformMngmt.ResourceMngmt",
-                            ResourceName = "资源管理",
-                            ResourceType = 1,
-                            SortNO = 1
-                        },
-                        new
-                        {
-                            ID = new Guid("ef83e251-ecec-4835-8acc-afd7284b2e2a"),
-                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            ParentResourceID = new Guid("e4a756b3-34e9-45ef-b6e6-d831e05a7c82"),
-                            ResourceCode = "PlatformMngmt.TenantMngmt",
-                            ResourceName = "租户管理",
-                            ResourceType = 1,
-                            SortNO = 2
                         });
                 });
 
@@ -360,7 +350,7 @@ namespace SystemService.Domain.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("a6b87678-0c6d-4ba6-a13b-386e32460100"),
+                            ID = new Guid("52695b8c-6033-4e22-b177-a70838a5f69c"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             SortNO = 0,
                             TenantCode = "SYSTEM",
@@ -370,7 +360,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("fd602bb6-9bef-4ece-86f0-0ec49d046291"),
+                            ID = new Guid("b6abe819-c9f8-48ed-8fa2-d28faf7557b4"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             SortNO = 1,
                             TenantCode = "MSFT",
@@ -380,7 +370,7 @@ namespace SystemService.Domain.Migrations
                         },
                         new
                         {
-                            ID = new Guid("839320d0-2db1-436f-ab21-6bf15d5e47cb"),
+                            ID = new Guid("b11547c4-8dd7-4184-b3a8-96a9f3a7b955"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             SortNO = 2,
                             TenantCode = "GOOG",

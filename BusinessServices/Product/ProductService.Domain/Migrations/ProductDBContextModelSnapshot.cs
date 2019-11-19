@@ -19,63 +19,11 @@ namespace ProductService.Domain.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("CommonLibrary.Attachment", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AttachmentName");
-
-                    b.Property<int>("AttachmentSort");
-
-                    b.Property<string>("AttachmentUrl");
-
-                    b.Property<Guid?>("ProductID");
-
-                    b.Property<string>("ProductTenantCode");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ProductTenantCode", "ProductID");
-
-                    b.ToTable("Attachment");
-                });
-
-            modelBuilder.Entity("CommonLibrary.Recycle", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTimeOffset>("CreateIn");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<Guid>("DeleteBatchID");
-
-                    b.Property<string>("RowData")
-                        .IsRequired();
-
-                    b.Property<string>("RowKey")
-                        .IsRequired();
-
-                    b.Property<string>("TableName")
-                        .IsRequired();
-
-                    b.Property<string>("TenantCode");
-
-                    b.Property<DateTimeOffset?>("UpdateIn");
-
-                    b.Property<string>("UpdatedBy");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Recycle");
-                });
-
             modelBuilder.Entity("ProductService.Domain.Category", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("TenantCode");
+
+                    b.Property<Guid>("ID");
 
                     b.Property<string>("CategoryCode")
                         .IsRequired();
@@ -87,14 +35,15 @@ namespace ProductService.Domain.Migrations
 
                     b.Property<string>("CreatedBy");
 
-                    b.Property<string>("TenantCode")
-                        .IsRequired();
+                    b.Property<string>("OwnerScopeCode");
 
                     b.Property<DateTimeOffset?>("UpdateIn");
 
                     b.Property<string>("UpdatedBy");
 
-                    b.HasKey("ID");
+                    b.HasKey("TenantCode", "ID");
+
+                    b.HasIndex("TenantCode");
 
                     b.HasIndex("TenantCode", "CategoryCode")
                         .IsUnique();
@@ -113,6 +62,8 @@ namespace ProductService.Domain.Migrations
                     b.Property<DateTimeOffset>("CreateIn");
 
                     b.Property<string>("CreatedBy");
+
+                    b.Property<string>("OwnerScopeCode");
 
                     b.Property<int>("ProductAmount");
 
@@ -133,8 +84,6 @@ namespace ProductService.Domain.Migrations
 
                     b.HasKey("TenantCode", "ID");
 
-                    b.HasAlternateKey("ID");
-
                     b.HasIndex("TenantCode");
 
                     b.HasIndex("TenantCode", "CategoryId");
@@ -145,11 +94,61 @@ namespace ProductService.Domain.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("CommonLibrary.Attachment", b =>
+            modelBuilder.Entity("ServiceCommon.Attachment", b =>
                 {
-                    b.HasOne("ProductService.Domain.Product")
-                        .WithMany("ProductPictures")
-                        .HasForeignKey("ProductTenantCode", "ProductID");
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AttachmentName")
+                        .IsRequired();
+
+                    b.Property<int>("AttachmentSort");
+
+                    b.Property<string>("AttachmentUrl")
+                        .IsRequired();
+
+                    b.Property<Guid?>("ProductID");
+
+                    b.Property<string>("ProductTenantCode");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductTenantCode", "ProductID");
+
+                    b.ToTable("Attachment");
+                });
+
+            modelBuilder.Entity("ServiceCommon.Recycle", b =>
+                {
+                    b.Property<string>("TenantCode");
+
+                    b.Property<Guid>("ID");
+
+                    b.Property<DateTimeOffset>("CreateIn");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<Guid>("DeleteBatchID");
+
+                    b.Property<string>("OwnerScopeCode");
+
+                    b.Property<string>("RowData")
+                        .IsRequired();
+
+                    b.Property<Guid>("RowKey");
+
+                    b.Property<string>("TableName")
+                        .IsRequired();
+
+                    b.Property<DateTimeOffset?>("UpdateIn");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("TenantCode", "ID");
+
+                    b.HasIndex("TenantCode");
+
+                    b.ToTable("Recycle");
                 });
 
             modelBuilder.Entity("ProductService.Domain.Product", b =>
@@ -157,8 +156,14 @@ namespace ProductService.Domain.Migrations
                     b.HasOne("ProductService.Domain.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("TenantCode", "CategoryId")
-                        .HasPrincipalKey("TenantCode", "ID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ServiceCommon.Attachment", b =>
+                {
+                    b.HasOne("ProductService.Domain.Product")
+                        .WithMany("ProductPictures")
+                        .HasForeignKey("ProductTenantCode", "ProductID");
                 });
 #pragma warning restore 612, 618
         }

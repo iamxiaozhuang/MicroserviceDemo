@@ -170,6 +170,15 @@ namespace SystemService.Domain.Entities
                                          new Resource()
                                          {
                                              ID = Guid.NewGuid(),
+                                             ResourceCode = "SystemMngmt.PermissionMngmt.UserMngmt",
+                                             ResourceName = "用户管理",
+                                             ResourceType = EnumResourceType.Menu,
+                                             ParentResourceID = permissionMngmtID,
+                                             SortNO = 2
+                                         },
+                                         new Resource()
+                                         {
+                                             ID = Guid.NewGuid(),
                                              ResourceCode = "SystemMngmt.PermissionMngmt.AssignmnentMngmt",
                                              ResourceName = "授权管理",
                                              ResourceType = EnumResourceType.Menu,
@@ -195,6 +204,15 @@ namespace SystemService.Domain.Entities
                                     ParentResourceID = systemMngmtID,
                                     SortNO = 3
                                 },
+                                 new Resource()
+                                 {
+                                     ID = Guid.NewGuid(),
+                                     ResourceCode = "SystemMngmt.CacheMngmt",
+                                     ResourceName = "缓存管理",
+                                     ResourceType = EnumResourceType.Menu,
+                                     ParentResourceID = systemMngmtID,
+                                     SortNO = 3
+                                 },
                               new Resource()
                               {
                                   ID = Guid.NewGuid(),
@@ -203,34 +221,7 @@ namespace SystemService.Domain.Entities
                                   ResourceType = EnumResourceType.Menu,
                                   ParentResourceID = systemMngmtID,
                                   SortNO = 4
-                              },
-                 new Resource()
-                 {
-                     ID = platformMngmtID,
-                     ResourceCode = "PlatformMngmt",
-                     ResourceName = "平台管理",
-                     ResourceType = EnumResourceType.Menu,
-                     ParentResourceID = rootID,
-                     SortNO = 5
-                 },
-                             new Resource()
-                             {
-                                 ID = Guid.NewGuid(),
-                                 ResourceCode = "PlatformMngmt.ResourceMngmt",
-                                 ResourceName = "资源管理",
-                                 ResourceType = EnumResourceType.Menu,
-                                 ParentResourceID = platformMngmtID,
-                                 SortNO = 1
-                             },
-                            new Resource()
-                            {
-                                ID = Guid.NewGuid(),
-                                ResourceCode = "PlatformMngmt.TenantMngmt",
-                                ResourceName = "租户管理",
-                                ResourceType = EnumResourceType.Menu,
-                                ParentResourceID = platformMngmtID,
-                                SortNO = 2
-                            }
+                              }
                 );
 
             modelBuilder.Entity<Tenant>().HasKey(p => new { p.ID });

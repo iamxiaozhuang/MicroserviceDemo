@@ -1,0 +1,35 @@
+{
+  "$schema": "http://cachemanager.michaco.net/schemas/cachemanager.json#",
+  "redis": [
+    {
+      "key": "redisConnection",
+      "connectionString": "10.0.75.1:6379,defaultDatabase=0,allowAdmin=true"
+    }
+  ],
+  "cacheManagers": [
+    {
+      "name": "cachename",
+      "backplane": {
+        "key": "redisConnection",
+        "knownType": "Redis",
+        "channelName": "test"
+      },
+      "loggerFactory": {
+        "knownType": "Microsoft"
+      },
+      "serializer": {
+        "knownType": "Json"
+      },
+      "handles": [
+        {
+          "knownType": "Redis",
+          "key": "redisConnection",
+          "isBackplaneSource": true,
+          "expirationMode": "Sliding",
+          "expirationTimeout": "00:10:00",
+          "name": "redis cache"
+        }
+      ]
+    }
+  ]
+}

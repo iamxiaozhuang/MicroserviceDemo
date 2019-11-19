@@ -19,39 +19,6 @@ namespace PermissionService.Domain.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("CommonLibrary.Recycle", b =>
-                {
-                    b.Property<string>("TenantCode");
-
-                    b.Property<Guid>("ID");
-
-                    b.Property<DateTimeOffset>("CreateIn");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<Guid>("DeleteBatchID");
-
-                    b.Property<string>("OwnerScopeCode");
-
-                    b.Property<string>("RowData")
-                        .IsRequired();
-
-                    b.Property<Guid>("RowKey");
-
-                    b.Property<string>("TableName")
-                        .IsRequired();
-
-                    b.Property<DateTimeOffset?>("UpdateIn");
-
-                    b.Property<string>("UpdatedBy");
-
-                    b.HasKey("TenantCode", "ID");
-
-                    b.HasIndex("TenantCode");
-
-                    b.ToTable("Recycle");
-                });
-
             modelBuilder.Entity("PermissionService.Domain.Principal", b =>
                 {
                     b.Property<string>("TenantCode");
@@ -89,7 +56,7 @@ namespace PermissionService.Domain.Migrations
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("a6fab670-7c22-4dc7-acf3-1b739e2e8b91"),
+                            ID = new Guid("0f48ddee-66a0-42b9-ac3b-f8705badf4aa"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             PrincipalCode = "admin",
@@ -138,7 +105,7 @@ namespace PermissionService.Domain.Migrations
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8"),
+                            ID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             RoleCode = "administor",
@@ -186,11 +153,11 @@ namespace PermissionService.Domain.Migrations
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("d5d14bc7-b83e-4df0-a572-a27935259e4a"),
+                            ID = new Guid("71b619d1-3d3f-415b-b78d-1d307dce1d33"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
-                            PrincipalID = new Guid("a6fab670-7c22-4dc7-acf3-1b739e2e8b91"),
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8"),
+                            PrincipalID = new Guid("0f48ddee-66a0-42b9-ac3b-f8705badf4aa"),
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c"),
                             ScopeID = new Guid("88888888-8888-8888-8888-888888888888")
                         });
                 });
@@ -231,112 +198,112 @@ namespace PermissionService.Domain.Migrations
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("81bc728f-7edb-47db-beb9-ba8a1a4d7325"),
+                            ID = new Guid("5e202161-af2e-48ab-9040-a22ac7a1cac9"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "Permission.GetUserMenus",
                             ResourceName = "获取用户菜单",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("7519b7f7-d46a-4929-886d-fca6d5b5d941"),
+                            ID = new Guid("32e711c9-844c-479d-addd-a2f62f122250"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "values.getuserclaims",
                             ResourceName = "getuserclaims",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("ce4e13a6-aa4c-4f6c-b5ff-87dea9a89e20"),
+                            ID = new Guid("81f20441-938e-4fa7-aae1-7b457e0dadff"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "RootMenu",
                             ResourceName = "RootMenu",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("3fa831f6-31c2-43b7-afc0-e9e158cb4c93"),
+                            ID = new Guid("e801aae5-d346-497d-b227-1a5a69a54a13"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "ProductMngmt",
                             ResourceName = "产品管理",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("83a024fb-1e7e-4c6c-8f49-6fc17446b2b3"),
+                            ID = new Guid("2cb71513-c0a4-4910-8a4c-2e9c9828d449"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt",
                             ResourceName = "系统管理",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("8be510da-b906-4261-9989-2446afd9e6e2"),
+                            ID = new Guid("19db8614-f955-4497-bcf6-9f3fb2dabe51"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt.PermissionMngmt",
                             ResourceName = "权限管理",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("a7c3ab21-b601-4bb1-8b3c-eb45a4bb7b48"),
+                            ID = new Guid("a3b7904a-d00d-4fb6-86a1-12d4bbbc4208"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt",
                             ResourceName = "角色管理",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("57a86b61-07ba-438e-9f9a-9a4448d00356"),
+                            ID = new Guid("4a68dca2-0eac-437f-8c49-11d606f871d9"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt.Read",
                             ResourceName = "查看",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("4b6f4af5-4593-400f-b150-a3c2b7c75fcb"),
+                            ID = new Guid("7f2087fa-0ce4-4dc7-9772-fbe006ad2b1f"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt.PermissionMngmt.RoleMngmt.Update",
                             ResourceName = "更改",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("8744628f-a654-44b4-b078-59a5b495f95e"),
+                            ID = new Guid("77ae39ee-3384-40a3-8b95-4d6b6c7a8027"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt.PermissionMngmt.ScopeMngmt",
                             ResourceName = "范围管理",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         },
                         new
                         {
                             TenantCode = "SYSTEM",
-                            ID = new Guid("89ca89ee-c79e-4e36-a340-0297f9efa6a1"),
+                            ID = new Guid("474ab566-f062-4314-8d54-f8e343ea2453"),
                             CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             OwnerScopeCode = "",
                             ResourceCode = "SystemMngmt.PermissionMngmt.AssignmnentMngmt",
                             ResourceName = "授权管理",
-                            RoleID = new Guid("b3b8f99c-f144-42da-9450-2119b9c020b8")
+                            RoleID = new Guid("f5893dc8-84fd-49c0-9874-2e0f2474209c")
                         });
                 });
 
@@ -391,6 +358,39 @@ namespace PermissionService.Domain.Migrations
                             ScopeName = "RootScope",
                             SortNO = 0
                         });
+                });
+
+            modelBuilder.Entity("ServiceCommon.Recycle", b =>
+                {
+                    b.Property<string>("TenantCode");
+
+                    b.Property<Guid>("ID");
+
+                    b.Property<DateTimeOffset>("CreateIn");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<Guid>("DeleteBatchID");
+
+                    b.Property<string>("OwnerScopeCode");
+
+                    b.Property<string>("RowData")
+                        .IsRequired();
+
+                    b.Property<Guid>("RowKey");
+
+                    b.Property<string>("TableName")
+                        .IsRequired();
+
+                    b.Property<DateTimeOffset?>("UpdateIn");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("TenantCode", "ID");
+
+                    b.HasIndex("TenantCode");
+
+                    b.ToTable("Recycle");
                 });
 
             modelBuilder.Entity("PermissionService.Domain.RoleAssignment", b =>

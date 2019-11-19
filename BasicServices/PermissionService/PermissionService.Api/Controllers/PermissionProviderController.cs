@@ -21,7 +21,7 @@ namespace PermissionService.Api.Controllers
             _mediator = mediator;
         }
 
-        [Route("/api/permissionprovider/roleassignments/")]
+        [Route("/api/permissionprovider/roleassignments")]
         [HttpGet]
         [ApiAuthorization("PermissionProvider.GetUserRoleAssignments")]
         public async Task<ActionResult<List<RoleAssignmentModel>>> GetUserRoleAssignments(string userSubject)

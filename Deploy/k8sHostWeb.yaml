@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: HostWeb
+spec:
+  selector:
+    matchLabels:
+      app: HostWeb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: HostWeb
+    spec:
+      containers:
+        - name: HostWeb
+          image: "HostWeb"
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: HostWeb
+spec:
+  selector:
+    app: HostWeb
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http

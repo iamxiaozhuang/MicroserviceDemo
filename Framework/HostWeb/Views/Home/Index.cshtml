@@ -40,11 +40,11 @@
             });
         }
 
-        function GetApiClaims() {
+        function TestApigatewayCache() {
         $.ajax({
-            url: "@Url.Action("GetApiClaims", "Home")",
+            url: "@Url.Action("TestApigatewayCache", "Home")",
             success: function (data) {
-                $("#apiClaims").html(JSON.stringify(data));
+                $("#TestApigatewayCacheResult").html(JSON.stringify(data));
             }
         });
     }
@@ -78,8 +78,8 @@
          User Menus: <a href="#" onclick="GetUserMenus()">GetUserMenus</a>
         <div id="userMenus"></div>
         <br />
-        API Claims: <a href="#" onclick="GetApiClaims()">GetApiClaims</a>
-        <div id="apiClaims"></div>
+        API Claims: <a href="#" onclick="TestApigatewayCache()">TestApigatewayCache</a>
+        <div id="TestApigatewayCacheResult"></div>
         <br />
         <a href="/Home/Logout">Logout</a>
         <br />
