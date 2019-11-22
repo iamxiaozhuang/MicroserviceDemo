@@ -1,0 +1,74 @@
+﻿{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:30007",
+    "ServiceDiscoveryProvider": {
+      "Host": "10.96.0.1",
+      "Port": 443,
+      "Token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLTk2eDloIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1MjJjMzY3Ni0wYjc4LTExZWEtOTE2My0wMDE1NWQxMjE0MTMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.LzH3YwVGvEr8gAwpCACSixHvQjL-PU-Dr7cggJTNKjMWCKJDy80wmXj7Fa1un5M9oVnCRRKJuuGXcsKecR3P6sXVLPjPKdU2E03ov7RjgdBHOwk5Q6CiLXWCSFRWfCyrn5l9CrQ5axaatUGKfiHBvfyNxPpqsZTWrdYOelFx1Byaf-Oq-d3rcaDf4bvCFBYD7U0p9Ets2G3L0epWfSl8Nrxd_a372Jve43gaj62Ref9CzxhsEvanQilew-RN-qtHui0xHaX770Abq8NJoD_OmBFXwDGkdJ3fN980kzq_QyHis36o2Uot6f8dKQ7ZCu9nQKTVahoMkhabHNWob8FcJA",
+      "Namespace": "default",
+      "Type": "kube"
+    }
+  },
+  "ReRoutes": [
+    //SystemService
+    {
+      "UpstreamPathTemplate": "/SystemService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "systemservice-api",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "SystemServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //PermissionService
+    {
+      "UpstreamPathTemplate": "/PermissionService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "permissionservice-api",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //ProductService
+    {
+      "UpstreamPathTemplate": "/ProductService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "productservice-api",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //OrderingService
+    {
+      "UpstreamPathTemplate": "/OrderingService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "orderservice-api",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //PaymentService
+    {
+      "UpstreamPathTemplate": "/PaymentService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "ServiceName": "paymentservice-api",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    }
+  ]
+}

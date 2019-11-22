@@ -45,7 +45,7 @@ namespace ServiceCommon
                 {
                     requestBody = await GetRequestBody(context.Request);
                 }
-                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/heathcheck"))
+                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/api/heathcheck"))
                 {
                     Claim userInfoClaim = context.User.FindFirst("current_user_info");
                     UserInfo currentUserInfo = JsonConvert.DeserializeObject<UserInfo>(userInfoClaim.Value);
@@ -78,7 +78,7 @@ namespace ServiceCommon
             finally
             {
                 reponseTime = DateTime.UtcNow;
-                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/heathcheck"))
+                if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/api/heathcheck"))
                 {
                     NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant, requestUser, requestBody, invokeException, reponseTime, responseBody);
 

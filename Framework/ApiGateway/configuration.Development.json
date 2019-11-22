@@ -3,8 +3,10 @@
     "BaseUrl": "http://localhost:8800"
   },
   "ReRoutes": [
-    // API:TestMicroService
+    //SystemService
     {
+      "UpstreamPathTemplate": "/SystemService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -13,21 +15,99 @@
           "Port": "8810"
         }
       ],
-      "UpstreamPathTemplate": "/TestService/{url}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "SystemServiceApiKey",
+        "AllowedScopes": []
+      }
     },
-    // API:CAS.ProductService
+    //PermissionService
     {
+      "UpstreamPathTemplate": "/PermissionService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "8820"
+          "Port": "8815"
         }
       ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //PermissionService testapigatewaycache
+    {
+      "UpstreamPathTemplate": "/PermissionService/permission/testapigatewaycache",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/permission/testapigatewaycache",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8850"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "apigatewaycache"
+      }
+    },
+    //ProductService
+    {
       "UpstreamPathTemplate": "/ProductService/{url}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8850"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //OrderingService
+    {
+      "UpstreamPathTemplate": "/OrderingService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8855"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
+    },
+    //PaymentService
+    {
+      "UpstreamPathTemplate": "/PaymentService/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8860"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      }
     }
   ]
 }

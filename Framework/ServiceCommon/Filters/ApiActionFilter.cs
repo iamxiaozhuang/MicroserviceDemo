@@ -19,7 +19,7 @@ namespace ServiceCommon
         public void OnActionExecuting(ActionExecutingContext context)
         {
             if (httpContextAccessor.HttpContext.Request.Path.HasValue 
-                && !httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/swagger") && !httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/heathcheck"))
+                && !httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/swagger") && !httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/heathcheck"))
             {
                 return;
             }

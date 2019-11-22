@@ -31,7 +31,7 @@ namespace IdentityServer
             };
         }
 
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(ICollection<string> redirectUris, ICollection<string> postLogoutRedirectUris)
         {
             return new List<Client>
             {
@@ -78,8 +78,8 @@ namespace IdentityServer
                         new Secret("P@ssw0rd".Sha256())
                     },
 
-                    RedirectUris           = { "http://localhost:8600/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:8600/signout-callback-oidc" },
+                    RedirectUris           = redirectUris,
+                    PostLogoutRedirectUris = postLogoutRedirectUris,
 
                     RequireConsent = false, //禁用 consent 页面确认
 

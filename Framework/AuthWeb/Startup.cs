@@ -30,10 +30,14 @@ namespace AuthWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            var builder = services.AddIdentityServer()
+            ICollection<string> redirectUris = Configuration.GetValue<string>("HostWebHybrid:RedirectUris").Split(';');
+            ICollection<string> postLogoutRedirectUris = Configuration.GetValue<string>("HostWebHybrid:PostLogoutRedirectUris").Split(';');
+            string identityServerUri = Configuration.GetValue<string>("IdentityService:IssuerUri");
+
+            var builder = services.AddIdentityServer(opt => { opt.IssuerUri = identityServerUri; opt.PublicOrigin = identityServerUri; })
                .AddInMemoryIdentityResources(IdentityServer.Config.GetIdentityResources())
                .AddInMemoryApiResources(IdentityServer.Config.GetApis())
-               .AddInMemoryClients(IdentityServer.Config.GetClients())
+               .AddInMemoryClients(IdentityServer.Config.GetClients(redirectUris,postLogoutRedirectUris))
                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                .AddProfileService<ProfileService>();
             //services.Configure<IISOptions>(iis =>
@@ -45,13 +49,14 @@ namespace AuthWeb
             services.AddHttpClient<CallSystemServiceApi>();
             services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
 
-            if (Environment.IsDevelopment())
+            if (Environment.IsDevelopment() || Environment.IsEnvironment("Development.Kube"))
             {
+               
                 builder.AddDeveloperSigningCredential();
             }
             else
             {
-                throw new Exception("need to configure key material");
+                throw new Exception("Need to configure credential for environment " + Environment.EnvironmentName);
             }
         }
 
@@ -68,6 +73,8 @@ namespace AuthWeb
             app.UseIdentityServer();
 
             app.UseMvcWithDefaultRoute();
+
+
         }
     }
 }

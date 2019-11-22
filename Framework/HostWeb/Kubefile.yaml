@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: host-web
+spec:
+  selector:
+    matchLabels:
+      app: host-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: host-web
+    spec:
+      containers:
+        - name: host-web
+          image: "host-web"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development.Kube
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: host-web
+spec:
+  selector:
+    app: host-web
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http
+    nodePort: 30005
+ 

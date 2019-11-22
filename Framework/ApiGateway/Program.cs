@@ -22,7 +22,7 @@ namespace ApiGateway
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{envName}.json", optional: true)
-                .AddJsonFile($"configuration.json", optional: true)
+                .AddJsonFile($"configuration.{envName}.json", optional: true)
                 //.AddJsonFile($"cache.json", optional: true)
                 .Build();
             var host = new WebHostBuilder()

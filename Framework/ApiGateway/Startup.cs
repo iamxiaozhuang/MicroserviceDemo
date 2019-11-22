@@ -15,17 +15,19 @@ using Microsoft.Extensions.Logging;
 using Ocelot.Cache;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Kubernetes;
 
 namespace ApiGateway
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IHostingEnvironment Environment { get; }
+        public IConfiguration Configuration { get; }
+        public Startup(IHostingEnvironment environment, IConfiguration configuration)
         {
+            Environment = environment;
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -54,7 +56,11 @@ namespace ApiGateway
                 .AddIdentityServerAuthentication("GeneralServiceApiKey", generalApiClientOpt);
 
             // Ocelot
-            services.AddOcelot(Configuration);
+            if (Environment.IsEnvironment("Development.Kube"))
+                services.AddOcelot(Configuration).AddKubernetes();
+            else
+                services.AddOcelot(Configuration);
+
 
             //OcelotCaching
             services.AddCacheManager<CachedResponse>(inline => inline.WithDictionaryHandle());
