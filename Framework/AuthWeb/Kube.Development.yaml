@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-web
+spec:
+  selector:
+    matchLabels:
+      app: auth-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: auth-web
+    spec:
+      containers:
+        - name: auth-web
+          image: "auth-web"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: KubeDevelopment
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: auth-web
+spec:
+  selector:
+    app: auth-web
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+    nodePort: 30006
+

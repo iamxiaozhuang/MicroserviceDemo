@@ -56,10 +56,11 @@ namespace ApiGateway
                 .AddIdentityServerAuthentication("GeneralServiceApiKey", generalApiClientOpt);
 
             // Ocelot
-            if (Environment.IsEnvironment("Development.Kube"))
-                services.AddOcelot(Configuration).AddKubernetes();
-            else
+            if (Environment.IsDevelopment())
                 services.AddOcelot(Configuration);
+            else
+                services.AddOcelot(Configuration).AddKubernetes();
+          
 
 
             //OcelotCaching

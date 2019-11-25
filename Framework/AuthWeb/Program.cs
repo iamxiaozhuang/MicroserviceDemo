@@ -27,6 +27,7 @@ namespace AuthWeb
             var host = new WebHostBuilder()
                 .UseEnvironment(envName)
                 .UseConfiguration(appconfig)
+                .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))

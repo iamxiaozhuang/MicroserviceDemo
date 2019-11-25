@@ -32,9 +32,10 @@ namespace AuthWeb
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             ICollection<string> redirectUris = Configuration.GetValue<string>("HostWebHybrid:RedirectUris").Split(';');
             ICollection<string> postLogoutRedirectUris = Configuration.GetValue<string>("HostWebHybrid:PostLogoutRedirectUris").Split(';');
-            string identityServerUri = Configuration.GetValue<string>("IdentityService:IssuerUri");
+            //string identityServerUri = Configuration.GetValue<string>("IdentityService:PublicOrigin");
 
-            var builder = services.AddIdentityServer(opt => { opt.IssuerUri = identityServerUri; opt.PublicOrigin = identityServerUri; })
+            //var builder = services.AddIdentityServer(opt => {opt.PublicOrigin = identityServerUri; })
+            var builder = services.AddIdentityServer()
                .AddInMemoryIdentityResources(IdentityServer.Config.GetIdentityResources())
                .AddInMemoryApiResources(IdentityServer.Config.GetApis())
                .AddInMemoryClients(IdentityServer.Config.GetClients(redirectUris,postLogoutRedirectUris))
@@ -49,7 +50,7 @@ namespace AuthWeb
             services.AddHttpClient<CallSystemServiceApi>();
             services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
 
-            if (Environment.IsDevelopment() || Environment.IsEnvironment("Development.Kube"))
+            if (Environment.IsDevelopment() || Environment.IsEnvironment("KubeDevelopment"))
             {
                
                 builder.AddDeveloperSigningCredential();

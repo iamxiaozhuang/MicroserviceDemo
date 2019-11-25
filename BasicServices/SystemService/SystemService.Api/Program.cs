@@ -26,6 +26,7 @@ namespace SystemService.Api
             var host = new WebHostBuilder()
                 .UseEnvironment(envName)
                 .UseConfiguration(appconfig)
+                .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
                 .UseStartup<Startup>();

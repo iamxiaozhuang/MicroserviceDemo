@@ -36,7 +36,14 @@ namespace ServiceCommon
         private async Task<string> GetTokenEndpoint()
         {
             HttpClient client = _httpClientFactory.CreateClient();
-            var disco = await client.GetDiscoveryDocumentAsync(Configuration["IdentityService:Authority"]);
+            var disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = Configuration["IdentityService:Authority"],
+                Policy =
+                    {
+                       RequireHttps = false
+                    }
+            });
             if (disco.IsError)
             {
                 throw new Exception(disco.Error);

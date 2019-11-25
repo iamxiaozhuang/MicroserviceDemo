@@ -28,6 +28,7 @@ namespace HostWeb
                 .UseEnvironment(envName)
                 .UseConfiguration(appconfig)
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
                 .UseStartup<Startup>();

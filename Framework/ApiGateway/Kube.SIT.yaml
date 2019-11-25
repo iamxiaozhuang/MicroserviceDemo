@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    matchLabels:
+      app: api-gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: "api-gateway"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development.Kube
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    app: api-gateway
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+
+---
+    
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  name: api-gateway
+spec:
+  rules:
+  - host: api.development.kube.local
+    http:
+      paths:
+      - backend:
+          serviceName: api-gateway
+          servicePort: 80
+        path: /
+ 
+ 

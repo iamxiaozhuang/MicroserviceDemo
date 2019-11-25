@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-web
+spec:
+  selector:
+    matchLabels:
+      app: auth-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: auth-web
+    spec:
+      containers:
+        - name: auth-web
+          image: "auth-web"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development.Kube
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: auth-web
+spec:
+  selector:
+    app: auth-web
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+
+---
+    
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  name: auth-web
+spec:
+  rules:
+  - host: auth.development.kube.local
+    http:
+      paths:
+      - backend:
+          serviceName: auth-web
+          servicePort: 80
+        path: /
+ 

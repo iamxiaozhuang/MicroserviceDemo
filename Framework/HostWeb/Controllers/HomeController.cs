@@ -22,18 +22,18 @@ namespace HostWeb.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["APIAccessToken"] = await GetApiAccessToken();
+            //ViewData["APIAccessToken"] = await GetApiAccessToken();
 
-            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:ExternalUrl"],
-              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
-            List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
-            List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
-            foreach (var item in roleAssignments)
-            {
-                ddlCurrentUserRolesitems.Add(new SelectListItem { Text = item.ScopeName + " - " + item.RoleName, Value = item.ID.ToString() });
-            }
+            //var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
+            //  new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+            //List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
+            //List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
+            //foreach (var item in roleAssignments)
+            //{
+            //    ddlCurrentUserRolesitems.Add(new SelectListItem { Text = item.ScopeName + " - " + item.RoleName, Value = item.ID.ToString() });
+            //}
            
-            ViewData["ddlCurrentUserRoles"] = ddlCurrentUserRolesitems;
+            //ViewData["ddlCurrentUserRoles"] = ddlCurrentUserRolesitems;
 
 
             return View();
@@ -50,7 +50,7 @@ namespace HostWeb.Controllers
 
         public async Task<IActionResult> ShowCurrentUserPermission(string roleassignmentid)
         {
-            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:ExternalUrl"],
+            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             if (roleassignmentid == null) return Ok();
             UserPermission userPermission = await callApi.GetUserPermission(Guid.Parse(roleassignmentid));
@@ -64,14 +64,14 @@ namespace HostWeb.Controllers
         }
         public async Task<IActionResult> GetUserMenus()
         {
-            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:ExternalUrl"],
+            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
                new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             var data = await callApi.GetUserMenus();
             return Ok(data);
         }
         public async Task<IActionResult> TestApigatewayCache()
         {
-            var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:ExternalUrl"],
+            var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
                new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
             var str = await callTestApi.TestApigatewayCache();
             return Ok(str);

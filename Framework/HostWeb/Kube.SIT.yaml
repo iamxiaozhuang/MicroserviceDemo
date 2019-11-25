@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: host-web
+spec:
+  selector:
+    matchLabels:
+      app: host-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: host-web
+    spec:
+      containers:
+        - name: host-web
+          image: "host-web"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development.Kube
+          ports:
+            - name: http
+              containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: host-web
+spec:
+  selector:
+    app: host-web
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+
+
+---
+    
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  name: host-web
+spec:
+  rules:
+  - host: web.development.kube.local
+    http:
+      paths:
+      - backend:
+          serviceName: host-web
+          servicePort: 80
+        path: /
+ 
