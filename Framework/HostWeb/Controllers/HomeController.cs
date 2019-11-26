@@ -22,18 +22,18 @@ namespace HostWeb.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //ViewData["APIAccessToken"] = await GetApiAccessToken();
+            ViewData["APIAccessToken"] = await GetApiAccessToken();
 
-            //var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-            //  new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
-            //List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
-            //List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
-            //foreach (var item in roleAssignments)
-            //{
-            //    ddlCurrentUserRolesitems.Add(new SelectListItem { Text = item.ScopeName + " - " + item.RoleName, Value = item.ID.ToString() });
-            //}
-           
-            //ViewData["ddlCurrentUserRoles"] = ddlCurrentUserRolesitems;
+            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
+              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+            List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
+            List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
+            foreach (var item in roleAssignments)
+            {
+                ddlCurrentUserRolesitems.Add(new SelectListItem { Text = item.ScopeName + " - " + item.RoleName, Value = item.ID.ToString() });
+            }
+
+            ViewData["ddlCurrentUserRoles"] = ddlCurrentUserRolesitems;
 
 
             return View();
