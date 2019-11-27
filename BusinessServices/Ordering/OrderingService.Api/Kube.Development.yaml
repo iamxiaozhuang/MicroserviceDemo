@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderingservice-api
+spec:
+  selector:
+    matchLabels:
+      app: orderingservice-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: orderingservice-api
+    spec:
+      containers:
+        - name: orderingservice-api
+          image: "orderingservice-api"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: KubeDevelopment
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /api/heathcheck/readiness
+              port: 80
+              scheme: HTTP 
+            initialDelaySeconds: 30
+            periodSeconds: 60 
+          livenessProbe:
+            httpGet:
+              path: /api/heathcheck/liveness
+              port: 80
+              scheme: HTTP 
+            initialDelaySeconds: 120
+            periodSeconds: 60
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: orderingservice-api
+spec:
+  selector:
+    app: orderingservice-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http

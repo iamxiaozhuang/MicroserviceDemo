@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Refit;
+using System.Net.Http;
+using IdentityModel.Client;
 
 namespace HostWeb.Controllers
 {
@@ -48,10 +50,43 @@ namespace HostWeb.Controllers
             return apiAccess_token;
         }
 
+        private async Task<string> GetApiAccessTokenByRefreshToken()
+        {
+            var access_token = await HttpContext.GetTokenAsync("access_token");
+            JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
+            var apiARefresh_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_refresh_token").Value;
+            //return apiARefresh_token;
+
+            HttpClient client = new HttpClient();
+
+            var disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = Configuration["IdentityService:Authority"],
+                Policy =
+                    {
+                       RequireHttps = false
+                    }
+            });
+            if (disco.IsError)
+            {
+                throw new Exception(disco.Error);
+            }
+            var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = "GeneralApiClient",
+                ClientSecret = "P@ssw0rd",
+                RefreshToken = apiARefresh_token,
+                Scope = "GeneralServiceApi offline_access"
+            });
+
+            return tokenResponse.AccessToken;
+        }
+
         public async Task<IActionResult> ShowCurrentUserPermission(string roleassignmentid)
         {
             var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessTokenByRefreshToken });
             if (roleassignmentid == null) return Ok();
             UserPermission userPermission = await callApi.GetUserPermission(Guid.Parse(roleassignmentid));
             return Ok(userPermission);
@@ -65,14 +100,14 @@ namespace HostWeb.Controllers
         public async Task<IActionResult> GetUserMenus()
         {
             var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessTokenByRefreshToken });
             var data = await callApi.GetUserMenus();
             return Ok(data);
         }
         public async Task<IActionResult> TestApigatewayCache()
         {
             var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessTokenByRefreshToken });
             var str = await callTestApi.TestApigatewayCache();
             return Ok(str);
         }

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: permissionservice-api
+spec:
+  selector:
+    matchLabels:
+      app: permissionservice-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: permissionservice-api
+    spec:
+      containers:
+        - name: permissionservice-api
+          image: "permissionservice-api"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: KubeDevelopment
+          ports:
+            - name: http
+              containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /api/heathcheck/readiness
+              port: 80
+              scheme: HTTP 
+            initialDelaySeconds: 30
+            periodSeconds: 60 
+          livenessProbe:
+            httpGet:
+              path: /api/heathcheck/liveness
+              port: 80
+              scheme: HTTP 
+            initialDelaySeconds: 120
+            periodSeconds: 60
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: permissionservice-api
+spec:
+  selector:
+    app: permissionservice-api
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http

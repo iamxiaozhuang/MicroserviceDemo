@@ -3,8 +3,7 @@
     "BaseUrl": "http://host.docker.internal:30007",
     "ServiceDiscoveryProvider": {
       "Namespace": "default",
-      "Type": "pollkube",
-      "PollingInterval": 100
+      "Type": "kube"
     }
   },
   "ReRoutes": [
