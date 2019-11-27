@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbit-mq
+spec:
+  selector:
+    matchLabels:
+      app: rabbit-mq
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rabbit-mq
+    spec:
+      containers:
+        - name: rabbit-mq
+          image: "rabbitmq:management"
+          imagePullPolicy: IfNotPresent
+          env:
+           - name: RABBITMQ_DEFAULT_USER
+             value: "admin"
+           - name: RABBITMQ_DEFAULT_PASS
+             value: "02020511"
+          ports:
+           - name: rabbitmq
+             containerPort: 5672
+           - name: management
+             containerPort: 15672
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbit-mq
+spec:
+  selector:
+    app: rabbit-mq
+  type: NodePort
+  ports:
+    - name: rabbitmq
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+      nodePort: 32672
+    - name: management 
+      protocol: TCP
+      port: 15672
+      targetPort: 15672
+      nodePort: 32673
+

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgsql-db
+spec:
+  selector:
+    matchLabels:
+      app: pgsql-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pgsql-db
+    spec:
+      containers:
+        - name: pgsql-db
+          image: "postgres:11"
+          imagePullPolicy: IfNotPresent
+          env:
+           - name: POSTGRES_PASSWORD
+             value: "02020511"
+          ports:
+           - containerPort: 5432
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: pgsql-db
+spec:
+  selector:
+    app: pgsql-db
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+      nodePort: 32432
+

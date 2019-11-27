@@ -21,4 +21,16 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Kube.Development.RabbitMQ.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Kube.Development.Redis.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Kube.Development.Pgsql.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

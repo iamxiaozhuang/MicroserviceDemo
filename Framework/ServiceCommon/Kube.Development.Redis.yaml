@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cache
+spec:
+  selector:
+    matchLabels:
+      app: redis-cache
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-cache
+    spec:
+      containers:
+        - name: redis-cache
+          image: "redis"
+          imagePullPolicy: IfNotPresent
+          ports:
+           - containerPort: 6379
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-cache
+spec:
+  selector:
+    app: redis-cache
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+      nodePort: 32379
+
