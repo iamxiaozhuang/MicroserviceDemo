@@ -13,12 +13,22 @@
     <script type="text/javascript">
     $(document).ready(init);
 
-    function init() {
+        function init() {
+            GetGeneralApiToken();
         $("select[name='ddlCurrentUserRoles']").change(function () {
             var selectedValue = $(this).val();
             ShowCurrentUserPermission(selectedValue);
         });
-    }
+        }
+
+         function GetGeneralApiToken() {
+            $.ajax({
+                url: "@Url.Action("GetGeneralApiToken", "Home")",
+                success: function (data) {
+                    $("#getGeneralApiToken").html(JSON.stringify(data));
+                }
+            });
+        }
 
         function ShowCurrentUserPermission(val) {
             $.ajax({
@@ -56,7 +66,7 @@
     {
         <h3>Error! User Is not Authenticated.</h3>
     }
-    
+
 
     <h2>HostWeb Claims</h2>
     <dl>
@@ -66,16 +76,16 @@
             <dd>@claim.Value</dd>
         }
     </dl>
-    "API AccessToken: Bearer @ViewData["APIAccessToken"]
+    "General API AccessToken: Bearer <div id="getGeneralApiToken"></div>
     <br />
-    Current User Roles：@Html.DropDownList("ddlCurrentUserRoles","-- select --")
+    Current User Roles：@Html.DropDownList("ddlCurrentUserRoles", "-- select --")
     <br />
     Current User Permissions：
     <div id="divCurrentUserPermisson"></div>
     <br />
 
     <div>
-         User Menus: <a href="#" onclick="GetUserMenus()">GetUserMenus</a>
+        User Menus: <a href="#" onclick="GetUserMenus()">GetUserMenus</a>
         <div id="userMenus"></div>
         <br />
         API Claims: <a href="#" onclick="TestApigatewayCache()">TestApigatewayCache</a>

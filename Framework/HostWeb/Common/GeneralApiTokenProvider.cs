@@ -29,13 +29,13 @@ namespace HostWeb.Common
         }
         public async Task<string> GetGeneralApiToken(HttpContext httpContext)
         {
-            string cacheKey = "general_api_token_" + httpContext.User.FindFirst("sub").Value;
+            var web_access_token = await httpContext.GetTokenAsync("access_token");
+            JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(web_access_token) as JwtSecurityToken;
+            string cacheKey = $"CurrentUserToken_{jwtSecurityToken.Claims.First(claim => claim.Type == "sub").Value}_{jwtSecurityToken.Claims.First(claim => claim.Type == "auth_time").Value}";
+            
             string general_api_token = await RedisHelper.GetAsync<string>(cacheKey);
-           
             if (string.IsNullOrEmpty(general_api_token))
             {
-                var web_access_token = await httpContext.GetTokenAsync("access_token");
-                JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(web_access_token) as JwtSecurityToken;
                 general_api_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_api_token").Value;
             }
             GeneralApiToken generalApiToken = JsonConvert.DeserializeObject<GeneralApiToken>(general_api_token);
@@ -66,6 +66,10 @@ namespace HostWeb.Common
                     RefreshToken = generalApiToken.RefreshToken,
                     Scope = "GeneralServiceApi offline_access"
                 });
+                if (tokenResponse.IsError)
+                {
+                    throw new Exception(tokenResponse.Error);
+                }
                 generalApiToken = new GeneralApiToken()
                 {
                     ExpiresAt = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn),

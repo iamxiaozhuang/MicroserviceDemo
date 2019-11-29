@@ -59,9 +59,10 @@ namespace IdentityServer
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 10,
 
-                    //RefreshTokenExpiration = TokenExpiration.Sliding,
-                    //SlidingRefreshTokenLifetime = 1296000,
-                    //RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    SlidingRefreshTokenLifetime = 1296000,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+
                     ClientSecrets =
                     {
                          new Secret("P@ssw0rd".Sha256())

@@ -19,18 +19,17 @@ namespace HostWeb.Controllers
     public class HomeController : Controller
     {
         private IConfiguration Configuration { get; }
-        private IGeneralApiTokenProvider generalApiTokenSvc;
+        private IGeneralApiTokenProvider generalApiTokenProvider;
         private ICallApi callApi;
-        public HomeController(IConfiguration configuration, IGeneralApiTokenProvider _generalApiTokenSvc)
+        public HomeController(IConfiguration configuration, IGeneralApiTokenProvider _generalApiTokenProvider)
         {
             Configuration = configuration;
-            generalApiTokenSvc = _generalApiTokenSvc;
+            generalApiTokenProvider = _generalApiTokenProvider;
             callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-              new RefitSettings() { AuthorizationHeaderValueGetter = () => generalApiTokenSvc.GetGeneralApiToken(HttpContext) });
+              new RefitSettings() { AuthorizationHeaderValueGetter = () => generalApiTokenProvider.GetGeneralApiToken(HttpContext) });
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["APIAccessToken"] = await generalApiTokenSvc.GetGeneralApiToken(HttpContext);
             List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
             List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
             foreach (var item in roleAssignments)
@@ -44,47 +43,11 @@ namespace HostWeb.Controllers
             return View();
         }
 
-        
-        //private async Task<string> GetApiAccessToken()
-        //{
-        //    var access_token = await HttpContext.GetTokenAsync("access_token");
-        //    JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
-        //    var apiAccess_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_access_token").Value;
-        //    return apiAccess_token;
-        //}
-
-        //private async Task<string> GetApiAccessTokenByRefreshToken()
-        //{
-        //    var access_token = await HttpContext.GetTokenAsync("access_token");
-        //    JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
-        //    var apiARefresh_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_refresh_token").Value;
-        //    //return apiARefresh_token;
-
-        //    HttpClient client = new HttpClient();
-
-        //    var disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
-        //    {
-        //        Address = Configuration["IdentityService:Authority"],
-        //        Policy =
-        //            {
-        //               RequireHttps = false
-        //            }
-        //    });
-        //    if (disco.IsError)
-        //    {
-        //        throw new Exception(disco.Error);
-        //    }
-        //    var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
-        //    {
-        //        Address = disco.TokenEndpoint,
-        //        ClientId = "GeneralApiClient",
-        //        ClientSecret = "P@ssw0rd",
-        //        RefreshToken = apiARefresh_token,
-        //        Scope = "GeneralServiceApi offline_access"
-        //    });
-
-        //    return tokenResponse.AccessToken;
-        //}
+        public async Task<IActionResult> GetGeneralApiToken()
+        {
+            var data = await generalApiTokenProvider.GetGeneralApiToken(HttpContext);
+            return Ok(data);
+        }
 
         public async Task<IActionResult> ShowCurrentUserPermission(string roleassignmentid)
         {
