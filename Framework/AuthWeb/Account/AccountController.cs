@@ -16,7 +16,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ServiceCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,7 +119,6 @@ namespace IdentityServer
             if (ModelState.IsValid)
             {
                 HttpClient client = _httpClientFactory.CreateClient();
-
                 var disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
                 {
                     Address = Configuration["IdentityService:Authority"],
@@ -153,9 +154,15 @@ namespace IdentityServer
                             ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
                         };
                     };
-                    Claim accessTokenClaim = new Claim("general_access_token", tokenResponse.AccessToken);
-                    Claim refreshTokenClaim = new Claim("general_refresh_token", tokenResponse.RefreshToken);
-                    List<Claim> listClaim = new List<Claim>() { accessTokenClaim, refreshTokenClaim };
+                    
+                    GeneralApiToken generalApiToken = new GeneralApiToken() 
+                    { 
+                        ExpiresAt = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn),
+                        AccessToken = tokenResponse.AccessToken,
+                        RefreshToken = tokenResponse.RefreshToken
+                    };
+                    Claim tokenClaim = new Claim("general_api_token", JsonConvert.SerializeObject(generalApiToken)); 
+                    List<Claim> listClaim = new List<Claim>() { tokenClaim};
                     // issue authentication cookie with subject ID and username
                     await HttpContext.SignInAsync(model.Username, props, listClaim.ToArray());
 

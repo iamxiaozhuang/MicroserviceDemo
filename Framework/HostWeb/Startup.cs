@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using HostWeb.Common;
 
 namespace HostWeb
 {
@@ -59,8 +60,10 @@ namespace HostWeb
                     //options.ClaimActions.MapJsonKey("website", "website");
                 });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpClient<CallSystemServiceApi>();
             services.AddSingleton<ICallSystemServiceApi, CallSystemServiceApi>();
+            services.AddSingleton<IGeneralApiTokenProvider, GeneralApiTokenProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

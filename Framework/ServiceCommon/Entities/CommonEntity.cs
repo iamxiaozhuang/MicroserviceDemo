@@ -4,6 +4,13 @@ using System.Text;
 
 namespace ServiceCommon
 {
+    public class GeneralApiToken
+    {
+        public DateTime ExpiresAt { get; set; }
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+    }
+
     public class UserInfo
     {
         public string TenantCode { get; set; }

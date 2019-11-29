@@ -12,22 +12,25 @@ using Microsoft.Extensions.Configuration;
 using Refit;
 using System.Net.Http;
 using IdentityModel.Client;
+using HostWeb.Common;
 
 namespace HostWeb.Controllers
 {
     public class HomeController : Controller
     {
         private IConfiguration Configuration { get; }
-        public HomeController(IConfiguration configuration)
+        private IGeneralApiTokenProvider generalApiTokenSvc;
+        private ICallApi callApi;
+        public HomeController(IConfiguration configuration, IGeneralApiTokenProvider _generalApiTokenSvc)
         {
             Configuration = configuration;
+            generalApiTokenSvc = _generalApiTokenSvc;
+            callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
+              new RefitSettings() { AuthorizationHeaderValueGetter = () => generalApiTokenSvc.GetGeneralApiToken(HttpContext) });
         }
         public async Task<IActionResult> Index()
         {
-            ViewData["APIAccessToken"] = await GetApiAccessToken();
-
-            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessToken });
+            ViewData["APIAccessToken"] = await generalApiTokenSvc.GetGeneralApiToken(HttpContext);
             List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
             List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
             foreach (var item in roleAssignments)
@@ -42,51 +45,49 @@ namespace HostWeb.Controllers
         }
 
         
-        private async Task<string> GetApiAccessToken()
-        {
-            var access_token = await HttpContext.GetTokenAsync("access_token");
-            JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
-            var apiAccess_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_access_token").Value;
-            return apiAccess_token;
-        }
+        //private async Task<string> GetApiAccessToken()
+        //{
+        //    var access_token = await HttpContext.GetTokenAsync("access_token");
+        //    JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
+        //    var apiAccess_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_access_token").Value;
+        //    return apiAccess_token;
+        //}
 
-        private async Task<string> GetApiAccessTokenByRefreshToken()
-        {
-            var access_token = await HttpContext.GetTokenAsync("access_token");
-            JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
-            var apiARefresh_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_refresh_token").Value;
-            //return apiARefresh_token;
+        //private async Task<string> GetApiAccessTokenByRefreshToken()
+        //{
+        //    var access_token = await HttpContext.GetTokenAsync("access_token");
+        //    JwtSecurityToken jwtSecurityToken = (new JwtSecurityTokenHandler()).ReadToken(access_token) as JwtSecurityToken;
+        //    var apiARefresh_token = jwtSecurityToken.Claims.First(claim => claim.Type == "general_refresh_token").Value;
+        //    //return apiARefresh_token;
 
-            HttpClient client = new HttpClient();
+        //    HttpClient client = new HttpClient();
 
-            var disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
-            {
-                Address = Configuration["IdentityService:Authority"],
-                Policy =
-                    {
-                       RequireHttps = false
-                    }
-            });
-            if (disco.IsError)
-            {
-                throw new Exception(disco.Error);
-            }
-            var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "GeneralApiClient",
-                ClientSecret = "P@ssw0rd",
-                RefreshToken = apiARefresh_token,
-                Scope = "GeneralServiceApi offline_access"
-            });
+        //    var disco = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+        //    {
+        //        Address = Configuration["IdentityService:Authority"],
+        //        Policy =
+        //            {
+        //               RequireHttps = false
+        //            }
+        //    });
+        //    if (disco.IsError)
+        //    {
+        //        throw new Exception(disco.Error);
+        //    }
+        //    var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
+        //    {
+        //        Address = disco.TokenEndpoint,
+        //        ClientId = "GeneralApiClient",
+        //        ClientSecret = "P@ssw0rd",
+        //        RefreshToken = apiARefresh_token,
+        //        Scope = "GeneralServiceApi offline_access"
+        //    });
 
-            return tokenResponse.AccessToken;
-        }
+        //    return tokenResponse.AccessToken;
+        //}
 
         public async Task<IActionResult> ShowCurrentUserPermission(string roleassignmentid)
         {
-            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-              new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessTokenByRefreshToken });
             if (roleassignmentid == null) return Ok();
             UserPermission userPermission = await callApi.GetUserPermission(Guid.Parse(roleassignmentid));
             return Ok(userPermission);
@@ -99,16 +100,12 @@ namespace HostWeb.Controllers
         }
         public async Task<IActionResult> GetUserMenus()
         {
-            var callApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessTokenByRefreshToken });
             var data = await callApi.GetUserMenus();
             return Ok(data);
         }
         public async Task<IActionResult> TestApigatewayCache()
         {
-            var callTestApi = RestService.For<ICallApi>(Configuration["ApiGatewayService:Url"],
-               new RefitSettings() { AuthorizationHeaderValueGetter = GetApiAccessTokenByRefreshToken });
-            var str = await callTestApi.TestApigatewayCache();
+            var str = await callApi.TestApigatewayCache();
             return Ok(str);
         }
 

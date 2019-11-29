@@ -56,10 +56,12 @@ namespace IdentityServer
                     ClientId = "GeneralApiClient",
                     ClientName = "GeneralApi Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    SlidingRefreshTokenLifetime = 30,
                     AllowOfflineAccess = true,
-                    RefreshTokenExpiration = TokenExpiration.Absolute,
-                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    AccessTokenLifetime = 10,
+
+                    //RefreshTokenExpiration = TokenExpiration.Sliding,
+                    //SlidingRefreshTokenLifetime = 1296000,
+                    //RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     ClientSecrets =
                     {
                          new Secret("P@ssw0rd".Sha256())
