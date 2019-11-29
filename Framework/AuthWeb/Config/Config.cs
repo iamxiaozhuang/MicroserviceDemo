@@ -57,11 +57,11 @@ namespace IdentityServer
                     ClientName = "GeneralApi Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
-                    AccessTokenLifetime = 10,
+                    //AccessTokenLifetime = 10,
 
-                    RefreshTokenExpiration = TokenExpiration.Absolute,
-                    SlidingRefreshTokenLifetime = 1296000,
-                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    //RefreshTokenExpiration = TokenExpiration.Absolute,
+                    //SlidingRefreshTokenLifetime = 1296000,
+                    //RefreshTokenUsage = TokenUsage.OneTimeOnly,
 
                     ClientSecrets =
                     {

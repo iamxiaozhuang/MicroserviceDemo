@@ -56,7 +56,7 @@ namespace HostWeb.Common
                 });
                 if (disco.IsError)
                 {
-                    throw new Exception(disco.Error);
+                    return null;
                 }
                 var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
                 {
@@ -68,7 +68,7 @@ namespace HostWeb.Common
                 });
                 if (tokenResponse.IsError)
                 {
-                    throw new Exception(tokenResponse.Error);
+                    return null;
                 }
                 generalApiToken = new GeneralApiToken()
                 {

@@ -30,6 +30,11 @@ namespace HostWeb.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            string generalApiAccessToken = await generalApiTokenProvider.GetGeneralApiToken(HttpContext);
+            if (string.IsNullOrEmpty(generalApiAccessToken))
+            {
+                return SignOut("Cookies", "oidc");
+            }
             List<RoleAssignmentModel> roleAssignments = await callApi.GetRoleAssignments();
             List<SelectListItem> ddlCurrentUserRolesitems = new List<SelectListItem>();
             foreach (var item in roleAssignments)
@@ -45,8 +50,8 @@ namespace HostWeb.Controllers
 
         public async Task<IActionResult> GetGeneralApiToken()
         {
-            var data = await generalApiTokenProvider.GetGeneralApiToken(HttpContext);
-            return Ok(data);
+            string generalApiAccessToken = await generalApiTokenProvider.GetGeneralApiToken(HttpContext);
+            return Ok("Bearer "+generalApiAccessToken);
         }
 
         public async Task<IActionResult> ShowCurrentUserPermission(string roleassignmentid)
