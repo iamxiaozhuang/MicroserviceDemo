@@ -20,6 +20,27 @@
         "AllowedScopes": []
       }
     },
+    //PermissionService testapigatewaycache
+    {
+      "UpstreamPathTemplate": "/PermissionService/permission/testapigatewaycache",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/permission/testapigatewaycache",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8815"
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "testocelotcache"
+      }
+    },
     //PermissionService
     {
       "UpstreamPathTemplate": "/PermissionService/{url}",
@@ -37,27 +58,7 @@
         "AllowedScopes": []
       }
     },
-    //PermissionService testapigatewaycache
-    {
-      "UpstreamPathTemplate": "/PermissionService/permission/testapigatewaycache",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-      "DownstreamPathTemplate": "/api/permission/testapigatewaycache",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "8850"
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "GeneralServiceApiKey",
-        "AllowedScopes": []
-      },
-      "FileCacheOptions": {
-        "TtlSeconds": 15,
-        "Region": "apigatewaycache"
-      }
-    },
+
     //ProductService
     {
       "UpstreamPathTemplate": "/ProductService/{url}",

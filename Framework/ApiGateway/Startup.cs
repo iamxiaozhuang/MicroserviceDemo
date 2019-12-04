@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApiGateway.Extensions;
-using CacheManager.Core;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -11,8 +10,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Ocelot.Administration;
 using Ocelot.Cache;
+using Ocelot.Configuration.File;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Kubernetes;
@@ -57,17 +59,16 @@ namespace ApiGateway
 
             // Ocelot
             if (Environment.IsDevelopment())
-                services.AddOcelot(Configuration);
+                services.AddOcelot(Configuration).AddAdministration("/console","02020511"); 
             else
-                services.AddOcelot(Configuration).AddKubernetes();
-          
+                services.AddOcelot(Configuration).AddKubernetes().AddAdministration("/console", "02020511");
+
 
 
             //OcelotCaching
-            services.AddCacheManager<CachedResponse>(inline => inline.WithDictionaryHandle());
-            services.AddSingleton<IOcelotCache<CachedResponse>, RedisOcelotCache>();
-
-            //services.AddCacheManagerConfiguration(Configuration, "cachename").AddCacheManager<CachedResponse>(inline => inline.WithDictionaryHandle());
+            services.AddSingleton<IOcelotCache<CachedResponse>, InRedisCache<CachedResponse>>();
+            //services.AddSingleton<IOcelotCache<CachedResponse>, RedisOcelotCache>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

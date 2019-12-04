@@ -19,6 +19,22 @@
         "AllowedScopes": []
       }
     },
+    //PermissionService testapigatewaycache
+    {
+      "UpstreamPathTemplate": "/PermissionService/permission/testapigatewaycache",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/api/permission/testapigatewaycache",
+      "DownstreamScheme": "http",
+      "ServiceName": "permissionservice-api",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GeneralServiceApiKey",
+        "AllowedScopes": []
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "testocelotcache"
+      }
+    },
     //PermissionService
     {
       "UpstreamPathTemplate": "/PermissionService/{url}",

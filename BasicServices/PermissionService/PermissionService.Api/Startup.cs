@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PermissionService.Domain;
+using NLog.Web;
 
 namespace PermissionService.Api
 {
@@ -92,6 +93,9 @@ namespace PermissionService.Api
                 app.UseDeveloperExceptionPage();
             }
             app.UseAuthentication();
+
+            env.ConfigureNLog($"Nlog.{env.EnvironmentName}.config");
+
             app.UseApiMiddleware();
             app.UseMvc();
             if (env.IsDevelopment())

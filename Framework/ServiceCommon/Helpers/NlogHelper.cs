@@ -9,9 +9,10 @@ namespace ServiceCommon
 {
     public class NlogHelper
     {
+
         public static void LogApiRequestAndResponse(Guid logID, HttpContext context, DateTime requestTime, string requestTenant, string requestUser,  string requestBody, Exception ex, DateTime reponseTime, string responseBody)
         {
-            NLog.Logger requestLogger = NLog.Web.NLogBuilder.ConfigureNLog("Nlog.config").GetLogger("ApiRequestLogger");
+            NLog.Logger requestLogger = NLog.LogManager.GetLogger("ApiRequestLogger");
             NLog.LogEventInfo requestLogEvent = new NLog.LogEventInfo(NLog.LogLevel.Trace, "ApiRequestLogger", "Invoke");
             requestLogEvent.Properties["RequestLogID"] = logID;
             requestLogEvent.Properties["RequestTimestamp"] = requestTime;
@@ -52,7 +53,7 @@ namespace ServiceCommon
 
         public static void LogGeneralInfo(string info)
         {
-            NLog.Logger generalLogger = NLog.Web.NLogBuilder.ConfigureNLog("Nlog.config").GetLogger("GeneralLogger");
+            NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
             generalLogger.Info(info);
         }
 
