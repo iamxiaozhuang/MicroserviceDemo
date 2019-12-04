@@ -22,13 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Kube.Development.RabbitMQ.yaml">
+    <None Update="KubeDevelopment.RabbitMQ.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Kube.Development.Redis.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Kube.Development.Pgsql.yaml">
+    <None Update="KubeDevelopment.Redis.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NLog.Web;
 
 namespace OrderingService.Api
 {
@@ -41,6 +42,8 @@ namespace OrderingService.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
+            env.ConfigureNLog($"Nlog.{env.EnvironmentName}.config");
             app.UseApiMiddleware();
             app.UseMvc();
         }

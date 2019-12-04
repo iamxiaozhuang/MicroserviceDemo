@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProductService.Domain;
+using NLog.Web;
 
 namespace ProductService.Api
 {
@@ -87,6 +88,7 @@ namespace ProductService.Api
                 app.UseDeveloperExceptionPage();
             }
             app.UseAuthentication();
+            env.ConfigureNLog($"Nlog.{env.EnvironmentName}.config");
             app.UseApiMiddleware();
             app.UseMvc();
             if (env.IsDevelopment())
