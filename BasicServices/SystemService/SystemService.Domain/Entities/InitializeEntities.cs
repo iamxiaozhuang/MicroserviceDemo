@@ -17,6 +17,7 @@ namespace SystemService.Domain.Entities
             var rootID = Guid.Parse("88888888-8888-8888-8888-888888888888");
             var productMngmtID = Guid.NewGuid();
             var productMngmtAddID = Guid.NewGuid();
+            var orderingMngmtID = Guid.NewGuid();
             var systemMngmtID = Guid.NewGuid();
             var platformMngmtID = Guid.NewGuid();
             var permissionMngmtID = Guid.NewGuid();
@@ -94,15 +95,33 @@ namespace SystemService.Domain.Entities
                                 ParentResourceID = productMngmtID,
                                 SortNO = 4
                             },
+                            new Resource()
+                            {
+                                ID = Guid.NewGuid(),
+                                ResourceCode = "basket.createorder",
+                                ResourceName = "购物车下单",
+                                ResourceType = EnumResourceType.Action,
+                                ParentResourceID = productMngmtID,
+                                SortNO = 5
+                            },
                   new Resource()
                   {
-                      ID = Guid.NewGuid(),
+                      ID = orderingMngmtID,
                       ResourceCode = "OrderingMngmt",
                       ResourceName = "订单管理",
                       ResourceType = EnumResourceType.Menu,
                       ParentResourceID = rootID,
                       SortNO = 2
                   },
+                         new Resource()
+                         {
+                             ID = Guid.NewGuid(),
+                             ResourceCode = "ordering.add",
+                             ResourceName = "新增订单",
+                             ResourceType = EnumResourceType.Action,
+                             ParentResourceID = orderingMngmtID,
+                             SortNO = 1
+                         },
                    new Resource()
                    {
                        ID = Guid.NewGuid(),

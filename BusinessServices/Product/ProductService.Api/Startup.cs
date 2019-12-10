@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProductService.Domain;
 using NLog.Web;
+using ProductService.Application;
 
 namespace ProductService.Api
 {
@@ -76,8 +77,29 @@ namespace ProductService.Api
                     });
             services.AddSwaggerDocumentation("v1", "ProductService API", Assembly.GetExecutingAssembly().GetName().Name);
           
-            services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductManagement.AddProductHandler)));
+            services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductSvc.AddProductHandler)));
             services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.ProductMamagementAutoMapperProfile)));
+
+            services.AddCap(x =>
+            {
+                //如果你使用的 EF 进行数据操作，你需要添加如下配置：
+                x.UseEntityFramework<ProductDBContext>();  //可选项
+                //x.UsePostgreSql("数据库连接字符串");
+                x.UseRabbitMQ(o =>
+                {
+                    o.HostName = Configuration.GetValue<string>("RabbitMQ:HostName");
+                    o.Port = Configuration.GetValue<int>("RabbitMQ:Port");
+                    o.UserName = "admin";
+                    o.Password = "02020511";
+                });
+                x.UseDashboard();
+                x.FailedRetryCount = 5;
+                x.FailedThresholdCallback = (type, name, content) =>
+                {
+                    Console.WriteLine($@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {name}, message body: {content}");
+                };
+            });
+            services.AddTransient<ISubscriberService, SubscriberService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

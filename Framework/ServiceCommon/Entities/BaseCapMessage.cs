@@ -7,6 +7,6 @@ namespace ServiceCommon
 
     public class BaseCapMessage
     {
-        public string TenantCode { get; set; }
+        public string AccessToken { get; set; }
     }
 }

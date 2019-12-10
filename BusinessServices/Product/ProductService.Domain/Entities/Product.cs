@@ -18,7 +18,6 @@ namespace ProductService.Domain
         public int ProductAmount { get; set; }
         [Required]
         public decimal ProductPrice { get; set; }
-        [Required]
         public List<Attachment> ProductPictures { get; set; }
 
         public string ProductProfile { get; set; }

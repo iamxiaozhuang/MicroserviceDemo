@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace OrderingService.Api
 {
@@ -26,9 +27,15 @@ namespace OrderingService.Api
             var host = new WebHostBuilder()
                 .UseEnvironment(envName)
                 .UseConfiguration(appconfig)
+                .ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .UseKestrel()
                 .UseUrls(appconfig.GetValue<string>("WebHostBuilder:UseUrls"))
+                .UseNLog()
                 .UseStartup<Startup>();
+
+            var csredis = new CSRedis.CSRedisClient(appconfig.GetValue<string>("CSRedis:Client"));
+            RedisHelper.Initialization(csredis);
+
             host.Build().Run();
             //CreateWebHostBuilder(args).Build().Run();
         }

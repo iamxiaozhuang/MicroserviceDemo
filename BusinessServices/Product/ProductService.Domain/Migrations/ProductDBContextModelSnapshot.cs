@@ -49,6 +49,17 @@ namespace ProductService.Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("c01487e5-2e75-40c8-98f9-2a3b06ae5dae"),
+                            CategoryCode = "cate1",
+                            CategoryName = "商品类别1",
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = ""
+                        });
                 });
 
             modelBuilder.Entity("ProductService.Domain.Product", b =>
@@ -92,6 +103,20 @@ namespace ProductService.Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            TenantCode = "SYSTEM",
+                            ID = new Guid("27b91419-3ae9-430a-8309-948fa94007a7"),
+                            CategoryId = new Guid("c01487e5-2e75-40c8-98f9-2a3b06ae5dae"),
+                            CreateIn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            OwnerScopeCode = "",
+                            ProductAmount = 100,
+                            ProductCode = "product1",
+                            ProductName = "商品1",
+                            ProductPrice = 60m
+                        });
                 });
 
             modelBuilder.Entity("ServiceCommon.Attachment", b =>

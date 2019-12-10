@@ -56,12 +56,13 @@ namespace IdentityServer
                     ClientId = "GeneralApiClient",
                     ClientName = "GeneralApi Client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowOfflineAccess = true,
-                    //AccessTokenLifetime = 10,
 
-                    //RefreshTokenExpiration = TokenExpiration.Absolute,
-                    //SlidingRefreshTokenLifetime = 1296000,
-                    //RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    //AccessTokenLifetime = 10,
+                    AllowOfflineAccess = true, // 启用 'offline_access' scope
+                    AbsoluteRefreshTokenLifetime = 30 * 24 * 60 * 60, // refresh token 的绝对过期时间，默认30天
+                    RefreshTokenExpiration = TokenExpiration.Sliding, // refresh token 一般不需要设置绝对的过期时间，设置成 sliding 模式就好
+                    SlidingRefreshTokenLifetime = 60 * 60,//  sliding 模式下，当请求新的 refresh token时，他的过期时间会被重置为这里设置的值(但不会超过 AbsoluteRefreshTokenLifetime 的设置)
+                    UpdateAccessTokenClaimsOnRefresh = true, // refresh token 请求是否更新 access token 里面携带的 user claim 信息；设为 true， 即使 token 没有过期，也会更新 accesstoken 的 claim 值
 
                     ClientSecrets =
                     {

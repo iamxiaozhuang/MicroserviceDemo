@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProductService.Domain.Migrations
 {
-    public partial class _20191119 : Migration
+    public partial class _20191205 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,6 +97,16 @@ namespace ProductService.Domain.Migrations
                         principalColumns: new[] { "TenantCode", "ID" },
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "TenantCode", "ID", "CategoryCode", "CategoryName", "CreateIn", "CreatedBy", "OwnerScopeCode", "UpdateIn", "UpdatedBy" },
+                values: new object[] { "SYSTEM", new Guid("c01487e5-2e75-40c8-98f9-2a3b06ae5dae"), "cate1", "商品类别1", new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "", null, null });
+
+            migrationBuilder.InsertData(
+                table: "Product",
+                columns: new[] { "TenantCode", "ID", "CategoryId", "CreateIn", "CreatedBy", "OwnerScopeCode", "ProductAmount", "ProductCode", "ProductName", "ProductPrice", "ProductProfile", "UpdateIn", "UpdatedBy" },
+                values: new object[] { "SYSTEM", new Guid("27b91419-3ae9-430a-8309-948fa94007a7"), new Guid("c01487e5-2e75-40c8-98f9-2a3b06ae5dae"), new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, "", 100, "product1", "商品1", 60m, null, null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attachment_ProductTenantCode_ProductID",

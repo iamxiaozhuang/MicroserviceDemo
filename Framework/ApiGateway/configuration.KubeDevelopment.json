@@ -31,7 +31,7 @@
         "AllowedScopes": []
       },
       "FileCacheOptions": {
-        "TtlSeconds": 15,
+        "TtlSeconds": 10,
         "Region": "testocelotcache"
       }
     },

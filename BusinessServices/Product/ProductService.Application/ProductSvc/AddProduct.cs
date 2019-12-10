@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProductService.Application.ProductManagement
+namespace ProductService.Application.ProductSvc
 {
     
     public class AddProductRequest : IRequest<int>

@@ -10,18 +10,19 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OrderingService.Domain.Entities;
 
 namespace ProductService.Domain
 {
     /// <summary>
-    /// Add-Migration 20191009 -Context ProductDBContext
-    /// Update-Database -Context ProductDBContext
+    /// Add-Migration 20191009 -Context OrderingDBContext
+    /// Update-Database -Context OrderingDBContext
     /// </summary>
-    public class ProductDBContext : DbContext
+    public class OrderingDBContext : DbContext
     {
         private readonly UserInfo currentUserInfo;
         private readonly UserPermission currentUserPermission;
-        public ProductDBContext(DbContextOptions<ProductDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+        public OrderingDBContext(DbContextOptions<OrderingDBContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             if (httpContextAccessor.HttpContext != null)
             {
@@ -32,41 +33,13 @@ namespace ProductService.Domain
             //currentUserPermission = new UserPermission();
         }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Recycle> Recycles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Category>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Category>().HasIndex(p => p.TenantCode);
-            builder.Entity<Category>().HasIndex(p => new { p.TenantCode, p.CategoryCode }).IsUnique(true);
-            Guid cateID = Guid.NewGuid();
-            builder.Entity<Category>().HasData(
-            new Category()
-            {
-                TenantCode = "SYSTEM",
-                ID = cateID,
-                CategoryCode = "cate1",
-                CategoryName = "商品类别1"
-            });
-
-            builder.Entity<Product>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Product>().HasIndex(p => p.TenantCode);
-            builder.Entity<Product>().HasIndex(p => new { p.TenantCode, p.ProductCode }).IsUnique(true);
-            builder.Entity<Product>().HasOne<Category>(p => p.Category).WithMany(p => p.Products)
-                .HasForeignKey(s => new { s.TenantCode, s.CategoryId }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Product>().Property(d => d.ProductProfile).HasColumnType("json");
-            builder.Entity<Product>().HasData(
-            new Product()
-            {
-                TenantCode = "SYSTEM",
-                ID = Guid.NewGuid(),
-                ProductCode = "product1",
-                ProductName = "商品1",
-                ProductAmount = 100,
-                ProductPrice = 60,
-                CategoryId = cateID
-            });
+            builder.Entity<Order>().HasKey(p => new { p.TenantCode, p.ID });
+            builder.Entity<Order>().HasIndex(p => p.TenantCode);
+            builder.Entity<Order>().HasIndex(p => new { p.TenantCode, p.OrderCode }).IsUnique(true);
 
             builder.Entity<Recycle>().HasKey(p => new { p.TenantCode, p.ID });
             builder.Entity<Recycle>().HasIndex(p => p.TenantCode);
@@ -147,7 +120,7 @@ namespace ProductService.Domain
                                      select t.ClrType).ToList();
             return _baseEntityTypesCache;
         }
-        static readonly MethodInfo GlobalTenantQueryMethodInfo = typeof(ProductDBContext).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+        static readonly MethodInfo GlobalTenantQueryMethodInfo = typeof(OrderingDBContext).GetMethods(BindingFlags.Public | BindingFlags.Instance)
                                                        .Single(t => t.IsGenericMethod && t.Name == "SetGlobalTenantQuery");
         public void SetGlobalTenantQuery<T>(ModelBuilder builder) where T : BaseEntity
         {

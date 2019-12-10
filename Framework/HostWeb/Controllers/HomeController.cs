@@ -76,6 +76,11 @@ namespace HostWeb.Controllers
             var str = await callApi.TestApigatewayCache();
             return Ok(str);
         }
+        public async Task<IActionResult> TestCAP()
+        {
+            var str = await callApi.CreateOrder(new CreateOrderModel() { ProductCode = "product1" });
+            return Ok(str);
+        }
 
     }
 
@@ -98,6 +103,15 @@ namespace HostWeb.Controllers
         [Headers("Authorization: Bearer")]
         Task<string> TestApigatewayCache();
 
+        [Post("/ProductService/basket/")]
+        [Headers("Authorization: Bearer")]
+        Task<int> CreateOrder([Body]CreateOrderModel createOrderModel);
+
+    }
+
+    public class CreateOrderModel : BaseModel
+    {
+        public string ProductCode { get; set; }
     }
 
     public class RoleAssignmentModel : BaseModel

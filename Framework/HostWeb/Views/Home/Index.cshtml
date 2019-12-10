@@ -51,13 +51,21 @@
         }
 
         function TestApigatewayCache() {
-        $.ajax({
-            url: "@Url.Action("TestApigatewayCache", "Home")",
-            success: function (data) {
-                $("#TestApigatewayCacheResult").html(JSON.stringify(data));
-            }
-        });
-    }
+            $.ajax({
+                url: "@Url.Action("TestApigatewayCache", "Home")",
+                success: function (data) {
+                    $("#TestApigatewayCacheResult").html(JSON.stringify(data));
+                }
+            });
+        }
+        function TestCAP() {
+            $.ajax({
+                url: "@Url.Action("TestCAP", "Home")",
+                success: function (data) {
+                    $("#TestCAPResult").html(JSON.stringify(data));
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -85,11 +93,14 @@
     <br />
 
     <div>
-        User Menus: <a href="#" onclick="GetUserMenus()">GetUserMenus</a>
+        <a href="#" onclick="GetUserMenus()">GetUserMenus</a>
         <div id="userMenus"></div>
         <br />
-        API Claims: <a href="#" onclick="TestApigatewayCache()">TestApigatewayCache</a>
+        <a href="#" onclick="TestApigatewayCache()">TestApigatewayCache(10s)</a>
         <div id="TestApigatewayCacheResult"></div>
+        <br />
+        <a href="#" onclick="TestCAP()">TestCAP</a>
+        <div id="TestCAPResult"></div>
         <br />
         <a href="/Home/Logout">Logout</a>
         <br />

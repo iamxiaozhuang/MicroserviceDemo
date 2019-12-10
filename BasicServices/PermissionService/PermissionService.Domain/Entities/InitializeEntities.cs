@@ -121,7 +121,23 @@ namespace PermissionService.Domain.Entities
                        RoleID = adminRoleID,
                        ResourceCode = "SystemMngmt.PermissionMngmt.AssignmnentMngmt",
                        ResourceName = "授权管理"
-                   }
+                   },
+                    new RolePermission()
+                    {
+                        TenantCode = "SYSTEM",
+                        ID = Guid.NewGuid(),
+                        RoleID = adminRoleID,
+                        ResourceCode = "basket.createorder",
+                        ResourceName = "购物车下单"
+                    },
+                     new RolePermission()
+                     {
+                         TenantCode = "SYSTEM",
+                         ID = Guid.NewGuid(),
+                         RoleID = adminRoleID,
+                         ResourceCode = "ordering.add",
+                         ResourceName = "新增订单"
+                     }
                 ) ; 
 
             modelBuilder.Entity<Principal>().HasKey(p => new { p.TenantCode, p.ID });
@@ -143,6 +159,8 @@ namespace PermissionService.Domain.Entities
             modelBuilder.Entity<Scope>().HasOne<Scope>(p => p.ParentScope).WithMany(p => p.ChildrenScopes)
               .HasForeignKey(s => new { s.TenantCode, s.ParentScopeID }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
             var rootID = Guid.Parse("88888888-8888-8888-8888-888888888888");
+            var node1ID = Guid.NewGuid();
+            var node2ID = Guid.NewGuid();
             modelBuilder.Entity<Scope>().HasData(
                new Scope()
                {
@@ -152,7 +170,43 @@ namespace PermissionService.Domain.Entities
                    ScopeName = "RootScope",
                    ParentScopeID = rootID,
                    SortNO = 0
-               }
+               },
+                    new Scope()
+                    {
+                        TenantCode = "SYSTEM",
+                        ID = node1ID,
+                        ScopeCode = "1Node1",
+                        ScopeName = "一级组织",
+                        ParentScopeID = rootID,
+                        SortNO = 0
+                    },
+                           new Scope()
+                           {
+                               TenantCode = "SYSTEM",
+                               ID = node2ID,
+                               ScopeCode = "1Node1.2Node1",
+                               ScopeName = "二级组织1",
+                               ParentScopeID = node1ID,
+                               SortNO = 1
+                           },
+                                new Scope()
+                                {
+                                    TenantCode = "SYSTEM",
+                                    ID = Guid.NewGuid(),
+                                    ScopeCode = "1Node1.2Node1.3Node1",
+                                    ScopeName = "三级组织1",
+                                    ParentScopeID = node2ID,
+                                    SortNO = 0
+                                },
+                            new Scope()
+                            {
+                                TenantCode = "SYSTEM",
+                                ID = Guid.NewGuid(),
+                                ScopeCode = "1Node1.2Node2",
+                                ScopeName = "二级组织2",
+                                ParentScopeID = node1ID,
+                                SortNO = 2
+                            }
                );
 
             modelBuilder.Entity<RoleAssignment>().HasKey(p => new { p.TenantCode, p.ID });
