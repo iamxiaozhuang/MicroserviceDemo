@@ -89,8 +89,8 @@ namespace ProductService.Api
                 {
                     o.HostName = Configuration.GetValue<string>("RabbitMQ:HostName");
                     o.Port = Configuration.GetValue<int>("RabbitMQ:Port");
-                    o.UserName = "admin";
-                    o.Password = "02020511";
+                    o.UserName = Configuration.GetValue<string>("RabbitMQ:UserName");
+                    o.Password = Configuration.GetValue<string>("RabbitMQ:Password");
                 });
                 x.UseDashboard();
                 x.FailedRetryCount = 5;

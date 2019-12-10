@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Ocelot.Administration;
 using Ocelot.Cache;
 using Ocelot.Configuration.File;
 using Ocelot.DependencyInjection;
@@ -59,9 +58,9 @@ namespace ApiGateway
 
             // Ocelot
             if (Environment.IsDevelopment())
-                services.AddOcelot(Configuration).AddAdministration("/console","02020511"); 
+                services.AddOcelot(Configuration); 
             else
-                services.AddOcelot(Configuration).AddKubernetes().AddAdministration("/console", "02020511");
+                services.AddOcelot(Configuration).AddKubernetes();
 
 
 
