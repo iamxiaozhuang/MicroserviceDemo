@@ -65,7 +65,7 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
-      "ServiceName": "orderservice-api",
+      "ServiceName": "orderingservice-api",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GeneralServiceApiKey",
         "AllowedScopes": []

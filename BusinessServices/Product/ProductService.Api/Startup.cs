@@ -96,7 +96,10 @@ namespace ProductService.Api
                 x.FailedRetryCount = 5;
                 x.FailedThresholdCallback = (type, name, content) =>
                 {
-                    Console.WriteLine($@"A message of type {type} failed after executing {x.FailedRetryCount} several times, requiring manual troubleshooting. Message name: {name}, message body: {content}");
+                    string message  = $@"A message of type { type}
+                    failed after executing { x.FailedRetryCount}
+                    several times, requiring manual troubleshooting. Message name: { name}, message body: { content}";
+                    NlogHelper.LogGeneralError(message);
                 };
             });
             services.AddTransient<ISubscriberService, SubscriberService>();

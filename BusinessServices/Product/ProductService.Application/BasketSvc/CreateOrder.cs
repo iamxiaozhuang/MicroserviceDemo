@@ -55,9 +55,12 @@ namespace ProductService.Application.BasketSvc
                             ExceptionMessage = $"The product: {request.Model.ProductCode} does not exists."
                         };
                     }
-                    query.ProductAmount = query.ProductAmount - 1;
+                    query.ProductAmount--;
+
+                    string orderNO = DateTime.Now.ToString("yyyyMMddHHmmssfff").ToString();
+
                     string accessToken = await httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-                    CreateOrderCapMessage capMessage = new CreateOrderCapMessage() { AccessToken = accessToken, ProductCode = query.ProductCode };
+                    CreateOrderCapMessage capMessage = new CreateOrderCapMessage() { AccessToken = accessToken,OrderNO = orderNO, ProductCode = query.ProductCode };
                     capBus.Publish("productservice.orderingservice.createorder", capMessage);
 
                     await dbContext.SaveChangesAsync(cancellationToken);

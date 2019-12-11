@@ -12,6 +12,7 @@ namespace ProductService.Domain.Models
 
     public class CreateOrderCapMessage : BaseCapMessage
     {
+        public string OrderNO { get; set; }
         public string ProductCode { get; set; }
     }
 }

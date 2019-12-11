@@ -58,11 +58,13 @@
                 }
             });
         }
+        var ordercount = 0;
         function TestCAP() {
             $.ajax({
                 url: "@Url.Action("TestCAP", "Home")",
                 success: function (data) {
-                    $("#TestCAPResult").html(JSON.stringify(data));
+                    ordercount++;
+                    $("#TestCAPResult").html("Order Created: "+ordercount);
                 }
             });
         }

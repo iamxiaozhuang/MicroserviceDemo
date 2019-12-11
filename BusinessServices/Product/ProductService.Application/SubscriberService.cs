@@ -35,7 +35,7 @@ namespace ProductService.Application
         {
             ISubscriberCallApi callApi = RestService.For<ISubscriberCallApi>(Configuration["ApiGatewayService:Url"],
              new RefitSettings() { AuthorizationHeaderValueGetter = () => Task.FromResult<string>(capMessage.AccessToken) });
-             await callApi.AddOrder(new AddOrderModel() { ProductCode = capMessage.ProductCode });
+             await callApi.AddOrder(new AddOrderModel() { OrderNO = capMessage.OrderNO, ProductCode = capMessage.ProductCode });
         }
     }
 
@@ -50,6 +50,7 @@ namespace ProductService.Application
 
     public class AddOrderModel : BaseModel
     {
+        public string OrderNO { get; set; }
         public string ProductCode { get; set; }
     }
 }

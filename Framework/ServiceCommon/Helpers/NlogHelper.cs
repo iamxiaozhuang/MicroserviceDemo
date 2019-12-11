@@ -56,6 +56,23 @@ namespace ServiceCommon
             NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
             generalLogger.Info(info);
         }
+        public static void LogGeneralError(string info)
+        {
+            NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
+            generalLogger.Error(info);
+        }
+
+        public static void LogGeneralWarn(string info)
+        {
+            NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
+            generalLogger.Warn(info);
+        }
+
+        public static void LogGeneralDebug(string info)
+        {
+            NLog.Logger generalLogger = NLog.LogManager.GetLogger("GeneralLogger");
+            generalLogger.Debug(info);
+        }
 
     }
 }

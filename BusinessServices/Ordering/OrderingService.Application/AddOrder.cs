@@ -25,7 +25,7 @@ namespace OrderingService.Application
 
         public async Task<int> Handle(AddOrderRequest request, CancellationToken cancellationToken)
         {
-            Order order = new Order() { ID = Guid.NewGuid(), OrderCode = DateTime.Now.ToString(), OrderName = request.Model.ProductCode + "Order" };
+            Order order = new Order() { ID = Guid.NewGuid(), OrderCode = request.Model.OrderNO, OrderName = request.Model.ProductCode + "Order" };
             dbContext.Orders.Add(order);
             return await dbContext.SaveChangesAsync(cancellationToken);
         }

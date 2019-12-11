@@ -7,6 +7,7 @@ namespace OrderingService.Domain.Models
 {
     public class AddOrderModel : BaseModel
     {
+        public string OrderNO { get; set; }
         public string ProductCode { get; set; }
     }
 }
