@@ -1,6 +1,6 @@
 ﻿{
   "GlobalConfiguration": {
-    "BaseUrl": "http://host.docker.internal:30007",
+    "BaseUrl": "http://kubernetes.docker.internal:30007",
     "ServiceDiscoveryProvider": {
       "Namespace": "default",
       "Type": "kube"
