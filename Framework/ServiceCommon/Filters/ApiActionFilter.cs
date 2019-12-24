@@ -66,7 +66,7 @@ namespace ServiceCommon
             {
                 throw new FriendlyException()
                 {
-                    ExceptionCode = 401,
+                    ExceptionCode = 403,
                     ExceptionMessage = $"this user {httpContextAccessor.HttpContext.User.Identity.Name} permission information was not found."
                 };
             }
@@ -76,7 +76,7 @@ namespace ServiceCommon
             {
                 throw new FriendlyException()
                 {
-                    ExceptionCode = 401,
+                    ExceptionCode = 403,
                     ExceptionMessage = $"This action {context.ActionDescriptor.DisplayName} have no authorization attribute configration."
                 };
             }
@@ -85,7 +85,7 @@ namespace ServiceCommon
             {
                 throw new FriendlyException()
                 {
-                    ExceptionCode = 401,
+                    ExceptionCode = 403,
                     ExceptionMessage = $"This user  {httpContextAccessor.HttpContext.User.Identity.Name} have no permission for this resource : {authorizationAttribute.ResourceCode}."
                 };
             }

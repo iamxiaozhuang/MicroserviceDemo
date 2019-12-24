@@ -53,25 +53,34 @@ namespace SystemService.Domain.Entities
                          new Resource()
                          {
                              ID = Guid.NewGuid(),
-                             ResourceCode = "ProductMngmt.Read",
-                             ResourceName = "查看",
+                             ResourceCode = "product.list",
+                             ResourceName = "列出",
                              ResourceType = EnumResourceType.Action,
                              ParentResourceID = productMngmtID,
                              SortNO = 1
                          },
+                         new Resource()
+                         {
+                             ID = Guid.NewGuid(),
+                             ResourceCode = "product.get",
+                             ResourceName = "获取单个",
+                             ResourceType = EnumResourceType.Action,
+                             ParentResourceID = productMngmtID,
+                             SortNO = 2
+                         },
                           new Resource()
                           {
                               ID = productMngmtAddID,
-                              ResourceCode = "ProductMngmt.Add",
+                              ResourceCode = "product.add",
                               ResourceName = "添加",
                               ResourceType = EnumResourceType.Action,
                               ParentResourceID = productMngmtID,
-                              SortNO = 2
+                              SortNO = 3
                           },
                                    new Resource()
                                    {
                                        ID = Guid.NewGuid(),
-                                       ResourceCode = "ProductMngmt.Add.AddBtn",
+                                       ResourceCode = "product.add.addbtn",
                                        ResourceName = "添加按钮",
                                        ResourceType = EnumResourceType.Button,
                                        ParentResourceID = productMngmtAddID,
@@ -80,21 +89,22 @@ namespace SystemService.Domain.Entities
                            new Resource()
                            {
                                ID = Guid.NewGuid(),
-                               ResourceCode = "ProductMngmt.Edit",
-                               ResourceName = "修改",
+                               ResourceCode = "product.update",
+                               ResourceName = "更新",
                                ResourceType = EnumResourceType.Action,
                                ParentResourceID = productMngmtID,
-                               SortNO = 3
+                               SortNO = 4
                            },
                             new Resource()
                             {
                                 ID = Guid.NewGuid(),
-                                ResourceCode = "ProductMngmt.Delete",
+                                ResourceCode = "product.delete",
                                 ResourceName = "删除",
                                 ResourceType = EnumResourceType.Action,
                                 ParentResourceID = productMngmtID,
-                                SortNO = 4
+                                SortNO = 5
                             },
+                          
                             new Resource()
                             {
                                 ID = Guid.NewGuid(),
@@ -102,7 +112,7 @@ namespace SystemService.Domain.Entities
                                 ResourceName = "购物车下单",
                                 ResourceType = EnumResourceType.Action,
                                 ParentResourceID = productMngmtID,
-                                SortNO = 5
+                                SortNO = 6
                             },
                   new Resource()
                   {

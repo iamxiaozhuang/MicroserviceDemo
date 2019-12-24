@@ -71,6 +71,46 @@ namespace PermissionService.Domain.Entities
                      TenantCode = "SYSTEM",
                      ID = Guid.NewGuid(),
                      RoleID = adminRoleID,
+                     ResourceCode = "product.list",
+                     ResourceName = "列出"
+                 },
+                  new RolePermission()
+                  {
+                      TenantCode = "SYSTEM",
+                      ID = Guid.NewGuid(),
+                      RoleID = adminRoleID,
+                      ResourceCode = "product.get",
+                      ResourceName = "获取"
+                  },
+                   new RolePermission()
+                   {
+                       TenantCode = "SYSTEM",
+                       ID = Guid.NewGuid(),
+                       RoleID = adminRoleID,
+                       ResourceCode = "product.add",
+                       ResourceName = "添加"
+                   },
+                    new RolePermission()
+                    {
+                        TenantCode = "SYSTEM",
+                        ID = Guid.NewGuid(),
+                        RoleID = adminRoleID,
+                        ResourceCode = "product.update",
+                        ResourceName = "修改"
+                    },
+                     new RolePermission()
+                     {
+                         TenantCode = "SYSTEM",
+                         ID = Guid.NewGuid(),
+                         RoleID = adminRoleID,
+                         ResourceCode = "product.delete",
+                         ResourceName = "删除"
+                     },
+                 new RolePermission()
+                 {
+                     TenantCode = "SYSTEM",
+                     ID = Guid.NewGuid(),
+                     RoleID = adminRoleID,
                      ResourceCode = "SystemMngmt",
                      ResourceName = "系统管理"
                  }, 
