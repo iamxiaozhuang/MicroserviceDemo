@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.Application.BasketSvc;
-using ProductService.Domain.Models;
+using ProductService.Infrastructure.Models;
 using ServiceCommon;
 
 namespace ProductService.Api.Controllers

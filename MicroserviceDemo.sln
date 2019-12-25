@@ -65,6 +65,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SystemService.Domain", "Bas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceCommon", "Framework\ServiceCommon\ServiceCommon.csproj", "{1DAC58D3-53D2-4650-998D-A930F56E369E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Infrastructure", "BusinessServices\Product\ProductService.Infrastructure\ProductService.Infrastructure.csproj", "{6C7A35E0-D2CF-4B18-BD18-059A8BFFF26F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +153,10 @@ Global
 		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DAC58D3-53D2-4650-998D-A930F56E369E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C7A35E0-D2CF-4B18-BD18-059A8BFFF26F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C7A35E0-D2CF-4B18-BD18-059A8BFFF26F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C7A35E0-D2CF-4B18-BD18-059A8BFFF26F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C7A35E0-D2CF-4B18-BD18-059A8BFFF26F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +189,7 @@ Global
 		{64B5F102-B029-442F-8093-79A266E5561E} = {980F2A74-AE68-4514-907B-36698379EF78}
 		{887F75DA-DFBD-4F2E-84E8-FB20B2251276} = {980F2A74-AE68-4514-907B-36698379EF78}
 		{1DAC58D3-53D2-4650-998D-A930F56E369E} = {76A0ED33-0DA6-48F1-93F1-B43A2B2A178A}
+		{6C7A35E0-D2CF-4B18-BD18-059A8BFFF26F} = {B92C9740-C125-4B23-AF32-1EAC3A47CC36}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8EE6B471-0F9E-4BC9-80E1-2591688EEEA4}

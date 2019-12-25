@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using ProductService.Domain.Models;
+using ProductService.Infrastructure.Models;
 using Refit;
 using ServiceCommon;
 using System;

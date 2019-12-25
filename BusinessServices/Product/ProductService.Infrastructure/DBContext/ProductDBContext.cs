@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using ProductService.Domain;
+using ProductService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProductService.Domain
+namespace ProductService.Infrastructure.DBContext
 {
     /// <summary>
     /// Add-Migration 20191009 -Context ProductDBContext
@@ -37,40 +37,7 @@ namespace ProductService.Domain
         public DbSet<Recycle> Recycles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Category>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Category>().HasIndex(p => p.TenantCode);
-            builder.Entity<Category>().HasIndex(p => new { p.TenantCode, p.CategoryCode }).IsUnique(true);
-            Guid cateID = Guid.NewGuid();
-            builder.Entity<Category>().HasData(
-            new Category()
-            {
-                TenantCode = "SYSTEM",
-                ID = cateID,
-                CategoryCode = "cate1",
-                CategoryName = "商品类别1"
-            });
-
-            builder.Entity<Product>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Product>().HasIndex(p => p.TenantCode);
-            builder.Entity<Product>().HasIndex(p => new { p.TenantCode, p.ProductCode }).IsUnique(true);
-            builder.Entity<Product>().HasOne<Category>(p => p.Category).WithMany(p => p.Products)
-                .HasForeignKey(s => new { s.TenantCode, s.CategoryId }).HasPrincipalKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Product>().Property(d => d.ProductProfile).HasColumnType("json");
-            builder.Entity<Product>().HasData(
-            new Product()
-            {
-                TenantCode = "SYSTEM",
-                ID = Guid.NewGuid(),
-                ProductCode = "product1",
-                ProductName = "商品1",
-                ProductAmount = 100,
-                ProductPrice = 60,
-                CategoryId = cateID
-            });
-
-            builder.Entity<Recycle>().HasKey(p => new { p.TenantCode, p.ID });
-            builder.Entity<Recycle>().HasIndex(p => p.TenantCode);
-
+            builder.InitializeEntities();
             foreach (var entityType in GetBaseEntityTypes(builder))
             {
                 GlobalTenantQueryMethodInfo.MakeGenericMethod(entityType)

@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ServiceCommon;
 using MediatR;
-using ProductService.Domain;
-using ProductService.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +12,8 @@ using DotNetCore.CAP;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using ProductService.Infrastructure.Models;
+using ProductService.Infrastructure.DBContext;
 
 namespace ProductService.Application.BasketSvc
 {

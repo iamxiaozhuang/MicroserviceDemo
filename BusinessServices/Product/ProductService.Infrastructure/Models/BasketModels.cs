@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProductService.Domain.Models
+namespace ProductService.Infrastructure.Models
 {
     public class CreateOrderModel : BaseModel
     {

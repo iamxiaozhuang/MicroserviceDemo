@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace ProductService.Domain
+namespace ProductService.Domain.Entities
 {
     [Table("Product")]
     public class Product : BaseEntity

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using ServiceCommon;
 
-namespace ProductService.Domain
+namespace ProductService.Domain.Entities
 {
     [Table("Category")]
     public class Category : BaseEntity

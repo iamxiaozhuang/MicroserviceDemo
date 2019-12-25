@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProductService.Domain
+namespace ProductService.Infrastructure.DBContext
 {
     public class ProductDBReadOnlyContext : ProductDBContext
     {

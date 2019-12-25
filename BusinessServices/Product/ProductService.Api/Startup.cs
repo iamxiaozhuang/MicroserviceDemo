@@ -24,6 +24,7 @@ using Microsoft.Extensions.Options;
 using ProductService.Domain;
 using NLog.Web;
 using ProductService.Application;
+using ProductService.Infrastructure.DBContext;
 
 namespace ProductService.Api
 {
@@ -78,7 +79,7 @@ namespace ProductService.Api
             services.AddSwaggerDocumentation("v1", "ProductService API", Assembly.GetExecutingAssembly().GetName().Name);
           
             services.AddMediatR(Assembly.GetAssembly(typeof(Application.ProductSvc.AddProductHandler)));
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(Domain.Models.ProductMamagementAutoMapperProfile)));
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(Infrastructure.Models.ProductAutoMapperProfile)));
 
             services.AddCap(x =>
             {

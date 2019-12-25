@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.Application.ProductSvc;
-using ProductService.Domain.Models;
+using ProductService.Infrastructure.Models;
 
 namespace ProductService.Api.Controllers
 {
@@ -21,19 +21,29 @@ namespace ProductService.Api.Controllers
             _mediator = mediator;
         }
         // GET: api/Product
+        /// <summary>
+        /// 获取产品列表
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         [HttpGet]
         [ApiAuthorization("product.list")]
-        public IEnumerable<string> GetProducts()
+        public async Task<ActionResult<ListModel<ListProductModel>>> GetProducts([FromQuery] QueryModel<QueryProductModel> value)
         {
-            return new string[] { "value1", "value2" };
+            return Ok(await _mediator.Send(new ListProductsRequest() { Model = value }));
         }
 
         // GET: api/Product/5
+        /// <summary>
+        /// 获取单个产品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
         [ApiAuthorization("product.get")]
-        public string Get(Guid id)
+        public async Task<ActionResult<GetProductModel>> GetProduct(Guid id)
         {
-            return "value";
+            return Ok(await _mediator.Send(new GetProductRequest() { Model = new BaseModel() { ID = id } }));
         }
 
         // POST: api/Product
@@ -46,21 +56,33 @@ namespace ProductService.Api.Controllers
         [ApiAuthorization("product.add")]
         public async Task<ActionResult<int>> AddProduct([FromBody] AddProductModel value)
         {
-            return Ok(await _mediator.Send(new AddProductRequest() { AddProductModel = value }));
+            return Ok(await _mediator.Send(new AddProductRequest() { Model = value }));
         }
 
         // PUT: api/Product/5
-        [HttpPut("{id}")]
+        /// <summary>
+        /// 更新单个产品
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [HttpPut]
         [ApiAuthorization("product.update")]
-        public void Update(Guid id, [FromBody] string value)
+        public async Task<ActionResult<int>> UpdateProduct([FromBody] UpdateProductModel value)
         {
+            return Ok(await _mediator.Send(new UpdateProductRequest() { Model = value }));
         }
 
         // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// 删除单个产品
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [ApiAuthorization("product.delete")]
-        public void Delete(Guid id)
+        public async Task<ActionResult<int>> DeleteProduct(Guid id)
         {
+            return Ok(await _mediator.Send(new DeleteProductRequest() { Model = new BaseModel() { ID = id } }));
         }
     }
 }
