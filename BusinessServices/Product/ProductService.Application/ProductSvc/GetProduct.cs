@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using ProductService.Infrastructure.Models;
 using ProductService.Infrastructure.DBContext;
 using ProductService.Domain.Entities;
+using ServiceCommon.Models;
 
 namespace ProductService.Application.ProductSvc
 {
@@ -37,11 +38,7 @@ namespace ProductService.Application.ProductSvc
             var query = dbContext.Products.Where(p => p.ID == request.Model.ID);
             if (query.Count() < 1)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 404,
-                    ExceptionMessage = $"The product ID: {request.Model.ID} does not exist."
-                };
+                throw new FriendlyException(404);
             }
             //return autoMapper.Map<GetProductModel>(await query.FirstAsync());
             return await query.ProjectTo<GetProductModel>(autoMapper.ConfigurationProvider).FirstAsync(cancellationToken);

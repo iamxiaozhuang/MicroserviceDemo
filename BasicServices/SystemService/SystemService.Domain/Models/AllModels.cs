@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ServiceCommon;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

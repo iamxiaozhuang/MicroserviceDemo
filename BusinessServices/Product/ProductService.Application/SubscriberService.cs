@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using ProductService.Infrastructure.Models;
 using Refit;
 using ServiceCommon;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

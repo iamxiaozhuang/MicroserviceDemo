@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ProductService.Infrastructure.DBContext;
+using ProductService.Domain.Entities;
+using ServiceCommon.Models;
 
 namespace ProductService.Application.ProductSvc
 {
@@ -30,16 +32,12 @@ namespace ProductService.Application.ProductSvc
 
         public async Task<int> Handle(DeleteProductRequest request, CancellationToken cancellationToken)
         {
-            var query = dbContext.Products.Where(p => p.ID == request.Model.ID);
-            if (query.Count() < 1)
+            Product query = dbContext.Products.FirstOrDefault(p => p.ID == request.Model.ID);
+            if (query == null)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 404,
-                    ExceptionMessage = $"The product ID: {request.Model.ID} does not exist."
-                };
+                throw new FriendlyException(404);
             }
-            dbContext.Products.Remove(query.First());
+            dbContext.Products.Remove(query);
             return await dbContext.SaveChangesAsync(cancellationToken);
         }
     }

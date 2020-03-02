@@ -12,6 +12,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Infrastructure.Models;
 using ProductService.Infrastructure.DBContext;
+using ServiceCommon.Models;
 
 namespace ProductService.Application.ProductSvc
 {

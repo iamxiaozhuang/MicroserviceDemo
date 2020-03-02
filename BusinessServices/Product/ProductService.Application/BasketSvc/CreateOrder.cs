@@ -49,11 +49,8 @@ namespace ProductService.Application.BasketSvc
                      var query = dbContext.Products.FirstOrDefault(p => p.ProductCode == request.Model.ProductCode);
                     if (query == null)
                     {
-                        throw new FriendlyException()
-                        {
-                            ExceptionCode = 404,
-                            ExceptionMessage = $"The product: {request.Model.ProductCode} does not exists."
-                        };
+                        throw new FriendlyException(404, $"The product: {request.Model.ProductCode} does not exists.");
+
                     }
                     query.ProductAmount--;
 

@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SystemService.Application.ResourceApp;
+using ServiceCommon.Models;
 
 namespace SystemService.Api.Controllers
 {

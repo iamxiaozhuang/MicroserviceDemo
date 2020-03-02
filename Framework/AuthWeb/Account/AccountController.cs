@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ServiceCommon;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

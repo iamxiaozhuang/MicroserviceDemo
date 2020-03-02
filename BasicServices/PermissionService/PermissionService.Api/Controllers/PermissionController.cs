@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PermissionService.Application.Permission;
+using ServiceCommon.Models;
 
 namespace PermissionService.Api.Controllers
 {

@@ -13,6 +13,7 @@ using Refit;
 using System.Net.Http;
 using IdentityModel.Client;
 using HostWeb.Common;
+using ServiceCommon.Models;
 
 namespace HostWeb.Controllers
 {

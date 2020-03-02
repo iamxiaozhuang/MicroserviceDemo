@@ -10,6 +10,7 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using ServiceCommon;
 using Newtonsoft.Json;
+using ServiceCommon.Models;
 
 namespace HostWeb.Common
 {

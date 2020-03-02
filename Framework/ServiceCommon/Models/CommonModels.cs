@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceCommon
+namespace ServiceCommon.Models
 {
     public class GeneralApiToken
     {

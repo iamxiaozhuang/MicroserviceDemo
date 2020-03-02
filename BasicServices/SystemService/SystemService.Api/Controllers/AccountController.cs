@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ServiceCommon;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiceCommon.Models;
 
 namespace SystemService.Api.Controllers
 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;

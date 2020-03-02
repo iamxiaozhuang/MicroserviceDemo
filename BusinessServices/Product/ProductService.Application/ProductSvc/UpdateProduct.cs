@@ -32,20 +32,20 @@ namespace ProductService.Application.ProductSvc
 
         public async Task<int> Handle(UpdateProductRequest request, CancellationToken cancellationToken)
         {
-            var query = dbContext.Products.Where(p => p.ID == request.Model.ID).FirstOrDefault();
+            Product query = dbContext.Products.FirstOrDefault(p => p.ID == request.Model.ID);
             if (query == null)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 404,
-                    ExceptionMessage = $"The product ID: {request.Model.ID} does not exist."
-                };
+                throw new FriendlyException(404);
             }
             //var product = autoMapper.Map<Product>(request.Model);
+            //dbContext.Products.Attach(product);
+            //dbContext.Entry(product).Property("ProductName").IsModified = true;
+            //dbContext.Entry(product).Property("ProductAmount").IsModified = true;
+            //dbContext.Entry(product).Property("ProductPrice").IsModified = true;
             query.ProductName = request.Model.ProductName;
             query.ProductAmount = request.Model.ProductAmount;
             query.ProductPrice = request.Model.ProductPrice;
-
+            //dbContext.Products.Update(query);
             return await dbContext.SaveChangesAsync(cancellationToken);
         }
     }

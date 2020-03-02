@@ -1,6 +1,7 @@
 ﻿using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
 using Refit;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

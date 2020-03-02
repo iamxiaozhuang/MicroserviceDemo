@@ -22,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PermissionService.Domain;
 using NLog.Web;
+using ServiceCommon.Filters;
 
 namespace PermissionService.Api
 {
@@ -37,7 +38,11 @@ namespace PermissionService.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore(options => options.Filters.Add(typeof(ApiActionFilter)))
+            services.AddMvcCore(options =>
+            {
+                options.Filters.Add(typeof(ApiPermissionFilter));
+                options.Filters.Add(typeof(ApiValidateModelFilter));
+            })
                 .AddAuthorization()
                 .AddJsonFormatters()
                 .AddApiExplorer();

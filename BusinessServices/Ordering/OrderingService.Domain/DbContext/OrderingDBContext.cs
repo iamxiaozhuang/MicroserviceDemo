@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OrderingService.Domain.Entities;
+using ServiceCommon.Models;
 
 namespace ProductService.Domain
 {

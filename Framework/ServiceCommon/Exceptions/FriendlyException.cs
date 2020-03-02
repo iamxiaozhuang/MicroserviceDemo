@@ -4,25 +4,19 @@ using System.Text;
 
 namespace ServiceCommon
 {
-    public class FriendlyException : Exception
+    public class FriendlyException : ApplicationException
     {
-        public int ExceptionCode { get; set; }
-        private int httpStatusCode;
-        public int HttpStatusCode
+        public FriendlyException(int exceptionCode)
         {
-            get
-            {
-                if (ExceptionCode != 0)
-                    return ExceptionCode;
-                else
-                    return httpStatusCode;
-            }
-            set
-            {
-                httpStatusCode = value;
-            }
+            ExceptionCode = exceptionCode;
         }
+        public FriendlyException(int exceptionCode, string exceptionMessage)
+            : base(exceptionMessage)
+        {
+            ExceptionCode = exceptionCode;
+            ExceptionMessage = exceptionMessage;
+        }
+        public int ExceptionCode { get; set; }
         public string ExceptionMessage { get; set; }
-
     }
 }

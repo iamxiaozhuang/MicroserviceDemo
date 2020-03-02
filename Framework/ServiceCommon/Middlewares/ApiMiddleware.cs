@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -74,6 +75,39 @@ namespace ServiceCommon
             catch (Exception ex)
             {
                 invokeException = ex;
+                context.Response.ContentType = "application/json";
+                FriendlyException friendlyException = invokeException as FriendlyException;
+                if (friendlyException != null)
+                {
+                    switch (friendlyException.ExceptionCode)
+                    {
+                        case 401:
+                            friendlyException.ExceptionMessage = "Unauthorized user.";
+                            break;
+                        case 403:
+                            friendlyException.ExceptionMessage = "Current user have no permission for this.";
+                            break;
+                        case 404:
+                            friendlyException.ExceptionMessage = "This item does not exists.";
+                            break;
+                        case 409:
+                            friendlyException.ExceptionMessage = "This item already exists.";
+                            break;
+                    }
+                    context.Response.StatusCode = friendlyException.ExceptionCode;
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                    {
+                        FriendlyExceptionMessage = friendlyException.ExceptionMessage
+                    }));
+                }
+                else
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                    {
+                        FriendlyExceptionMessage = $"Internal Server Error, Error ID is {logID}, Please contact the administrator to handle."
+                    }));
+                }
             }
             finally
             {
@@ -81,29 +115,6 @@ namespace ServiceCommon
                 if (context.Request.Path.HasValue && !context.Request.Path.Value.StartsWith("/swagger") && !context.Request.Path.Value.StartsWith("/api/heathcheck"))
                 {
                     NlogHelper.LogApiRequestAndResponse(logID, context, requestTime, requestTenant, requestUser, requestBody, invokeException, reponseTime, responseBody);
-
-                    if (invokeException != null)
-                    {
-                        context.Response.ContentType = "application/json";
-                        FriendlyException friendlyException = invokeException as FriendlyException;
-                        if (friendlyException != null)
-                        {
-                            context.Response.StatusCode = friendlyException.HttpStatusCode;
-                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
-                            {
-                                FriendlyExceptionMessage = friendlyException.ExceptionMessage
-                            }));
-                        }
-                        else
-                        {
-                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
-                            {
-                                FriendlyExceptionMessage = $"Internal Server Error, Error ID is {logID}, Please contact the administrator to handle."
-                            }));
-                        }
-                        
-                    }
                 }
             }
            

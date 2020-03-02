@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceCommon
+namespace ServiceCommon.Models
 {
     public class BaseModel
     {
@@ -16,6 +16,13 @@ namespace ServiceCommon
         public int PageSize { get; set; }
         public int PageIndex { get; set; }
 
+    }
+    public enum ReturnStatus
+    {
+        Success = 1,
+        Fail = 0,
+        ConfirmIsContinue = 2,
+        Error = 3
     }
 
     public class ListModel<T>

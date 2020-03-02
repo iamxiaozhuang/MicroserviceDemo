@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Refit;
+using ServiceCommon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,21 +33,13 @@ namespace ServiceCommon
         {
             if (!httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 401,
-                    ExceptionMessage = "Unauthorized Request."
-                };
+                throw new FriendlyException(401);
             }
             Claim subClaim = httpContextAccessor.HttpContext.User.FindFirst("sub");
             Claim auth_timeClaim = httpContextAccessor.HttpContext.User.FindFirst("auth_time");
             if (subClaim == null || auth_timeClaim == null)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 401,
-                    ExceptionMessage = "The user claim: sub or auth_time is null."
-                };
+                throw new FriendlyException(403, "The user claim: sub or auth_time is null.");
             }
 
             return $"CurrentUserPermission_{subClaim.Value}_{auth_timeClaim.Value}";

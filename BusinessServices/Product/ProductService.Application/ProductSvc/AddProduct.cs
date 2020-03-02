@@ -36,11 +36,7 @@ namespace ProductService.Application.ProductSvc
             var query = dbContext.Products.FirstOrDefault(p => p.ProductCode == entity.ProductCode);
             if (query != null)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = 409,
-                    ExceptionMessage = $"The product: {entity.ProductCode} already exists."
-                };
+                throw new FriendlyException(409);
             }
             dbContext.Products.Add(entity);
             return await dbContext.SaveChangesAsync(cancellationToken);

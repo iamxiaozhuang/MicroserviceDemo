@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PermissionService.Application;
 using PermissionService.Domain.Models;
+using ServiceCommon.Models;
 
 namespace PermissionService.Api.Controllers
 {

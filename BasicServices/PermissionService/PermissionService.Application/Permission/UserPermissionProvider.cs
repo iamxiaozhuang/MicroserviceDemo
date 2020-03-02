@@ -18,6 +18,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ServiceCommon.Models;
 
 namespace PermissionService.Application
 {
@@ -83,11 +84,7 @@ namespace PermissionService.Application
             }
             if (roleAssignment == null)
             {
-                throw new FriendlyException()
-                {
-                    ExceptionCode = (int)HttpStatusCode.NotFound,
-                    ExceptionMessage = $"The RoleAssignment id: {request.RoleAssignmentID} does not exist."
-                };
+                throw new FriendlyException(404, $"The RoleAssignment id: {request.RoleAssignmentID} does not exist.");
             }
            
             UserPermission currentUserPermission = new UserPermission();

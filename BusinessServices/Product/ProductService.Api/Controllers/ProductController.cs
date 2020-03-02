@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductService.Application.ProductSvc;
 using ProductService.Infrastructure.Models;
+using ServiceCommon.Models;
 
 namespace ProductService.Api.Controllers
 {
