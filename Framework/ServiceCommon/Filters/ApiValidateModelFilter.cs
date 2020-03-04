@@ -24,7 +24,7 @@ namespace ServiceCommon.Filters
         public void OnActionExecuting(ActionExecutingContext context)
         {
             if (httpContextAccessor.HttpContext.Request.Path.HasValue
-              && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/swagger") && httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/heathcheck"))
+                 && (httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/swagger") || httpContextAccessor.HttpContext.Request.Path.Value.StartsWith("/api/heathcheck")))
             {
                 return;
             }
